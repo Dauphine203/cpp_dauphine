@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Npm
+dist/
+node_modules/
