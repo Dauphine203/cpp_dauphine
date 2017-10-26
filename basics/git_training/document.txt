@@ -1,0 +1,11 @@
+This is a simple document for git training.
+Please enter your first name and last name:
+
+First Name:
+Last Name:
+
+Also enter the date of today:
+
+Date:
+
+THat's it!
