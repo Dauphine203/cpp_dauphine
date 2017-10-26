@@ -1,0 +1,11 @@
+This is a simple doc for git training
+PLease enter your first name and last nalme :
+
+First Name :Thomas
+Last Name : Fourcroy
+
+Also enter the date of today:
+
+Date : 26/10/2017
+
+That's finally
