@@ -32,6 +32,7 @@
 *.app
 
 build/
+*.swp
 
 # Npm
 dist/
