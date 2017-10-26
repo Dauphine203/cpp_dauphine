@@ -3,9 +3,10 @@ Please enter your first name and last name:
 
 First Name:Thomas
 Last Name: Bodinier
+//Date of birth: 17/04/1993
 
-Also enter the date of today: 
+Also enter the date of today:
 
 Date: 26/10/2017
 
-THat's it
+That's it!
