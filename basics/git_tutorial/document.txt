@@ -1,11 +1,11 @@
 This is a simple document for git training.
 Please enter your first name and last name:
 
-First Name:
-Last Name:
+First Name: Sebastien
+Last Name: David
 
 Also enter the date of today:
 
 Date:
 
-THat's it!
+That's it!
