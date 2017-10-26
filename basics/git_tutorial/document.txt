@@ -3,6 +3,7 @@ Please enter your first name and last name:
 
 First Name: Maxime
 Last Name: Bouin
+Birthdate: 01/01/1900
 
 Also enter the date of today:
 
