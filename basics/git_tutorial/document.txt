@@ -1,8 +1,8 @@
 This is a simple document for git training.
 Please enter your first name and last name:
 
-First Name:
-Last Name:
+First Name: aaaa
+Last Name: bbbb
 
 Also enter the date of today:
 
