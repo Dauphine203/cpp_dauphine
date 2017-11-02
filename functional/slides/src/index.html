@@ -1,0 +1,507 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="genericons.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <style>
+        .reveal section img {
+            border: none;
+            background-color: initial;
+            margin: 10px;
+        }
+        .reveal .normal-paragraph {
+            text-align: left;
+            margin: 0 auto 0 auto;
+            width: 60%;
+        }
+        .reveal .normal-paragraph p {
+            text-align: left;
+        }
+        .header-left {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        .header-right {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+        .footer-left {
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+        .reveal .genericon {
+          font-family: "genericons";
+        }
+
+        .reveal .bio-card {
+          background: #333;
+          border-radius: 2px;
+          display: inline-block;
+          width: 260px;
+          margin: 1rem;
+          position: relative;
+          font-size: 20px;
+        }
+
+        .reveal .card-photo {
+          display: block;
+          width: 200px;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          margin: 28px auto 0 auto;
+        }
+
+        .reveal .card-header {
+          width: 100%;
+          font-size: 20px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .reveal .card-info {
+          width: 100%;
+          float: left;
+          font-size: 20px;
+          margin-top: 0;
+          padding: 0 4px;
+          text-align: center;
+        }
+
+        .reveal .card-info a {
+          text-decoration: none;
+          color: #999;
+        }
+
+        .reveal .card-info em {
+          vertical-align: top;
+        }
+
+        .revral .card-info a .genericon {
+          vertical-align: middle;
+        }
+
+        .reveal .bio-social a {
+          text-decoration: none;
+        }
+
+        .reveal .bio-photo {
+          width: 200px;
+          margin: 0 40px 40px -40px;
+          float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="common" style="z-index: 2;">
+            <div class="header-left">
+                <img alt="QuantStack" src="quantstack-white.svg" width="30%"/>
+            </div>
+            <div class="footer-left">
+                <div style="color: white; font-family: Source Sans Pro, Helvetica, sans-serif;">
+                <img alt="Twitter" src="twitter-white.svg" height="20px"/>
+                <img alt="GitHub" src="github-white.svg" height="20px"/>
+                <p style="display: inline; vertical-align: top; margin-left: 4px; font-size: 20px;">@SylvainCorlay @JohanMabille @QuantStack</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Functional programming in C++</h1>
+                </section>
+                <section>
+                    <h2>Slides</h2>
+                    <p>quantstack.net/talks/cpp_dauphine/functional/index.html</p>
+                </section>
+                <section>
+                    <style>
+                        code.panel {
+                            background-color: initial;
+                        }
+
+                        pre.panel {
+                            box-shadow: none;
+                        }
+                    </style>
+                    <section>
+                        <h3>Function declaration</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity);
+    void print_discount_factor(double rate, double maturity);
+    //
+    return_type function_name(arg_type1 arg1, arg_type2 arg2);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Function definition</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity)
+    {
+        double res = std::exp(-rate * maturity);
+        return res;
+    }
+
+    void print_discount_factor(double rate, double maturity)
+    {
+        double df = discount_factor(rate, maturity);
+        std::cout &lt;&lt; "DF(" &lt;&lt; maturity &lt;&lt; "," rate &lt;&lt; ") = " &lt;&lt; df &lt;&lt; std::endl;
+        // No return statement here
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>One definition rule (ODR)</h3>
+                        <ul>
+                            <li>For every C++ primitive (variable, function, class)</li>
+                            <li>Many declarations allowed</li>
+                            <li>Only ONE definition</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Arguments</h3>
+                        <p>The semantic of argument passing is the same as the semantic of initialization</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity)
+    {
+        return std::exp(-rate * maturity);
+    }
+
+    double df = discount_factor(0.04, 2);
+                            </code></pre>
+                        </div>
+                        <div class="fragment">
+                            <p>is equivalent to</p>
+                            <pre class="panel"><code class="cpp panel">
+    double rate = 0.04;
+    double maturity = 2.5;
+    // jump to discount_factor code in memory
+        return std::exp(-rate * maturity);
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Arguments</h3>
+                        <p>Type checking</p>
+                        <pre class="panel"><code class="cpp panel">
+double discount_factor(double rate, double maturity);
+int main(int argc, char* argv[])
+{
+    const char* rate = "0.04";
+    double r = 0.04;
+    double m = 2.5;
+    discount_factor(rate, m); // Error
+    discount_factor(r, m);    // Ok
+    return 0;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Arguments</h3>
+                        <p>Arguments conversion</p>
+                        <pre class="panel"><code class="cpp panel">
+double discount_factor(double rate, double maturity);
+int main(int argc, char* argv[])
+{
+    const char* rate = "0.04";
+    double r = 0.04;
+    int m = 2.5;
+    discount_factor(rate, m); // Error
+    discount_factor(r, m);    // Ok
+    return 0;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Arguments</h3>
+                        <p>Default argument</p>
+                        <div>
+                            <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity);
+    double d = discount_factor(0.04); // Error
+                            </code></pre>
+                        </div>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity = 1.);
+    double d = discount_factor(0.04); // OK - Equivalent to discount_factor(0.04, 1.)
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Arguments</h3>
+                        <p>Default argument</p>
+                        <div>
+                            <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate = 0.01, double maturity); // Illegal
+    double my_function(double a1, double a2 = 0., double a3);    // Illegal
+                            </code></pre>
+                        </div>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    // Declaration
+    double discount_factor(double rate, double maturity = 1.);
+    // Definition
+    double discount_factor(double rate, double maturity = 1.) // Illegal
+    {
+        return srd::exp(-rate * maturity);
+    }
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Return value</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double f1() { }             // Error: no return value
+    void   f2() { }             // OK
+    double f3() { return 1.2; } // OK
+    void   f4() { return 1.2; } // Error: void function
+    double f5() { return; }     // Error: missing return value
+    void   f6() { return; }     // OK
+    double f7() { return "7"; } // Error: wrong return type
+    double f8() { return 1; }   // OK: conversion from int to double
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void inc(int i1, int i2)
+    {
+        ++i1;
+        ++i2;
+    }
+
+    void client()
+    {
+        int i = 4;
+        int j = 5;
+        inc(i, j);
+        std::cout &lt;&lt; "i = " &lt;&lt; i &lt;&lt; std::endl;
+        std::cout &lt;&lt; "j = " &lt;&lt; j &lt;&lt; std::endl;
+    }
+                        </code></pre>       
+                    </section>
+                    <section>
+                        <h3>Reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int i = 4;
+    int&amp; j = i;
+    ++j;
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int&amp; j; // Error: reference must be initialized
+    int i = 4;
+    int j&amp; = i;
+    int k = 8;
+    j = k;
+    ++j;
+    std::cout &lt;&lt; i &lt;&lt; std::endl;
+    std::cout &lt;&lt; k &lt;&lt; std::endl;
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void inc(int&amp; i1, int&amp; i2)
+    {
+        ++i1;
+        ++i2;
+    }
+
+    void client()
+    {
+        int i = 4;
+        int j = 5;
+        inc(i, j);
+        std::cout &lt;&lt; "i = " &lt;&lt; i &lt;&lt; std::endl;
+        std::cout &lt;&lt; "j = " &lt;&lt; j &lt;&lt; std::endl;
+    }
+                        </code></pre>       
+                    </section>
+                    <section>
+                        <h3>const reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    std::vector&lt;double&gt; discount_factor(std::vector&lt;double&gt; rate, std::vector&lt;double&gt; maturity)
+    {
+        std::size_t size = rate.size();
+        std::vector&lt;double&gt; res(size);
+        for(size_t i = 0; i &lt; size; ++i)
+        {
+            res[i] = std::exp(-rate[i] * maturity[i]);
+            rate[i] = 0.; // No effect, rate is a copy of the passed argument
+        }
+        return res;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>const reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    std::vector&lt;double&gt; discount_factor(std::vector&lt;double&gt;&amp; rate, std::vector&lt;double&gt;&amp; maturity)
+    {
+        std::size_t size = rate.size();
+        std::vector&lt;double&gt; res(size);
+        for(size_t i = 0; i &lt; size; ++i)
+        {
+            res[i] = std::exp(-rate[i] * maturity[i]);
+            rate[i] = 0.; // Side-effect, the passed argument is changed!
+        }
+        return res;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>const reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity)
+{
+    std::size_t size = rate.size();
+    std::vector&lt;double&gt; res(size);
+    for(size_t i = 0; i &lt; size; ++i)
+    {
+        res[i] = std::exp(-rate[i] * maturity[i]);
+        rate[i] = 0.; // Error, cannot modify a const object
+    }
+    return res;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>const reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+void discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity,
+                     std::vector&lt;double&gt;&amp; res)
+{
+    std::size_t size = rate.size();
+    res.resize(size);
+    for(size_t i = 0; i &lt; size; ++i)
+    {
+        res[i] = std::exp(-rate[i] * maturity[i]);
+    }
+}
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Function overloading</h3>
+                        <pre class="panel"><code class="cpp panel">
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity);
+
+void client()
+{
+    double df = discount_factor(0.04, 1.5); // error, cannot convert parameter 1 ...
+}
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+void client()
+{
+    std::vector&lt;double&gt; res = discount_factor(std::vector&lt;double&gt;(1, 0.04), std::vector&lt;double&gt;(1, 1.5));
+    double df = res[0];
+}
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Function overloading</h3>
+                        <pre class="panel"><code class="cpp panel">
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity);
+double discount_factor(double rate, double maturity);
+
+void client()
+{
+    std::vector&lt;double&gt; r(3, 0.04);
+    std::vector&lt;double&gt; m(3, 1.5);
+    std::vector&lt;double&gt; df_vec = discount_factor(r, m);
+    double df = discount_factor(0.04, 1.5);
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Function overloading</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void print(long);
+    void print(double);
+
+    void client()
+    {
+        long l = 1L;
+        double d = 1.5;
+        int i = 1;
+        print(l);         // Ok, calls print(long)
+        print(d);         // Ok, calls print(double)
+        print(i);         // Error, ambiguous
+        print(long(i));   // Ok, calls print(long)
+        print(double(i)); // Ok, calls print(double)
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Function overloading</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int    f(int, int);
+    void   f(int, int); // Illegal, overloaded function cannot differ only by return type
+    double f(double, double); // Ok
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int f(int, int);
+    // f's type     : int (int, int)
+    // f's signature: (int, int)
+                            </code></pre>
+                        </div>
+                    </Section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
