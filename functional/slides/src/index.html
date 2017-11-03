@@ -478,6 +478,257 @@ void client()
                         </div>
                     </Section>
                 </section>
+                <section>
+                    <section>
+                        <h3>Code organization</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+double discount_factor(double rate, double maturity)
+{
+    // ...
+}
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m)
+{
+    // ...
+}
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+// main.cpp
+void client()
+{
+    double df = discount_factor(0.04, 1.5); //Error, discount_factor does not exist
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Code organization</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.hpp
+#ifndef DISCOUNT_FACTOR_HPP
+#define DISCOUNT_FACTOR_HPP
+
+double discount_factor(double rate, double maturity);
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+#endif
+
+// main.cpp
+#include "discount_factor.hpp"
+void client()
+{
+    double df discount_factor(0.04, 1.5);
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Code organization</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+#include "discount_factor.hpp"
+double discount_factor(double rate, double maturity)
+{
+    // ...
+}
+
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m)
+{
+    // ...
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Compilation</h3>
+                        <img alt="compilation" src="compilation.svg" width="50%"/>
+                    </section>
+                    <section>
+                        <h3>Link</h3>
+                        <img alt="link" src="link.svg" width="50%"/>
+                    </section>
+                    <section>
+                        <h3>inline</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.hpp
+#ifndef DISCOUNT_FACTOR_HPP
+#define DISCOUNT_FACTOR_HPP
+
+#include &lt;cmath&gt;
+
+double discount_factor(double rate, double maturity);
+{
+    return std::exp(-rate * maturity);
+}
+
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+
+#endif
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>inline</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.hpp
+#ifndef DISCOUNT_FACTOR_HPP
+#define DISCOUNT_FACTOR_HPP
+
+#include &lt;cmath&gt;
+
+inline double discount_factor(double rate, double maturity);
+{
+    return std::exp(-rate * maturity);
+}
+
+std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+
+#endif
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>static</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+int check = 1;
+
+// main.cpp
+int check = 1;
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+static int check = 1;
+
+// main.cpp
+static int check = 1;
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>static</h3>
+                        <pre class="panel"><code class="cpp panel">
+int func()
+{
+    int res = 0;
+    return ++res;
+}
+
+int func_mem()
+{
+    static int res = 0;
+    return ++res;
+}
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Namespace</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor2.hpp
+double discount_factor(double rate, double maturity);
+
+// main.cpp
+#include "discount_factor.hpp"
+#include "discount_factor2.hpp"
+
+int main(int argc, char* argv[])
+{
+    double df = discount_factor(0.04, 1.5);
+    return 0;
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Namespace</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.hpp
+namespace ds1
+{
+    double discount_factor(double rate, double maturity);
+}
+
+// discount_factor2.hpp
+namespace ds2
+{
+    double discount_factor(double rate, double maturity);
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Namespace</h3>
+                        <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+namespace ds1
+{
+    double discount_factor(double rate, double maturity)
+    {
+        // ... same as before
+    }
+}
+
+// main.cpp
+int main(int argc, char* argv[])
+{
+    double df = ds1::discount_factor(rate, maturity);
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Namespace</h3>
+                        <pre class="panel"><code class="cpp panel">
+namespace my_lib
+{
+    namespace my_module
+    {
+        void my_func();
+    }
+}
+
+my_lib::my_module::my_func();
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>using</h3>
+                        <pre class="panel"><code class="cpp panel">
+namespace mlm = my_lib::my_module; // namespace alias
+mlm::my_func();
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+using my_lib::my_module::my_func; // using directive
+my_func();
+                            </code></pre>
+                        </div>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+using namespace my_lib::my_module; // Evil!
+my_func();
+                            </code></pre>
+                        </div>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+using namespace std; // Ultimate Evil!
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Anonymous namespace</h3>
+                            <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+int check = 1;
+
+// discount_factor2.cpp
+int check = 1;
+                            </code></pre>
+                            <div class="fragment">
+                                <pre class="panel"><code class="cpp panel">
+// discount_factor.cpp
+namespace // Anonymous namespace
+{
+    int check = 1;
+}
+// check is accessible in discount_factor.cpp only
+                                </code></pre>
+                            </div>
+                    </section>
+                </section>
             </div>
         </div>
 
