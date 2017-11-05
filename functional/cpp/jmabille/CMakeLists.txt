@@ -21,7 +21,8 @@ if(MSVC)
 endif()
 
 set(FUNCTIONAL_SRCS
-    main.cpp)
+    main.cpp
+    discount_factor.cpp)
 
 set(FUNCTIONAL_TARGET functional)
 add_executable(${FUNCTIONAL_TARGET} ${FUNCTIONAL_SRCS})
