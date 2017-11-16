@@ -452,6 +452,8 @@
     }
                         </code></pre>
                     </section>
+                </section>
+                <section>
                     <section>
                         <h3>Functors</h3>
                         <pre class="panel fragment"><code class="cpp panel">
@@ -465,8 +467,6 @@
         std::cout &lt;&lt; f2(1.0, 2.0) &lt;&lt; std::endl;
     }
                         </code></pre>
-                    </section>
-                    <section>
                         <pre class="panel fragment"><code class="cpp panel">
     double mean(const std::vector&lt;double&gt;&amp; v)
     {
@@ -489,6 +489,17 @@
                     </section>
                     <section>
                         <h3>lambda</h3>
+                        <p>Anonymous functor</p>
+                        <pre class="panel"><code class="cpp panel">
+    auto lambda1 = [](double d1, double d2) { return d1 + d2; }
+    auto lambda2 = [](double d1, double d2) -&gt; { return d1 + d2; }
+
+    double res1 = lambda1(1.2, 2.5);
+    double res2 = lambda2(1.2, 2.5);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>lambda</h3>
                         <pre class="panel"><code class="cpp panel">
     double mean(const std::vector&lt;double&gt;&amp; v)
     {
@@ -506,8 +517,13 @@
     std::vector&lt;double&gt; v2 = { 1., 2., 3., 4. };
     std::vector&lt;double&gt; res1(v1.size());
     std::vector&lt;double&gt; res2(v1.size());
+    
     std::transform(v1.begin(), v1.end(), res1.begin(), std::negate&lt;double&gt;());
     std::transform(v1.begin(), v1.end(), v2.begin(), res2.begin(), std::plus&lt;double&gt;());
+    
+    std::transform(v1.begin(), v1.end(), res1.begin(), [](double arg) { return -arg; });
+    std::transform(v1.begin(), v1.end(), v2.begin(), res2.begin(),
+                   [](double arg1, double arg2) { return arg1 + arg2; });
                         </code></pre>
                     </section>
                     <section>
@@ -517,34 +533,145 @@
     {
         size_t size = v.size();
         v.resize(2 * size);
-        std::transform(v.begin(), v.end(), v.begin() + size, [](double arg) { return 2 * arg; });
+        std::transform(v.begin(), v.begin() + size, v.begin() + size, [](double arg) { return 2 * arg; });
     }
                         </code></pre>
                     </section>
                     <section>
                         <pre class="panel"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp;v, double factor)
+    void extend_vector(std::vector&lt;double&gt;&amp; v, double factor)
     {
         size_t size = v.size();
         v.resize(2 * size);
-        std::transform(v.begin(), v.end(), v.begin() + size, [](double arg) { return factor * arg; });
+        std::transform(v.begin(), v.begin() + size, v.begin() + size,
+                       [](double arg) { return factor * arg; });
     }
                         </code></pre>
                         <pre class="panel fragment"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp;v, double factor)
+    void extend_vector(std::vector&lt;double&gt;&amp; v, double factor)
     {
         size_t size = v.size();
         v.resize(2 * size);
-        std::transform(v.begin(), v.end(), v.begin() + size, [factor](double arg) { return factor * arg; });
+        std::transform(v.begin(), v.begin() + size, v.begin() + size,
+                       [factor](double arg) { return factor * arg; });
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>lambda capture</h3>
+                        <ul>
+                            <li>[]      - captures nothing</li>
+                            <li>[=]     - captures all by value</li>
+                            <li>[&amp;] - captures all by reference</li>
+                            <li>[=var1] - captures var1 by value</li>
+                            <li>[&amp;var2] - captures var2 by reference</li>
+                            <li>[=var1, &amp;var2]</li>
+                    </section>
+                    <section>
+                        <h3>Dangling reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    auto get_functor(double factor)
+    {
+        double factor_twice = 2 * factor;
+        auto lambda = [&amp;factor_twice](double arg) { return factor_twice * arg; };
+        return lambda;
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    void test()
+    {
+        auto lambda = get_functor(2.5);
+        double res = lambda(1.5); // Boom!
     }
                         </code></pre>
                     </section>
                 </section>
-            </div>
-        </div>
+                <section>
+                    <section>
+                        <h2>Associative containers</h2>
+                        <ul>
+                            <li>map</li>
+                            <li>multi_map</li>
+                            <li>set</li>
+                            <li>multiset</li>
+                            <li>unordered_map</li>
+                            <li>unordered_multimap</li>
+                            <li>unordered_set</li>
+                            <li>unordered_multiset</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>std::map - access</h3>
+                        <pre class="panel"><code class="cpp panel">
+    #include &lt;map&gt;
+    #include &lt;string&gt;
+    #include &lt;iostream&gt;
 
-        <script src="lib/js/head.min.js"></script>
-        <script src="js/reveal.js"></script>
+    std::map&lt;std::string, int&gt; m;
+    m["a"] = 2;
+    std::cout &lt;&lt; m.size() &lt;&lt; std::endl;
+    std::cout &lt;&lt; m["a"] &lt;&lt; std::endl;
+    std::cout &lt;&lt; m["b"] &lt;&lt; std::endl;
+    std::cout &lt;&lt; m.size() &lt;&lt; std::endl;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>std::map - access</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int get_item(const std::map&lt;std::string, int&gt;&amp; m, const std::string&amp; k)
+    {
+        return m[k];
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>std::map - iterator</h3>
+                        <p>Write a function that prints the element of a map</p>
+                        <pre class="panel"><code class="cpp panel">
+    void print(const std::map&lt;std::string, int&gt;&amp; m)
+    {
+        for(auto iter = m.begin(); m != m.end(); ++iter)
+        {
+            std::cout &lt;&lt; *iter &lt;&lt; ", ";
+        }
+        std::cout &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <pre class="panel"><code class="cpp panel">
+    void print(const std::map&lt;std::string, int&gt;&amp; m)
+    {
+        for(auto iter = m.begin(); m != m.end(); ++iter)
+        {
+            std::cout &lt;&lt; "(" &lt;&lt; (*iter).first &lt;&lt; ","
+                      &lt;&lt; (*iter).second &lt;&lt; "), ";
+        }
+        std::cout &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    void print(const std::map&lt;std::string, int&gt;&amp; m)
+    {
+        for(auto iter = m.begin(); m != m.end(); ++iter)
+        {
+            std::cout &lt;&lt; "(" &lt;&lt; iter-&gt;first &lt;&lt; ","
+                      &lt;&lt; iter-&gt;second &lt;&lt; "), ";
+        }
+        std::cout &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>std::map - access</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int get_item(const std::map&lt;std::string, int&gt;&amp; m, const std::string&amp; k)
+    {
+        auto iter = m.find(k);
+        // Bad practice, only for illustrating, don't do this at home
+        return (iter != m.end()) ? iter-&gt;second : -1;
+    }
+                        </code></pre>
                     </section>
                 </section>
             </div>
