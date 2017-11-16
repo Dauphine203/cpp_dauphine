@@ -1,0 +1,154 @@
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,euscript,stmaryrd,graphicx,appendix,enumitem,yhmath,mathrsfs,superbox}
+\usepackage{fullpage}
+\usepackage{color,psfrag}
+
+\definecolor{ACORRIGER}{rgb}{0.9,0,0}
+
+\def\myqed {{% set up
+\parfillskip=0pt % so \par doesnt push \square to left
+\widowpenalty=10000 % so we dont break the page before \square
+\displaywidowpenalty=10000 % ditto
+%\finalhyphendem*erits=0 % TeXbook exercise 14.32
+%
+% horizontal
+\leavevmode % \nobreak means lines not pages
+\unskip % remove previous space or glue
+\nobreak % don't break lines
+\hfil % ragged right if we spill over
+\penalty50 % discouragement to do so
+\hskip.2em % ensure some space
+\null % anchor following \hfill
+\hfill % push \square to right
+$\square$% % the end-of-proof mark
+%
+% vertical
+\par}} % build paragraph
+
+\newcommand{\footnoteremember}[2]{
+ \footnote{#2}
+ \newcounter{#1}
+ \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{
+ \footnotemark[\value{#1}]
+}
+\def\andcr{%
+ \end{tabular}%
+ \\
+ \begin{tabular}[t]{c}}
+
+\author
+{
+}
+
+\title{Break-Even Volatility}
+\date{}
+
+
+\newtheorem{theo}{Theorem}[section]
+\newtheorem{theodef}{Theorem-Definition}[section]
+\newtheorem{prop}[theo]{Proposition}
+\newtheorem{coro}[theo]{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{lemm}[theo]{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{propx}{Proposition}
+
+
+\newcommand{\1}{\textbf{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\vega}{\upsilon}
+\newcommand{\Vega}{\mathcal{V}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\vect}{\operatorname{vect}}
+\newcommand{\sspan}{\operatorname{span}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\cell}{\operatorname{cell}}
+\newcommand{\LL}{\operatorname{L}}
+\newcommand{\Prime}{\operatorname{Prime}}
+\newcommand{\Call}{\operatorname{Call}}
+\newcommand{\Put}{\operatorname{Put}}
+\newcommand{\slab}{\operatorname{slab}}
+\newcommand{\tanapprox}{\operatorname{tanapprox}}
+\newcommand{\ui}{{\underline{i}}}
+\newcommand{\uj}{{\underline{j}}}
+
+\def\independent{{\perp\!\!\!\!\perp}}
+\def\simdist{\stackrel{\mathcal{L}}{\sim}}
+\def\h1{\hspace{0.1cm}}
+
+% keywords
+\def\keywordname{{\bf Keywords:}} 
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+
+\bibliographystyle{plain}
+
+\graphicspath{{./}{figures/}}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+
+\begin{center}{\Large \emph{Estimating a fair volatility skew from historical prices} }\end{center}
+
+\section{Introduction}
+
+\par Commonly available historical prices are OHLC (Open, High, Low, Close) prices. There are many volatility estimates using the OHLC data meant to improve the efficiency of the standard close-to-close estimator of the volatility $\sum (C_i - C_{i-1})^2$.
+
+\par Different volatility estimates may be used for different purposes. One issue with the classical estimators is that they are generally not linked to how good the resulting hedge may be.
+
+\par Estimating volatility from price history can be necessary in the context of option pricing and hedging. For example:
+
+\begin{itemize}
+\item pricing or hedging options on an underlying with illiquid or no option market.
+
+\item finding whether the market skew is \emph{fair}, or perform a skew arbitrage on the marker.
+\end{itemize}
+
+\section{Fair estimator for the historical volatility}
+
+Let us consider the following scenario.
+
+\begin{itemize}
+\item We sell a vanilla option of strike $K$ and maturity $T$ for a price corresponding to some (arbitrary) value of the Black-Scholes volatility $\sigma$.
+\item We perform a daily delta-hedge assuming the Black-Scholes model with the same volatility $\sigma$.
+\item This delta-hedge results in a final P\& L that depend on the input value for $\sigma$, $P \text{\&} L_{T, K}(\sigma)$.
+\end{itemize}
+
+\par Using a zero-finding method to find the value $\sigma_{T, K}$ that cancels $P\text{\&}L_{T, K}(\sigma)$ results in an estimation for a "fair" or "break-even" volatility, that is, the value for the Black-Schole volatility that would have resulted in a perfect hedge.
+
+\par Repeating the processe for a range of values for $T$ and $K$ can be used to produce a complete volatility surface.
+
+\begin{breakbox}
+This method can produce a complete volatility surfaces for an underlying simply using its price history.
+\end{breakbox}
+
+\section{C++ Computing Project}
+
+\par Using the C++ programming language, compute a "break-even" volatility smile for one-year maturity options on the SPX500 index using the past year closing prices for the index.
+
+\par Compare the resulting values with the current one-year volatility skew of SPX500. If our estimation is correct, how can we take advantage of it to arbitrage the implied SPX500 volatility smile?
+
+\par Bonus question: using the so-called "Black-Scholes Robustness formula", the P\& L from the continuous hedge of an option can be written as the time average of the instantaneous volatility weighted with the square gamma of the considered option. Use this formula to produce another estimator for the break-even volatility.
+
+\bibliography{biblio}
+\end{document}
