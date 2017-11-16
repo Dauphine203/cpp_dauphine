@@ -37,3 +37,8 @@ build/
 # Npm
 dist/
 node_modules/
+
+# tex
+*.log
+*.aux
+*.synctex.gz

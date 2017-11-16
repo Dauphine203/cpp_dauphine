@@ -1,0 +1,138 @@
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,euscript,stmaryrd,graphicx,appendix,enumitem,yhmath,mathrsfs,superbox}
+\usepackage{fullpage}
+\usepackage{color,psfrag}
+
+\definecolor{ACORRIGER}{rgb}{0.9,0,0}
+
+\def\myqed {{% set up
+\parfillskip=0pt % so \par doesnt push \square to left
+\widowpenalty=10000 % so we dont break the page before \square
+\displaywidowpenalty=10000 % ditto
+%\finalhyphendem*erits=0 % TeXbook exercise 14.32
+%
+% horizontal
+\leavevmode % \nobreak means lines not pages
+\unskip % remove previous space or glue
+\nobreak % don't break lines
+\hfil % ragged right if we spill over
+\penalty50 % discouragement to do so
+\hskip.2em % ensure some space
+\null % anchor following \hfill
+\hfill % push \square to right
+$\square$% % the end-of-proof mark
+%
+% vertical
+\par}} % build paragraph
+
+\newcommand{\footnoteremember}[2]{
+ \footnote{#2}
+ \newcounter{#1}
+ \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{
+ \footnotemark[\value{#1}]
+}
+\def\andcr{%
+ \end{tabular}%
+ \\
+ \begin{tabular}[t]{c}}
+
+\author
+{
+}
+
+\title{Cheapest Super-Replication of Vanilla Options}
+\date{}
+
+
+\newtheorem{theo}{Theorem}[section]
+\newtheorem{theodef}{Theorem-Definition}[section]
+\newtheorem{prop}[theo]{Proposition}
+\newtheorem{coro}[theo]{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{lemm}[theo]{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{propx}{Proposition}
+
+
+\newcommand{\1}{\textbf{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\vega}{\upsilon}
+\newcommand{\Vega}{\mathcal{V}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\vect}{\operatorname{vect}}
+\newcommand{\sspan}{\operatorname{span}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\cell}{\operatorname{cell}}
+\newcommand{\LL}{\operatorname{L}}
+\newcommand{\Prime}{\operatorname{Prime}}
+\newcommand{\Call}{\operatorname{Call}}
+\newcommand{\Put}{\operatorname{Put}}
+\newcommand{\slab}{\operatorname{slab}}
+\newcommand{\tanapprox}{\operatorname{tanapprox}}
+\newcommand{\ui}{{\underline{i}}}
+\newcommand{\uj}{{\underline{j}}}
+
+\def\independent{{\perp\!\!\!\!\perp}}
+\def\simdist{\stackrel{\mathcal{L}}{\sim}}
+\def\h1{\hspace{0.1cm}}
+
+% keywords
+\def\keywordname{{\bf Keywords:}} 
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+
+\bibliographystyle{plain}
+
+\graphicspath{{./}{figures/}}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+
+\begin{center}{\Large \emph{A Linear-Proramming Approach to Super Replication and Arbitrage Detection} }\end{center}
+
+\par \emph{This project is slightly more ambitious than the two other proposals, and aimed at students already familiar with the C++ programming language. The added difficulty is that it requires students to make use of a third-party library.}
+
+\section{Introduction}
+
+\par Just like their underlyings, listed options are traded on exchanges with an order book mechanism, so that, in order to guarantee a transation, buyers must cross the bid-ask spreads of the considered instruments.
+
+\par In this project, we consider the case of a trader interested in buying a European option with a given maturity $T$ with a piecewise linear payiff.
+
+\par A piecewise-linear payoff may be written as a linear combination of Call and Put payoffs. A buyer willing to purchase the corresponding linear combination must trade Calls and Puts at the Ask price when the corresponding weight it positive, and the Bid price when the corresponding weight is negative. This can be prohibitive, especially when certain strikes are illiquid which results in large bid-ask spreads.
+
+\par The goal of this project is to produce a routine that outputs the weights for a linear combination of calls and puts that super-replicates the target payoff while minimizing the cost.
+
+\section{C++ Computing Project}
+
+\par Produce a C++ routine outputing weights for the super replication of a piecewise linear function of compact suport with Call options.
+
+\par \emph{This stepp should require no optimization whatsoever}.
+
+\par Formulate the problem of the \emph{minimal super replication} of a piecewiese linear profile with combination of calls and puts as a linear programming problem.
+
+\par Using a third-party linear programming solver, or with your own implementation of the simplex method, provide a routine computing the cheapest super-replication price for any given piecewise linear profile.
+
+\par What would it mean if the cheapest replication of the null payoff had a negative price?
+
+\bibliography{biblio}
+\end{document}

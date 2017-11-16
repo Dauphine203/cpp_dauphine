@@ -1,0 +1,134 @@
+\documentclass[a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath,amsthm,amsfonts,amssymb,euscript,stmaryrd,graphicx,appendix,enumitem,yhmath,mathrsfs,superbox}
+\usepackage{fullpage}
+\usepackage{color,psfrag}
+
+\definecolor{ACORRIGER}{rgb}{0.9,0,0}
+
+\def\myqed {{% set up
+\parfillskip=0pt % so \par doesnt push \square to left
+\widowpenalty=10000 % so we dont break the page before \square
+\displaywidowpenalty=10000 % ditto
+%\finalhyphendem*erits=0 % TeXbook exercise 14.32
+%
+% horizontal
+\leavevmode % \nobreak means lines not pages
+\unskip % remove previous space or glue
+\nobreak % don't break lines
+\hfil % ragged right if we spill over
+\penalty50 % discouragement to do so
+\hskip.2em % ensure some space
+\null % anchor following \hfill
+\hfill % push \square to right
+$\square$% % the end-of-proof mark
+%
+% vertical
+\par}} % build paragraph
+
+\newcommand{\footnoteremember}[2]{
+ \footnote{#2}
+ \newcounter{#1}
+ \setcounter{#1}{\value{footnote}}
+}
+\newcommand{\footnoterecall}[1]{
+ \footnotemark[\value{#1}]
+}
+\def\andcr{%
+ \end{tabular}%
+ \\
+ \begin{tabular}[t]{c}}
+
+\author
+{
+}
+
+\title{Global Ranking of World Currencies}
+\date{}
+
+
+\newtheorem{theo}{Theorem}[section]
+\newtheorem{theodef}{Theorem-Definition}[section]
+\newtheorem{prop}[theo]{Proposition}
+\newtheorem{coro}[theo]{Corollary}
+\newtheorem{remark}{Remark}
+\newtheorem{lemm}[theo]{Lemma}
+\newtheorem{defi}{Definition}
+\newtheorem*{propx}{Proposition}
+
+
+\newcommand{\1}{\textbf{1}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\vega}{\upsilon}
+\newcommand{\Vega}{\mathcal{V}}
+
+\newcommand{\PP}{\mathbb{P}}
+\newcommand{\cF}{\mathcal{F}}
+\newcommand{\diag}{\operatorname{diag}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\card}{\operatorname{card}}
+\newcommand{\vect}{\operatorname{vect}}
+\newcommand{\sspan}{\operatorname{span}}
+\newcommand{\cov}{\operatorname{cov}}
+\newcommand{\var}{\operatorname{Var}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\cell}{\operatorname{cell}}
+\newcommand{\LL}{\operatorname{L}}
+\newcommand{\Prime}{\operatorname{Prime}}
+\newcommand{\Call}{\operatorname{Call}}
+\newcommand{\Put}{\operatorname{Put}}
+\newcommand{\slab}{\operatorname{slab}}
+\newcommand{\tanapprox}{\operatorname{tanapprox}}
+\newcommand{\ui}{{\underline{i}}}
+\newcommand{\uj}{{\underline{j}}}
+
+\def\independent{{\perp\!\!\!\!\perp}}
+\def\simdist{\stackrel{\mathcal{L}}{\sim}}
+\def\h1{\hspace{0.1cm}}
+
+% keywords
+\def\keywordname{{\bf Keywords:}} 
+
+\newcommand{\keywords}[1]{\par\addvspace\baselineskip\noindent\keywordname\enspace\ignorespaces#1}
+
+\bibliographystyle{plain}
+
+\graphicspath{{./}{figures/}}
+
+\begin{document}
+\maketitle
+\vspace{-1cm}
+
+\begin{center}{\Large \emph{A simple method for ranking currencies based on their relative stability} }\end{center}
+
+\section{Introduction}
+
+\par Using the nominal value of a currency with respect to some reference numeraire is not an appropriate means of ranking them with respect to how "strong" one should consider that currency. For example, the value of the Japanese Yen is lesser than the Brazialian real, while Yen is considered a much stronger currency.
+
+\par A better way to compare a currency to another is to analyse the volatility skew of the pair. For example, a negative skew generally indicates a fatter tail for negative returns than positive returns. Hence, if A-B currency pair has a negative skew, we may consider A to be "lesser" than B.
+
+\section{Creating a currency strength score}
+
+\par Considering the anti-symmetric matrix $M$ of the at-the-money skews of all currency pairs, we seek to approximate it with the outer-difference of a \emph{score} vector $S$, $O_{i, j} = S_i - S_j$. When using the least-square criterion, $\min_{S} \|M - O\|_2^2$, the problem can be formulated as a linear regression.
+
+\par The convention for quoting option prices on currency pairs is specific to foreign exchange market. We recommend you to read up about the FX option quoting convention (Butterfly and Risk Reversal). The 25 Delta risk-reversal can be considered a good proxy for the skew of the considered currency pair.
+
+\section{C++ Computing Project}
+
+\par First, using the C++ programming language (and testing with generated data), produce a routine performing the approximation of an anti-symmetrical matrix with the outer-difference of a score vector.
+
+\par Then, using a real-world snapshot of the 25-Delta risk-reversal values, compute a "score" for a list of at least 15 currencies of the world following the criterion described in the previous section, including precious metals.
+
+\par Provide a careful interpretation of the resulting scores.
+
+\bibliography{biblio}
+\end{document}
