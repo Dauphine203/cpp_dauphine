@@ -932,6 +932,209 @@
                         </code></pre>
                     </section>
                 </section>
+                <section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The default constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared constructor</li>
+                                </ul>
+                            </li>
+                            <li>The default destructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The copy constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared move constructor</li>
+                                    <li>user-declared move assignment operator</li>
+                                </ul>
+                            </li>
+                            <li>The copy assignment operator is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared move constructor</li>
+                                    <li>user-declared move assignment operator</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The move constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared copy constructor</li>
+                                    <li>user-declared copy assignment operator</li>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                            <li>The move assignment operator is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared copy constructor</li>
+                                    <li>user-declared copy assignment operator</li>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <p>If you need to declare and implement any of</p>
+                        <ul>
+                            <li>destructor</li>
+                            <li>copy constructor</li>
+                            <li>copy assignment operators</li>
+                            <li>move constructor</li>
+                            <li>move assignment operator</li>
+                        </ul>
+                        <p class="fragment">... you probably need to implement all off them</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+        // ...
+    };
+
+    void compute(const uvector&amp; v);
+
+    compute(std::size_t(2));
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        explicit uvector(std::size_t size = 0);
+        // ...
+    };
+
+    void compute(const uvector&amp; v);
+
+    compute(std::size_t(2)); // Error: implicit conversion forbidden, constructor is declared as explicit
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class optional
+    {
+    public:
+
+        optional(double value, bool has_value = true);
+
+    private:
+
+        double m_value;
+        bool m_has_value;
+    };
+
+    bool has_value(const optional&amp; o) { return o.has_value(); }
+    bool res = has_value(1.2);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    optional opt(1.2);
+    // ...
+    double res = opt;
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    class optional
+    {
+    public:
+
+        operator double() const { return m_value; }
+        // .... as previous
+    };
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Struct vs class</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class Test
+    {
+        double m_value; // private by default
+    };
+
+    struct Test2
+    {
+        double m_value; // public by default
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+    };
+
+    void print_debug(const uvector&amp; v)
+    {
+        // Cannot access v.p_data because it is private
+        std::cout &lt;&lt; v.p_data &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+
+        friend void print_debug(const uvector&amp;);
+    };
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+
+        friend class B;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <ul>
+                            <li>Is not reciprocal</li>
+                            <li>Is not transitive</li>
+                        </ul>
+                    </section>
+                </section>
             </div>
         </div>
 
