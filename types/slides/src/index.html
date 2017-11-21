@@ -1,0 +1,1164 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="genericons.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <style>
+        .reveal section img {
+            border: none;
+            background-color: initial;
+            margin: 10px;
+        }
+        .reveal .normal-paragraph {
+            text-align: left;
+            margin: 0 auto 0 auto;
+            width: 60%;
+        }
+        .reveal .normal-paragraph p {
+            text-align: left;
+        }
+        .header-left {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        .header-right {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+        .footer-left {
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+        .reveal .genericon {
+          font-family: "genericons";
+        }
+
+        .reveal .bio-card {
+          background: #333;
+          border-radius: 2px;
+          display: inline-block;
+          width: 260px;
+          margin: 1rem;
+          position: relative;
+          font-size: 20px;
+        }
+
+        .reveal .card-photo {
+          display: block;
+          width: 200px;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          margin: 28px auto 0 auto;
+        }
+
+        .reveal .card-header {
+          width: 100%;
+          font-size: 20px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .reveal .card-info {
+          width: 100%;
+          float: left;
+          font-size: 20px;
+          margin-top: 0;
+          padding: 0 4px;
+          text-align: center;
+        }
+
+        .reveal .card-info a {
+          text-decoration: none;
+          color: #999;
+        }
+
+        .reveal .card-info em {
+          vertical-align: top;
+        }
+
+        .revral .card-info a .genericon {
+          vertical-align: middle;
+        }
+
+        .reveal .bio-social a {
+          text-decoration: none;
+        }
+
+        .reveal .bio-photo {
+          width: 200px;
+          margin: 0 40px 40px -40px;
+          float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="common" style="z-index: 2;">
+            <div class="header-left">
+                <img alt="QuantStack" src="quantstack-white.svg" width="30%"/>
+            </div>
+            <div class="footer-left">
+                <div style="color: white; font-family: Source Sans Pro, Helvetica, sans-serif;">
+                <img alt="Twitter" src="twitter-white.svg" height="20px"/>
+                <img alt="GitHub" src="github-white.svg" height="20px"/>
+                <p style="display: inline; vertical-align: top; margin-left: 4px; font-size: 20px;">@SylvainCorlay @JohanMabille @QuantStack</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Defining your own types</h1>
+                </section>
+                <section>
+                    <h2>Slides</h2>
+                    <p>quantstack.net/talks/cpp_dauphine/types/index.html</p>
+                </section>
+                <section>
+                    <p>Update the repo</p>
+                    <ul>
+                        <li>git checkout master</li>
+                        <li>git pull upstream master</li>
+                        <li>git push origin master</li>
+                        <li>git checkout -b types</li>
+                    </ul>
+                </section>
+                <section>
+                    <style>
+                        code.panel {
+                            background-color: initial;
+                        }
+
+                        pre.panel {
+                            box-shadow: none;
+                        }
+                    </style>
+                    <section>
+                        <h3>class - matrix.hpp</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+        
+        matrix(std::size_t nb_rows, std::size_t nb_cols);
+
+    private:
+
+        std::size_t m_nb_rows;
+        std::size_t m_nb_cols;
+        std::vector&lt;double&gt; m_data;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>class - matrix.cpp</h3>
+                        <pre class="panel"><code class="cpp panel">
+    matrix::matrix(size_t nb_rows, size_t nb_cols)
+        : m_nb_rows(nb_rows),
+          m_nb_cols(nb_cols),
+          m_data(nb_rows * nb_cols)
+    {
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    int main(int argc, char* argv[])
+    {
+        dauphine::matrix m(2, 4);
+        // Error: cannot access private member m_nb_rows
+        std::cout &lt;&lt; m.m_nb_rows &lt;&lt; std::endl;
+        return 0;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>class - matrix.hpp</h3>
+                        <p>Define methods that returns m_nb_rows and m_nb_cols</p>
+                        <pre class="panel fragment"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        matrix(std::size_t nb_rows, std::size_t nb_cols);
+
+        std::size_t nb_rows() const;
+        std::size_t nb_cols() const;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>class - matrix.cpp</h3>
+                        <pre class="panel"><code class="cpp panel">
+    std::size_t matrix::nb_rows() const
+    {
+        return m_nb_rows;
+    }
+
+    std::size_t matrix::nb_cols() const
+    {
+        return m_nb_cols;
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    int main(int argc, char* argv[])
+    {
+        dauphine::matrix m(2, 4);
+        std::cout &lt;&lt; m.nb_rows() &lt;&lt; std::endl;
+        std::cout &lt;&lt; m.nb_cols() &lt;&lt; std::endl;
+        return 0;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Const - 1/2</h3>
+                        <pre class="panel"><code class="cpp panel">
+    std::size_t matrix::nb_rows() const
+    {
+        m_nb_rows = 0;
+        // Cannot modify an attribute in a const method
+        return m_nb_rows;
+    }
+
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>class - matrix</h3>
+                        <p>Define a method that resizes the matrix</p>
+                        <pre class="panel fragment"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        void resize(std::size_t nb_rows, std::size_t nb_cols);
+    };
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    void matrix::resize(std::size_t nb_rows, std::size_t nb_cols)
+    {
+        m_nb_rows = nb_rows;
+        m_nb_cols = nb_cols;
+        m_data.resize(m_nb_rows * m_nb_cols);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Const - 2/2</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int main(int argc, char* argv[])
+    {
+        const matrix m(2, 4);
+        // Cannot call a non-const method on const object
+        m.resize(3, 5); 
+        return 0;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>const rules</h3>
+                        <ul>
+                            <li>Whenever a parameter won't be modified, make it const</li>
+                            <li>Whenever a method does not change the object, make it const</li>
+                            <li>If you're not sure, make it const</li>
+                            <li>Think twice before removing a const</l>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>matrix - access operator</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        double&amp; operator()(std::size_t i, std::size_t j);
+        const double&amp; operator()(std::size_t i, std::size_t j) const;
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    double&amp; matrix::operator()(std::size_t i, std::size_t j)
+    {
+        return m_data[i * m_nb_cols + j];
+    }
+
+    const double&amp; matrix::operator()(std::size_t i, std::size_t j) const
+    {
+        return m_data[i * m_nb_cols + j];
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - output operator</h3>
+                        <pre class="panel"><code class="cpp panel">
+    #include &lt;ostream&gt;
+    std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const matrix&amp; m);
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    std::ostream&amp; operator&lt;&lt;(std::ostream&amp; out, const matrix&amp; m)
+    {
+        for(std::size_t i = 0; i &lt; m.nb_rows(); ++i)
+        {
+            for(std::size_t j = 0; j &lt; m.nb_cols(); ++j)
+            {
+                out &lt;&lt; m(i, j) &lt;&lt; ", ";
+            }
+            out &lt;&lt; std::endl;
+        }
+        return out;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - computed assignment</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        matrix&amp; operator+=(const matrix&amp; rhs);
+        matrix&amp; operator-=(const matrix&amp; rhs);
+        matrix&amp; operator*=(const matrix&amp; rhs);
+        matrix&amp; operator/=(const matrix&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - computed assignment</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    matrix&amp; matrix::operator+=(const matrix&amp; rhs)
+    {
+        for(std::size_t i = 0; i &lt; m_nb_rows; ++i)
+        {
+            for(std::size_t j = 0; j &lt; m_nb_cols; ++j)
+            {
+                m_data[i * m_nb_cols + j] = rhs.m_data[i * m_nb_cols + j];
+            }
+        }
+        return *this;
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    matrix&amp; matrix::operator+=(const matrix&amp; rhs)
+    {
+        std::transform(m_data.begin(), m_data.end(), rhs.m_data.begin(),
+                       m_data.begin(), std::plus&lt;double&gt;());
+        return *this;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - computed assignment</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        matrix&amp; operator+=(double rhs);
+        matrix&amp; operator-=(double rhs);
+        matrix&amp; operator*=(double rhs);
+        matrix&amp; operator/=(double rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - computed assignment</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    matrix&amp; matrix::operator+=(double rhs)
+    {
+        std::transform(m_data.begin(), m_data.end(), m_data.begin(),
+                       [rhs](double arg) { return arg + rhs; });
+        return *this;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - arithmetic operators</h3>
+                        <p>Solution 1 (bad)</p>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        matrix operator+(const matrix&amp; rhs) const;
+        matrix operatot+(double rhs) const;
+    };
+
+    matrix res = m1 + m2; // OK - equivalent to res = m1.operator+(m2);
+    matrix res = m1 + 2.  // OK - equivalent to res = m1.operator+(2.);
+    matrix res = 2. + m1  // Error, no overload found for operator+(double, matrix)
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - arithmetic operators</h3>
+                        <p>Solution 2 (good)</p>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+        // ...
+    };
+
+    matrix operator+(const matrix&amp; lhs, const matrix&amp; rhs);
+    matrix operator+(const matrix&amp; lhs, double rhs);
+    matrix operator+(double lhs, const matrix&amp; rhs);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - arithmetic operators</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    matrix operator+(const matrix&amp; lhs, const matrix&amp; rhs)
+    {
+        matrix tmp(lhs);
+        tmp += rhs;
+        return tmp;
+    }
+
+    matrix operator+(double lhs, const matrix&amp; rhs)
+    {
+        return rhs + lhs;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>matrix - value semantic</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class matrix
+    {
+    public:
+
+        matrix(std::size_t nb_rows, std::size_t nb_cols);
+        ~matrix();
+        matrix(const matrix&amp;);
+        matrix&amp; operator=(const matrix&amp;);
+        matrix(const matrix&amp;&amp;);
+        matrix&amp; operator=(matrix&amp;&amp;);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>matrix - value semantic</h3>
+                        <pre class="panel"><code class="cpp panel">
+    matrix::matrix(const matrix&amp; rhs)
+        : m_nb_rows(rhs.m_nb_rows),
+          m_nb_cols(rhs.m_nb_cols),
+          m_data(rhs.m_data)
+    {
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>The need for uvector</h3>
+                        <p>std::vector</p>
+                        <ul>
+                            <li>initializes all its values upon construction</li>
+                            <li>even when these values will be modified just after</li>
+                            <li>not efficient for intensive computation on large matrices</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>The need for uvector</h3>
+                        <pre class="panel"><code class="cpp panel">
+    matrix matrix::sigmoid(const matrix&amp; m)
+    {
+        matrix res(m.nb_rows(), m.nb_cols());
+        std::transform(m.m_data.begin(), m.m_data.end(), res.m_data.begin()
+                       [](double arg) { return 1. / (1. + std::exp(-arg)); });
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Digression - heap allocation</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double m_data[N];
+    // N must be known during compilation
+    // N is not mutable, you cannot resize m_data;
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    double* p_data = new double[size];
+    // size can be computed at runtime
+    delete[] p_data; // Never forget this
+    delete[] p_data; // Never do it twice on a non null pointer
+    p_data = nullptr;
+    delete[] p_data; // OK 
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Digression - heap allocation</h3>
+                        <p>The survival guide to dynamic allocation</p>
+                        <ul>
+                            <li>Default initialize pointers to nullptr</li>
+                            <li>"new" must have a "delete" counterpart</li>
+                            <li>Always reset a deleted pointer to nullptr</li>
+                            <li class="fragment" style="color:red;">Avoid dynamic allocation as much as possible</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>uvector - constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size);
+        uvector(std::size_t size, double value = 0.);
+
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - constructor</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector::uvector(std::size_t size)
+        : p_data(nullptr), m_size(0)
+    {
+        if(size != 0)
+        {
+            p_data = new double[size];
+            m_size = size;
+        }
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - constructor</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector::uvector(std::size_t size, double value)
+        : p_data(nullptr), m_size(0)
+    {
+        if(size != 0)
+        {
+            p_data = new double[size];
+            m_size = size;
+        }
+        std::fill(p_data, p_data + size, value);
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector::uvector(std::size_t size, double value)
+        : uvector(size) // delegating constructor
+    {
+        std::fill(p_data, p_data + size, value);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Delegating constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class test
+    {
+    public:
+
+        test(int i, int j) : m_i(i), m_j(j) {}
+        test(int i) : test(i), m_j(0) {} // Illegal
+        test(int i) : test(i, 0) {} // OK
+        test(double d1, double d2) : m_d1(d1), m_d2(d2) {}
+        test(double d) : test(d, 0.) {} // Illegal, only one delegating constructor per class
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - Default constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector() : uvector(0) {}
+    };
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Destructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+        uvector(std::size_t size, double value = 0.);
+
+        ~uvector();
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Destructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector::~uvector()
+    {
+        delete[] p_data;
+        p_data = nullptr;
+        m_size = 0;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Digression - heap allocation</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double* p1 = new double(size);
+    double* p2 = p1;
+                        </code></pre>
+                        <img class="fragment" src="array_memory.svg"/>
+                        <pre class="panel fragment"><code class="cpp panel">
+    delete p1;
+    p2[2] // crash
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - copy constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+        uvector(std::size_t size, double value = 0.);
+
+        ~uvector();
+
+        uvector(const uvector&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - copy constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector::uvector(const uvector&amp; rhs)
+        : p_data(nullptr), m_size(0)
+    {
+        if(rhs.m_size != 0)
+        {
+            p_data = new double[rhs.m_size];
+            m_size = rhs.m_size;
+            std::copy(rhs.p_data, rhs.p_data + m_size, p_data);
+        }
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - assign operator</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+        uvector(std::size_t size, double value = 0.);
+
+        ~uvector();
+
+        uvector(const uvector&amp; rhs);
+        uvector&amp; operator=(const uvector&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - assign operator</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector&amp; uvector::operator=(const uvector&amp; rhs)
+    {
+        delete[] p_data;
+        p_data = new double[rhs.m_size];
+        std::copy(rhs.p_data, rhs.p_data + rhs.m_size, p_data);
+        m_size = rhs.m_size;
+        return *this;
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector v(2, 2.);
+    v = v;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - assign operator</h3>
+                        <p>Copy and swap idiom</p>
+                        <pre class="panel"><code class="cpp panel">
+    uvector&amp; uvector::operator=(const uvector&amp; rhs)
+    {
+        double* tmp = new double[rhs.m_size]; // Always allocate a temporary
+        std::copy(rhs.p_data, rhs.p_data + rhs.m_size, tmp); // copy
+        std::swap(tmp, p_data); // then swap
+        delete[] tmp; // then delete the temporary
+        m_size = rhs.m_size;
+        return *this;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - swap</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        void swap(uvector&amp; rhs);
+
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+    };
+
+    void swap(uvector&amp; lhs, uvector&amp; rhs);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - swap</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void uvector::swap(uvector&amp; rhs)
+    {
+        using std::swap;
+        swap(p_data, rhs.p_data);
+        swap(m_size, rhs.m_size);
+    }
+
+    void swap(uvector&amp; lhs, uvector&amp; rhs)
+    {
+        lhs.swap(rhs);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - assign operator</h3>
+                        <p>Copy and swap idiom</p>
+                        <pre class="panel"><code class="cpp panel">
+    uvector&amp; uvector::operator=(const uvector&amp; rhs)
+    {
+        uvector tmp(rhs);
+        swap(*this, tmp);
+        return *this;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>rvalue reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector compute(const uvector&amp; param)
+    {
+        uvector res;
+        // do some computation ...
+        return res;
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // Inefficient copy
+    uvector res = compute(my_huge_param);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>rvalue reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector compute(const uvector&amp; param)
+    {
+        uvector res;
+        // do some computation ...
+        return res; // Binding a temporary to a non const reference!
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // dangling reference
+    uvector&amp; res = compute(my_huge_param);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>rvalue reference</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector compute(const uvector&amp; param)
+    {
+        uvector res;
+        // do some computation ...
+        return res; // Binding a temporary to a non const reference!
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // rvalue reference
+    uvector&amp;&amp; res = compute(my_huge_param);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>lvalue vs rvalue</h3>
+                        <p>lvalue</p>
+                        <ul>
+                            <li>can be on both side of an assignment</li>
+                            <li>can have a name (or not)</li>
+                            <li>lvalue references bind to lvalues</li>
+                        </ul>
+                        <p>rvalue</p>
+                        <ul>
+                            <li>can be on right hand side of an assignment only</li>
+                            <li>does not have a name</li>
+                            <li>rvalue references bind to rvalues</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>lvalue vs rvalue</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector&amp; func(uvector&amp; t)
+    {
+        // do some stuff
+        return t;
+    }
+
+    uvector t, something;
+    func(t) = something;
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>lvalue vs rvalue</h3>
+                        <ul>
+                            <li>short: If it has a name, it is an lvalue</li>
+                            <li>long: http://en.cppreference.com/w/cpp/language/value_category</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>lvalue vs rvalue</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector compute(const huge_param&amp; param);
+
+    void function(const uvector&amp; param);
+    void function(uvector&amp;&amp; param);
+
+    uvector m;
+    function(m);
+    function(compute(m));
+    uvector&amp;&amp; ref = compute(m);
+    function(ref);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>lvalue vs rvalue</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector compute(const huge_param&amp; param);
+
+    void function(const uvector&amp; param);
+    void function(uvector&amp;&amp; param);
+
+    uvector m;
+    function(m); // calls function(const uvector&amp; param);
+    function(compute(m)); // calls function(uvector&amp;&amp; param);
+    uvector&amp;&amp; ref = compute(m); 
+    function(ref); // calls function(const uvector&amp; param);
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    function(static_cast&lt;uvector&amp;&amp;&gt;(ref));
+    function(std::move(uvector));
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>uvector - move semantic</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t = 0);
+        uvector(std::size_t size, double value);
+        ~uvector();
+
+        uvector(const uvector&amp;)
+        uvector&amp; operator=(const uvector&amp; rhs);
+
+        uvector(uvector&amp;&amp;);
+        uvector&amp; operator=(uvector&amp;&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - move constructor</h3>
+                        <pre class="panel"><code class="cpp panel">
+    uvector::uvector(uvector&amp;&amp; rhs)
+        : p_data(std::move(p_data)), m_size(std::move(rhs.m_size))
+    {
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector::uvector(uvector&amp;&amp; rhs)
+        : p_data(std::move(p_data)), m_size(std::move(rhs.m_size))
+    {
+        rhs.p_data = nullptr;
+        rhs.m_size = 0;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>uvector - move assignment</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    uvector&amp; uvector::operator=(uvector&amp;&amp; rhs)
+    {
+        using std::swap;
+        swap(p_data, rhs.p_data);
+        swap(m_size, rhs.m_size);
+        return *this;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The default constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared constructor</li>
+                                </ul>
+                            </li>
+                            <li>The default destructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The copy constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared move constructor</li>
+                                    <li>user-declared move assignment operator</li>
+                                </ul>
+                            </li>
+                            <li>The copy assignment operator is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared move constructor</li>
+                                    <li>user-declared move assignment operator</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <ul>
+                            <li>The move constructor is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared copy constructor</li>
+                                    <li>user-declared copy assignment operator</li>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                            <li>The move assignment operator is auto-generated if there is no:
+                                <ul>
+                                    <li>user-declared copy constructor</li>
+                                    <li>user-declared copy assignment operator</li>
+                                    <li>user-declared destructor</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Auto-generation rules</h3>
+                        <p>If you need to declare and implement any of</p>
+                        <ul>
+                            <li>destructor</li>
+                            <li>copy constructor</li>
+                            <li>copy assignment operators</li>
+                            <li>move constructor</li>
+                            <li>move assignment operator</li>
+                        </ul>
+                        <p class="fragment">... you probably need to implement all off them</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        uvector(std::size_t size = 0);
+        // ...
+    };
+
+    void compute(const uvector&amp; v);
+
+    compute(std::size_t(2));
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    public:
+
+        explicit uvector(std::size_t size = 0);
+        // ...
+    };
+
+    void compute(const uvector&amp; v);
+
+    compute(std::size_t(2)); // Error: implicit conversion forbidden, constructor is declared as explicit
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class optional
+    {
+    public:
+
+        optional(double value, bool has_value = true);
+
+    private:
+
+        double m_value;
+        bool m_has_value;
+    };
+
+    bool has_value(const optional&amp; o) { return o.has_value(); }
+    bool res = has_value(1.2);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Conversion</h3>
+                        <pre class="panel"><code class="cpp panel">
+    optional opt(1.2);
+    // ...
+    double res = opt;
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    class optional
+    {
+    public:
+
+        operator double() const { return m_value; }
+        // .... as previous
+    };
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Struct vs class</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class Test
+    {
+        double m_value; // private by default
+    };
+
+    struct Test2
+    {
+        double m_value; // public by default
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+    };
+
+    void print_debug(const uvector&amp; v)
+    {
+        // Cannot access v.p_data because it is private
+        std::cout &lt;&lt; v.p_data &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+
+        friend void print_debug(const uvector&amp;);
+    };
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class uvector
+    {
+    private:
+
+        double* p_data;
+        std::size_t m_size;
+
+        friend class B;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>friend</h3>
+                        <ul>
+                            <li>Is not reciprocal</li>
+                            <li>Is not transitive</li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>

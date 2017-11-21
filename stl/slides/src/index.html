@@ -563,9 +563,10 @@
                             <li>[]      - captures nothing</li>
                             <li>[=]     - captures all by value</li>
                             <li>[&amp;] - captures all by reference</li>
-                            <li>[=var1] - captures var1 by value</li>
+                            <li>[var1] - captures var1 by value</li>
                             <li>[&amp;var2] - captures var2 by reference</li>
-                            <li>[=var1, &amp;var2]</li>
+                            <li>[=,&amp;var2] - captures all by value, but var2 by reference</li>
+                            <li>[var1, &amp;var2]</li>
                     </section>
                     <section>
                         <h3>Dangling reference</h3>
