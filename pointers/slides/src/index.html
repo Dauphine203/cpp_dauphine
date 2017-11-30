@@ -1,0 +1,627 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="genericons.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <style>
+        .reveal section img {
+            border: none;
+            background-color: initial;
+            margin: 10px;
+        }
+        .reveal .normal-paragraph {
+            text-align: left;
+            margin: 0 auto 0 auto;
+            width: 60%;
+        }
+        .reveal .normal-paragraph p {
+            text-align: left;
+        }
+        .header-left {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        .header-right {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+        .footer-left {
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+        .reveal .genericon {
+          font-family: "genericons";
+        }
+
+        .reveal .bio-card {
+          background: #333;
+          border-radius: 2px;
+          display: inline-block;
+          width: 260px;
+          margin: 1rem;
+          position: relative;
+          font-size: 20px;
+        }
+
+        .reveal .card-photo {
+          display: block;
+          width: 200px;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          margin: 28px auto 0 auto;
+        }
+
+        .reveal .card-header {
+          width: 100%;
+          font-size: 20px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .reveal .card-info {
+          width: 100%;
+          float: left;
+          font-size: 20px;
+          margin-top: 0;
+          padding: 0 4px;
+          text-align: center;
+        }
+
+        .reveal .card-info a {
+          text-decoration: none;
+          color: #999;
+        }
+
+        .reveal .card-info em {
+          vertical-align: top;
+        }
+
+        .revral .card-info a .genericon {
+          vertical-align: middle;
+        }
+
+        .reveal .bio-social a {
+          text-decoration: none;
+        }
+
+        .reveal .bio-photo {
+          width: 200px;
+          margin: 0 40px 40px -40px;
+          float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="common" style="z-index: 2;">
+            <div class="header-left">
+                <img alt="QuantStack" src="quantstack-white.svg" width="30%"/>
+            </div>
+            <div class="footer-left">
+                <div style="color: white; font-family: Source Sans Pro, Helvetica, sans-serif;">
+                <img alt="Twitter" src="twitter-white.svg" height="20px"/>
+                <img alt="GitHub" src="github-white.svg" height="20px"/>
+                <p style="display: inline; vertical-align: top; margin-left: 4px; font-size: 20px;">@SylvainCorlay @JohanMabille @QuantStack</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Pointers and memory</h1>
+                </section>
+                <section>
+                    <h2>Slides</h2>
+                    <p>quantstack.net/talks/cpp_dauphine/pointers/index.html</p>
+                </section>
+                <section>
+                    <p>Update the repo</p>
+                    <ul>
+                        <li>git checkout master</li>
+                        <li>git pull upstream master</li>
+                        <li>git push origin master</li>
+                        <li>git checkout -b pointers</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>3 kinds of memory</h3>
+                    <ul>
+                        <li>Static memory</li>
+                        <li>Automatic (stack-allocated) memory</li>
+                        <li>Dynamic (heap-alocated) memory</li>
+                    </ul>
+                </section>
+                <section>
+                    <style>
+                        code.panel {
+                            background-color: initial;
+                        }
+
+                        pre.panel {
+                            box-shadow: none;
+                        }
+                    </style>
+                    <section>
+                        <h3>Static memory</h3>
+                        <ul>
+                            <li>Global variables</li>
+                            <li>Initialized when the program starts (before entering the main)</li>
+                            <li>No guaranteed order of initialization</li>
+                            <li>Life duration: whole program execution</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Static memory</h3>
+                        <pre class="panel"><code class="cpp panel">
+    // resource.cpp
+    resource r; // Definition of global object declared in resource.hpp
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // manager.cpp
+    manager m; // Definition of global object declare in managet.hpp
+    
+    manager::manager()
+    {
+        r.acquire();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Static memory</h3>
+                        <pre class="panel"><code class="cpp panel">
+    // resource.cpp
+    resource&amp; r()
+    {
+        static resource res;
+        return res;
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // manager.cp
+    manager m; // Should be wrapped in a function too
+
+    manager::manager()
+    {
+        r().acquire();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Static memory</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class manager
+    {
+    public:
+
+        void some_method
+        {
+            m_resource.acquire();
+            // ...
+        }
+
+    private:
+
+        static resource m_resource;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Static memory</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class manager
+    {
+    public:
+
+        void some_method
+        {
+            get_resource().acquire();
+            // ...
+        }
+
+    private:
+
+        static resource&amp; get_resource();
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Automatic memory</h3>
+                        <ul>
+                            <li>Memory used for local variables</li>
+                            <li>Initialization order is guaranteed</li>
+                            <li>Life duration: scope</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Dynamic memory</h3>
+                        <ul>
+                            <li>Memory allocated with specific operator</li>
+                            <li>Life duration: needs to be explicitly freed</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Pointers</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void test_pointers()
+    {
+        int i = 4;
+        double d = 0.5;
+        double* p = &amp;d
+        std::cout &lt;&lt; i &lt;&lt; std::endl;
+        std::cout &lt;&lt; *pi &lt;&lt; std::endl;
+        std::cout &lt;&lt; pi &lt;&lt; std::endl;
+        double* p2 = &amp;i; // Error: cannot convert from int* to double*
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Pointers</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void test_reinterpret_cast()
+    {
+        int i = 4;
+        int* pi = &amp;i;
+        // double* d = (double*)pi;
+        double* d = reinterpret_cast&lt;double*&gt;(pi);
+        std::cout &lt;&lt; i &lt;&lt; std::endl;
+        std::cout &lt;&lt; pi &lt;&lt; std::endl;
+        std::cout &lt;&lt; d &lt;&lt; std::endl;
+        std::cout &lt;&lt; *pi &lt;&lt; std::endl;
+        std::cout &lt;&lt; *d &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Dynamic allocation</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int* i = new int; // allocates an uninitialized integer
+    int* i2 = new int(5); // allocates an integer initialized to 5
+    int* i3 = new int[5]; // allocates an array of 5 integers
+
+    delete[] i3; // free the memory used by the aray i3
+    delete i2;   // free the memory used by i2
+    delete i;    // free the memory used by i
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Dynamic allocation</h3>
+                        <pre class="panel"><code class="cpp panel">
+    resource* p = new resource;
+    // Equivalent to
+    void* mem = malloc(sizeof(resource)); // allocates memory
+    resource* p = new (mem) resource; // Calls resource constructor
+
+    delete p;
+    // Equivalent to
+    p-&gt;~resource(); // calls resource destructor
+    free(p); // free  memory
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Pointer arithmetic</h3>
+                        <pre class="panel"><code class="cpp panel">
+    int* ar = new int[10];
+    // Or
+    std::vector&lt;int&gt; v(10);
+    int* ar = v.data();
+
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    int* ar2 = ar + 2;
+    std::cout &lt;&lt; *ar2 &lt;&lt; std::endl;
+    std::cout &lt;&lt; ar[2] &lt;&lt; std::endl;
+    std::cout &lt;&lt; (ar2 - ar) &lt;&lt; std::endl;
+
+    int* ar3 = ar2 - 1;
+    std::cout &lt;&lt; *ar3 &lt;&lt; std::endl;
+    std::cout &lt;&lt; ar[1] &lt;&lt; std::endl;
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Exceptions</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void mean(const std::vector&lt;double&gt;&amp; param)
+    {
+        if(param.size() == 0)
+        {
+            throw std::runtime_error("param size is 0")
+        }
+        else
+        {
+            // ...
+        }
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions</h3>
+                        <pre class="panel"><code class="cpp panel">
+    try
+    {
+        std::vector&lt;double&gt; v(0);
+        mean(v);
+    }
+    catch(std::exception&amp; e)
+    {
+        std::cout &lt;&lt; "caught exception - " &lt;&lt; e.what() &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void test_resource()
+    {
+        resource r;
+        try
+        {
+            r.acquire();
+            r.print_message();
+            r.release();
+        }
+        catch(std::exception&amp; e)
+        {
+            std::cout &lt;&lt; "exception caught: " &lt;&lt; e.what() &lt;&lt; std::endl;
+            r.release();
+        }
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions - RAII</h3>
+                        <p>Resource Acquisition Is Initialization</p>
+                        <pre class="panel"><code class="cpp panel">
+    void test_resource()
+    {
+        resource r;
+        resource_guard g(r);
+        r.print_message();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions - RAII</h3>
+                        <pre class="panel"><code class="cpp panel">
+    resource_guard::resource_guard(resource&amp; r)
+        m_r(r)
+    {
+        m_r.acquire();
+    }
+
+    resource::~resource_guard()
+    {
+        m_r.release();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions - RAII</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class resource_guard
+    {
+    public:
+
+        resource_guard(resource&amp; r);
+        ~resource_guard();
+
+    private:
+
+        resource&amp; m_r;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions - noexcept</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void function() noexcept;
+                        </code></pre>
+                        <div class="fragment">
+                            <p>The noexcept keyword
+                            <ul>
+                                <li>is part of the signature</li>
+                                <li>tells the compiler that the function does not raise</li>
+                                <li>the compiler does not check the validity of noexcept</li>
+                                <li>is mainly used for performance purpose</li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Memory Management</h3>
+                        <p>Define the ownership</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    underlying::~underlying()
+    {
+        delete p_volatility;
+        p_volatility = nullptr;
+    }
+
+    option::~option()
+    {
+        p_underlying = nullptr;
+        p_volatility = nullptr;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Memory Management</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    // SOLUTION 1
+    using volatility_ptr = std::unique_ptr&lt;volatility&gt;;
+    volatility_ptr make_volatility()
+    {
+        return volatility_ptr(new volatility);
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="cpp panel">
+    // SOLUTION 2
+    using volatility_ptr = std::unique_ptr&lt;volatility&gt;;
+    volatility_ptr make_volatility()
+    {
+        return std::make_unique&lt;volatility&gt;();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Memory Management</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    underlying::underlying(volatility_ptr vol)
+        : p_volatility(std::move(vol))
+    {
+    }
+
+    underlying::~underlying()
+    {
+    }
+
+    volatility_ptr underlying::get_volatility() const
+    {
+        return p_volatility.get();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Memory Management</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    void test_volatilty
+    {
+        volatility_ptr vol = make_volatility();
+        underlying u(std::move(vol));
+        // Cannot use vol since it has been moved
+        // option opt(&amp;u, vol);
+        option opt(&amp;u);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Memory Management</h3>
+                        <pre class="panel fragment"><code class="cpp panel">
+    option::option(underlying* u)
+        : p_underlying(u), p_volatility(nullptr)
+    {
+        p_volatility = p_underlying-&gt;get_volatility();
+    }
+
+    option::~option()
+    {
+        // No ownership
+        p_underlying = nullptr;
+        p_volatility = nullptr;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <pre class="panel"><code class="cpp panel">
+    std::shared_ptr&lt;int&gt; p = new int;
+    std::shared_ptr&lt;int&gt; p2(new int);
+    auto p3 = std::make_shared&lt;int&gt;();
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void function()
+    {
+        auto p = std::make_shared&lt;int&gt;(); // ref_count = 1;
+        {
+            std::shared_ptr&lt;int&gt; p2 = p; // ref_count = 2;
+            // ...
+        } // p2 destructor is called, ref_count = 1
+    } // p destructor is called, ref_count = 0, deletes the internal pointer
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <pre class="panel"><code class="cpp panel">
+    class product
+    {
+    public:
+
+        void set_data_model(data_model_ptr);
+    
+    private:
+
+        data_model_ptr p_data;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <pre class="panel"><code class="cpp panel">
+    void product::set_data_model(data_model_ptr)
+    {
+        p_data = data_model_ptr;
+    }
+
+    pricer::pricer(product_ptr prod, data_model_ptr data)
+        : p_product(prod), p_data(data)
+    {
+        p_product-&gt;set_data_model(p_data);
+        std::cout &lt;&lt; "pricer constructor" &lt;&lt; std::endl;
+    }
+    
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <ul>
+                            <li>is not a garbage collector</li>
+                            <li>should not replace a clear memory owneship design</li>
+                            <li class="fragment">should be used in a multithreaded context only</li>
+                        </ul>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
