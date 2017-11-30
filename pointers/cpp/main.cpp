@@ -1,6 +1,20 @@
 #include "resource.hpp"
 #include "allocation.hpp"
 
+// TO COMPILE:
+//
+// WINDOWS USERS
+// mkdir build
+// cd build
+// cmake -G "NMake Makefiles" ..
+// nmake
+//
+// OSX USERS
+// mkdir build
+// cd build
+// cmake ..
+// make
+
 namespace dauphine
 {
     void test_resource()

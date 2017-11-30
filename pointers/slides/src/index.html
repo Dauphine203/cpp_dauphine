@@ -538,7 +538,7 @@
                 <section>
                     <section>
                         <h3>shared_ptr</h3>
-                        <pre class="panel fragment"><code class="cpp panel">
+                        <pre class="panel"><code class="cpp panel">
     std::shared_ptr&lt;int&gt; p = new int;
     std::shared_ptr&lt;int&gt; p2(new int);
     auto p3 = std::make_shared&lt;int&gt;();
@@ -546,7 +546,20 @@
                     </section>
                     <section>
                         <h3>shared_ptr</h3>
-                        <pre class="panel fragment"><code class="cpp panel">
+                        <pre class="panel"><code class="cpp panel">
+    void function()
+    {
+        auto p = std::make_shared&lt;int&gt;(); // ref_count = 1;
+        {
+            std::shared_ptr&lt;int&gt; p2 = p; // ref_count = 2;
+            // ...
+        } // p2 destructor is called, ref_count = 1
+    } // p destructor is called, ref_count = 0, deletes the internal pointer
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>shared_ptr</h3>
+                        <pre class="panel"><code class="cpp panel">
     class product
     {
     public:
@@ -561,7 +574,7 @@
                     </section>
                     <section>
                         <h3>shared_ptr</h3>
-                        <pre class="panel fragment"><code class="cpp panel">
+                        <pre class="panel"><code class="cpp panel">
     void product::set_data_model(data_model_ptr)
     {
         p_data = data_model_ptr;
@@ -581,7 +594,7 @@
                         <ul>
                             <li>is not a garbage collector</li>
                             <li>should not replace a clear memory owneship design</li>
-                            <li class="fragment">should be used only in a multithreaded context</li>
+                            <li class="fragment">should be used in a multithreaded context only</li>
                         </ul>
                     </section>
                 </section>
