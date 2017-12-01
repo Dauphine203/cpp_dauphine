@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include "polynomial.hpp"
 
 /*
@@ -35,7 +36,7 @@ namespace dauphine
     void test_constructor()
     {
         std::cout << "POLYNOMIAL INTERFACE" << std::endl;
-        polynomial p(4);
+        polynomial p(3);
         p[0] = 2.;
         p[2] = 1.5;
         p[3] = 1.;
@@ -51,7 +52,7 @@ namespace dauphine
                            p2[1] == p[1] &&
                            p2[2] == p[2] &&
                            p2[3] == p[3]);
-        std::cout << "Polynom initialization check: " << get_checked_value(init_chek) << std::endl;
+        std::cout << "Polynom initialization check: " << get_checked_value(init_check) << std::endl;
         std::cout << std::endl;
     }
 
@@ -132,13 +133,11 @@ namespace dauphine
 
 int main(int argc, char* argv[])
 {
-    /*
-    dauphine::test_constructor();
-    dauphine::test_comparison();
-    dauphine::test_addition();
-    dauphine::test_multiplication();
-    dauphine::test_division();
-    */
+    //dauphine::test_constructor();
+    //dauphine::test_comparison();
+    //dauphine::test_addition();
+    //dauphine::test_multiplication();
+    //dauphine::test_division();
     return 0;
 }
 
