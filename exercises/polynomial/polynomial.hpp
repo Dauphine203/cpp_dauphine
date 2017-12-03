@@ -39,6 +39,7 @@ namespace dauphine
     // 3. X^4 + 2. X^2 + 1.
     
     // Phase 2
+    // - Implement the unary minus operation
     // - Implement the addition and substraction operations for polynomials.
     // Don't forget the overloads involving a polynomial and a scalar.
     // - Implement comparison operator (operator== and operator!=) out of
