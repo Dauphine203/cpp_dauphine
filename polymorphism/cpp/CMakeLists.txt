@@ -21,9 +21,8 @@ if(MSVC)
 endif()
 
 set(TYPES_SRCS
-    main.cpp
-    volatility.cpp)
+	main.cpp)
 
-set(TYPES_TARGET types_practice)
+set(TYPES_TARGET res)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})
 
