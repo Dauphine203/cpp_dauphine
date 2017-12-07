@@ -1,7 +1,13 @@
 #ifndef POLYNOMIAL_HPP
 #define POLYNOMIAL_HPP
 
-namespace dauphine
+#include <iostream>
+#include <string>
+#include <vector>
+#include <initializer_list>
+
+
+namespace functions
 {
     // The goal of ths exercise is to implement
     // a class modeling a N-degree polynomial with
@@ -38,6 +44,44 @@ namespace dauphine
     // std::cout << p << std::endl should print:
     // 3. X^4 + 2. X^2 + 1.
     
+	class polynomial {
+	
+		private:
+			int D;
+	
+		public:
+			// CONSTRUCTOR: Initialize polynomial
+			polynomial(int choiceD = 2)
+					   :D(choiceD)
+			{
+				// Set degree
+				D = choiceD;
+				std::cout << "Created an instance of class polynomial" << std::endl;
+				std::cout << "Degree: " << D << std::endl;
+				
+				// Initialize coefficients
+				std::vector<double> polycoefs(D);
+				
+				// From highest to lowest
+				for (auto i : polycoefs){
+					std::cout << polycoefs[i] << ",";
+				}
+				std::cout << std::endl;
+			}
+			
+			void printSymbol(){
+				
+				for (int i; i < D; ++i){
+					std::cout << " + " << polycoefs[i] << "X^" << i;
+				}
+				
+			}
+			
+			
+			// CONSTRUCTOR: Coefficients
+			
+
+	
     // Phase 2
     // - Implement the addition and substraction operations for polynomials.
     // Don't forget the overloads involving a polynomial and a scalar.
@@ -63,6 +107,9 @@ namespace dauphine
     // - Implement the euclidian division of polynomials
     //     operator/ returns the quotient
     //     operator% returns the remainder
+	
+};
+
 }
 
 #endif

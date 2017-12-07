@@ -21,9 +21,8 @@ if(MSVC)
 endif()
 
 set(TYPES_SRCS
-    main.cpp
-    polynomial.cpp)
+    test.cpp)
 
-set(TYPES_TARGET test_polynomial)
+set(TYPES_TARGET res)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})
 

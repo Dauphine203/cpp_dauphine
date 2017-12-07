@@ -12,7 +12,7 @@ namespace dauphine
     {
         std::cout << "resource::release" << std::endl;
     }
-
+	/*
     void resource::print_message()
     {
         std::cout << "resource::print_message START" << std::endl;
@@ -20,5 +20,6 @@ namespace dauphine
         std::cout << "resource::print_message STATUS" << std::endl;
         std::cout << "resource::print_message END" << std::endl;
     }
+	*/
 }
 

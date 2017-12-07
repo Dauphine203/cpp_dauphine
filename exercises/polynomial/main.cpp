@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include "polynomial.hpp"
+
 
 /*
  * Compilation for windows users
@@ -138,6 +140,12 @@ int main(int argc, char* argv[])
     //dauphine::test_addition();
     //dauphine::test_multiplication();
     //dauphine::test_division();
+	
+	std::cout << "Blade Runner" << std::endl;
+	
+	functions::polynomial Joi(5);
+	
+	
     return 0;
 }
 
