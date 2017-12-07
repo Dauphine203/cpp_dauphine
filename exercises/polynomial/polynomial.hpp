@@ -83,6 +83,7 @@ namespace functions
 
 	
     // Phase 2
+    // - Implement the unary minus operation
     // - Implement the addition and substraction operations for polynomials.
     // Don't forget the overloads involving a polynomial and a scalar.
     // - Implement comparison operator (operator== and operator!=) out of
