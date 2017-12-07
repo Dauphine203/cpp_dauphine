@@ -1,0 +1,1203 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="genericons.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <style>
+        .reveal section img {
+            border: none;
+            background-color: initial;
+            margin: 10px;
+        }
+        .reveal .normal-paragraph {
+            text-align: left;
+            margin: 0 auto 0 auto;
+            width: 60%;
+        }
+        .reveal .normal-paragraph p {
+            text-align: left;
+        }
+        .header-left {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        .header-right {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+        .footer-left {
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+        .reveal .genericon {
+          font-family: "genericons";
+        }
+
+        .reveal .bio-card {
+          background: #333;
+          border-radius: 2px;
+          display: inline-block;
+          width: 260px;
+          margin: 1rem;
+          position: relative;
+          font-size: 20px;
+        }
+
+        .reveal .card-photo {
+          display: block;
+          width: 200px;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          margin: 28px auto 0 auto;
+        }
+
+        .reveal .card-header {
+          width: 100%;
+          font-size: 20px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .reveal .card-info {
+          width: 100%;
+          float: left;
+          font-size: 20px;
+          margin-top: 0;
+          padding: 0 4px;
+          text-align: center;
+        }
+
+        .reveal .card-info a {
+          text-decoration: none;
+          color: #999;
+        }
+
+        .reveal .card-info em {
+          vertical-align: top;
+        }
+
+        .revral .card-info a .genericon {
+          vertical-align: middle;
+        }
+
+        .reveal .bio-social a {
+          text-decoration: none;
+        }
+
+        .reveal .bio-photo {
+          width: 200px;
+          margin: 0 40px 40px -40px;
+          float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="common" style="z-index: 2;">
+            <div class="header-left">
+                <img alt="QuantStack" src="quantstack-white.svg" width="30%"/>
+            </div>
+            <div class="footer-left">
+                <div style="color: white; font-family: Source Sans Pro, Helvetica, sans-serif;">
+                <img alt="Twitter" src="twitter-white.svg" height="20px"/>
+                <img alt="GitHub" src="github-white.svg" height="20px"/>
+                <p style="display: inline; vertical-align: top; margin-left: 4px; font-size: 20px;">@SylvainCorlay @JohanMabille @QuantStack</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Polymorphism</h1>
+                </section>
+                <section>
+                    <h2>Slides</h2>
+                    <p>quantstack.net/talks/cpp_dauphine/polymorphism/index.html</p>
+                </section>
+                <section>
+                    <p>Update the repo</p>
+                    <ul>
+                        <li>git checkout master</li>
+                        <li>git pull upstream master</li>
+                        <li>git push origin master</li>
+                        <li>git checkout -b types</li>
+                    </ul>
+                </section>
+                <section>
+                    <style>
+                        code.panel {
+                            background-color: initial;
+                        }
+
+                        pre.panel {
+                            box-shadow: none;
+                        }
+                    </style>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // In volatility.hpp
+    class volatility
+    {
+    public:
+
+        std::string underlying_name() const;
+    };
+
+    class implied_volatility : public volatility
+    {
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // In volatility.cpp
+    std::string volatility::underlying_name() const
+    {
+        return "BNP Paribas";
+    }
+                        </code></pre>
+                        <pre class="panel"><code class="panel cpp">
+    // In main.cpp
+    void test_access()
+    {
+        implied_volatility v;
+        std::cout &lt;&lt; v.underlying_name() &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <p>Changes to the volatility class:</p>
+                        <ul>
+                            <li>Add a constructor taking the name of the underlying</li>
+                            <li>Add a data member for storing the name of the underlying</li>
+                            <li>Change the underlying_name method accordingly</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        explicit volatility(const std::string&amp; name);
+
+        const std::string&amp; underlying_name() const;
+
+    private:
+
+        std::string m_name;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        explicit volatility(const std::string&amp; name = "");
+
+        const std::string&amp; underlying_name() const;
+
+    private:
+
+        std::string m_name;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    volatility::volatility(const std::string&amp; name)
+        : m_name(name)
+    {
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        explicit implied_volatility(const std::string&amp; name = "");
+    };
+                        </code></pre>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    implied_volatility::implied_volatility(const std::string&amp; name)
+        : volatility(name)
+    {
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <ul>
+                            <li>Add an integer id data member in volatility</li>
+                            <li>Add a print method in implied_volatility that prints this id</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        explicit volatility(const std::string&amp; name = "");
+        const std::string&amp; underlying_name() const;
+
+    private:
+
+        std::string m_name;
+        int m_id;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        explicit implied_volatility(const std::string&amp; name = "");
+        void print() const;
+    };
+
+    // volatility.cpp
+    void implied_volatility::print() const
+    {
+        std::cout &lt;&lt; "implied volatility " &lt;&lt; m_id &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        explicit volatility(const std::string&amp; name = "");
+        const std::string&amp; underlying_name() const;
+
+    protected:
+
+        int m_id;
+
+    private:
+
+        std::string m_name;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <ul>
+                            <li>public: access granted to everyone</li>
+                            <li>private: access granted to class only</li>
+                            <li>protected: access granted to class and inheriting classes</li>
+                        </ul>
+                        <p class="fragment">Avoid putting data members in the protected section, prefer methods</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // main.cpp
+    void test_polymorphism(const volatility&amp; vol)
+    {
+        std::cout &lt;&lt; vol.underlying_name() &lt;&lt; std::endl;
+    }
+
+    void test_polymorphism()
+    {
+        implied_volatility iv("JP Morgan");
+        test_polymorphism(iv);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <ul>
+                            <li>Add a m_volatility member in implied_volatility (std::vector&lt;double&gt;)</li>
+                            <li>Modify the constructor accordingly</li>
+                            <li>Add a double get_volatility(size_t index) method in implied_volatility</li>
+                            <li>Add the same method in volatility (should return 0.)</li>
+                            <li>Make get_volatility method print the name of the class before returning</li>
+                            <li>In the test_polymorhism method, print the result of get_volatility for both types</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        double get_volatility(size_t index) const;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        implied_volatility(const std::string&amp; name, const std::vector&lt;double&gt;&amp; vol);
+
+        double get_volatility(size_t index) const;
+
+    private:
+
+        std::vector&lt;double&gt; m_volatility;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    double volatility::get_volatility(size_t index) const
+    {
+        std::cout &lt;&lt; volatility::get_volatility&lt;&lt; std::endl;
+        return 0.;
+    }
+
+    implied_volatility::implied_volatility(const std::string&amp; name,
+                                           std::vector&lt;double&gt;&amp; vol)
+        : volatility(name), m_volatility(vol)
+    {
+    }
+
+    double implied_volatility::get_volatility(size_t index) const
+    {
+        std::cout &lt;&lt; implied_volatility::get_volatility&lt;&lt; std::endl;
+        return m_volatility[index];
+    } 
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // main.cpp
+    void test_polymorphism(const volatility&amp; vol)
+    {
+        std::cout &lt;&lt; vol.underlying_name() &lt;&lt; std::endl;
+        std::cout &lt;&lt; vol.get_volatility(0) &lt;&lt; std::endl;
+    }
+
+    void test_polymorphism()
+    {
+        volatility v("JP Morgan")
+        test_polymorphism(v);
+        implied_volatility iv("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
+        test_polymorphism(iv);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        virtual double get_volatility(size_t index) const;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <p>virtual</p>
+                        <ul>
+                            <li>is not part of the signature</li>
+                            <li>implies each overload in inheriting classes is virtual too</li>
+                            <li>does not prevent to declare such overloads as virtual</li>
+                            <li>does not force inheriting classes to declare overloads</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        implied_volatility(const std::string&amp; name, const std::vector&lt;double&gt;&amp; vol);
+
+        virtual double get_volatility(size_t index) const;
+
+    private:
+
+        std::vector&lt;double&gt; m_volatility;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        virtual double get_volatility(size_t index) const = 0;
+    };
+
+    // main.cpp
+    void test_polymorphism()
+    {
+        //volatility v("JP Morgan")
+        //test_polymorphism(v);
+        implied_volatility iv("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
+        test_polymorphism(iv);
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <ul>
+                            <li>Add a log in the constructor of volatility classes</li>
+                            <li>Add destructors (and a log inside them) to the volatility classes</li>
+                            <li>In test, replace stack-allocated volatility with dynamic-allocated one</li>
+                            <li>Dynamic-allocated volatility should be stored as volatility*</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        ~volatility();
+    };
+
+    class implied_volatility : public volatility
+    {
+    public:
+
+        ~implied_volatility();
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    volatility::~volatility()
+    {
+        std::cout &lt;&lt; "volatility destructor" &lt;&lt; std::endl;
+    }
+
+    implied_volatility::~implied_volatility()
+    {
+        std::cout &lt;&lt; "implied_volatility destructor" &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    volatility::volatility(const std::string&amp; name)
+        : m_name(name)
+    {
+        std::cout &lt;&lt; volatility_constructor &lt;&lt; std::endl;
+    }
+
+    implied_volatility::implied_volatility(const std::string&amp; name,
+                                           std::vector&lt;double&gt;&amp; vol)
+        : volatility(name), m_volatility(vol)
+    {
+        std::cout &lt;&lt; implied_volatility_constructor &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // main.cpp
+    void test_polymorphism()
+    {
+        volatility* iv = new implied_volatility("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
+        test_polymorphism(*iv);
+        delete iv;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        virtual ~volatility();
+    };
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Add a bumped_volatility class</p>
+                        <ul>
+                            <li>It inherits from volatility</li>
+                            <li>Its constructor takes a volatility* and a double parameters</li>
+                            <li>Its get_volatility method returns the bumped volatility</li>
+                            <li>The constructor and destructor print the name of the class</li>
+                            <li>It does not own the bumped volatilty</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class bumped_volatility : public volatility
+    {
+    public:
+
+        bumped_volatility(volatility* vol, double bump);
+        virtual ~bumped_volatility();
+
+        virtual double get_volatility(size_t index) const;
+
+    private:
+
+        volatility* p_volatility;
+        double m_bump;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    bumped_volatility::bumped_volatility(volatility* vol, double bump)
+        : volatility(vol-&gt;underlying_name()), p_volatility(vol, m_bump(bump)
+    {
+        sd::cout &lt;&lt; "bumped_volatility constructor" &lt;&llt; std::endl;
+    }
+
+    bumped_volatility::~bumped_volatility()
+    {
+        sd::cout &lt;&lt; "bumped_volatility destructor" &lt;&llt; std::endl;
+        p_volatility = nullptr;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    double bumped_volatility::get_volatility(size_t index) const
+    {
+        return p_volatility-&gt;get_volatility(index) + m_bump;
+    }
+
+    //main.cpp
+    void test_polymorphism()
+    {
+        implied_volatility* iv = new implied_volatility("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
+        test_polymorphism(iv);
+        bumped_volatility* bv = new bumped_volatility(iv, 0.01);
+        test_polymorphism(bv);
+        delete bv;
+        delete iv;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Add make_volatility methods</p>
+                        <pre class="panel"><code class="panel cpp">
+    volatility* make_volatility(const std::string&amp; ud, const std::vector&lt;double&gt;&amp; vol);
+    volatility* make_volatility(volatility* vol, double bump);
+                        </code></pre>
+                        <pre class="panel fragment"><code class="panel cpp">
+    volatility* make_volatility(const std::string&amp; ud, const std::vector&lt;double&gt;&amp; vol)
+    {
+        return new implied_volatility(ud, vol);
+    }
+    volatility* make_volatility(volatility* vol, double bump)
+    {
+        return new bumped_volatility(vol, bump);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    //main.cpp
+    void test_polymorphism()
+    {
+        volatility* iv = make_volatility("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
+        test_polymorphism(iv);
+        volatility* bv = make_volatility(iv, 0.01);
+        test_polymorphism(bv);
+        delete bv;
+        delete iv;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Add a print method to the volatility classes, which prints each data member</p>
+                        <pre class="panel fragment"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        virtual void print() const;
+    };
+    // Same declaration in implied_volatility
+    // and bumped_volatility classes
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    void volatility::print() const
+    {
+        std::cout &lt;&lt; "underlying: " &lt;&lt; underlying_name() &lt;&lt; std::endl;
+    }
+
+    void implied_volatility::print() const
+    {
+        volatility::print();
+        std::cout &lt;&lt; "volatility: (";
+        std:copy(m_volatility.begin(), m_volatility.end(), std::ostream_iterator&lt;double&gt;(std::cout, ", "));
+        std::cout &lt;&lt; ")" &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    void bumped_volatility::print() const
+    {
+        std::cout &lt;&lt; "initial volatility: " &lt;&lt; std::endl;
+        p_volatility-&gt;print();
+        std::cout &lt;&lt; "bump: " &lt;&lt; m_bump &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>In main.cpp creates a test_assign function that:</p>
+                        <ul>
+                            <li>Creates two instances of implied_volatility via make_volatility</li>
+                            <li>Assigns the second one to the first one</li>
+                            <li>Prints both instances</li>
+                            <li>Creates an instance of bumped volatility via make_volatility</li>
+                            <li>Assigns it to one of the implied_volatility object</li>
+                            <li>Prints the result</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // main.cpp
+    void test_assign()
+    {
+        volatility* iv1 = make_volatility("BNP Paribas", { 0.15, 0.20, 0.21, 0.22});
+        volatility* iv2 = make_volatility("JP Morgan", { 0.12, 0.17, 0.20});
+        *iv1 = *iv2;
+        iv1-&gt;print();
+        iv2-&gt;print();
+        volatility* bv = make_volatility(iv2, 0.01);
+        *iv2 = *bv;
+        iv2-&gt;print();
+        delete bv;
+        delete iv2;
+        delete iv;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <ul>
+                            <li>Incomplete assignment due to inheritance is called slicing</li>
+                            <li>Constructors and assign operators cannot be virtual</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        volatility(const std::string&amp; name);
+        virtual ~volatility();
+        volatility(const volatility&amp; rhs);
+        volatility&amp; operator=(const volatlity&amp; rhs);
+
+        virtual void print() const;
+    };
+                        </code></pre>
+                        <p class="fragment">DONT. DO. THAT.</p>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Prevent users to call copy constructor / assign operator</p>
+                        <pre class="panel fragment"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        volatility(const std::string&amp; name);
+        virtual ~volatility();
+
+    private:
+
+        volatility(const volatility&amp; rhs);
+        volatility&amp; operator=(const volatility&amp; rhs);
+        volatility(volatility&amp;&amp; rhs);
+        volatility&amp; operator=(volatility&amp;&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Prevent users to call copy constructor / assign operator</p>
+                        <pre class="panel"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        volatility(const std::string&amp; name);
+        virtual ~volatility();
+
+        volatility(const volatility&amp; rhs) = delete;
+        volatility&amp; operator=(const volatility&amp; rhs) = delete;
+        volatility(volatility&amp;&amp; rhs) = delete;
+        volatility&amp; operator=(volatility&amp;&amp; rhs) = delete;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>Prevent instantiation of base class</p>
+                        <pre class="panel"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        virtual ~volatility();
+
+        volatility(const volatility&amp; rhs) = delete;
+        volatility&amp; operator=(const volatility&amp; rhs) = delete;
+        volatility(volatility&amp;&amp; rhs) = delete;
+        volatility&amp; operator=(volatility&amp;&amp; rhs) = delete;
+
+    protected:
+
+        volatility(const std::string&amp; name);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <p>How to copy an instance of implied_volatility ?</p>
+                        <pre class="fragment panel"><code class="panel cpp">
+    // volatility.hpp
+    class volatility
+    {
+    public:
+
+        virtual ~volatility();
+        virtual volatility* clone() const = 0;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        virtual ~implied_volatility();
+        virtual volatility* clone() const;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.cpp
+    volatility* implied_volatility::clone() const
+    {
+        implied_volatility* res = new implied_volatility(underlying_name(), m_volatility);
+        return res;
+    }
+                        </code></pre>
+                        <pre class="panel fragment"><code class="panel cpp">
+    // volatility.cpp
+    volatility* implied_volatility::clone() const
+    {
+        // Actually needs the copy constructor!
+        return new implied_volatility(*this);
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        virtual ~volatility();
+        virtual volatility* clone() const = 0;
+
+        volatility&amp; operator=(const volatility&amp; rhs) = delete;
+        volatility(volatility&amp;&amp; rhs) = delete;
+        volatility&amp; operator=(volatility&amp;&amp; rhs) = delete;
+
+    protected:
+
+        volatility(const std::string&amp; name);
+        volatility(const volatility&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class implied_volatility
+    {
+    public:
+
+        virtual ~implied_volatility();
+        virtual implied_volatility* clone() const;
+
+        implied_volatility&amp; operator=(const implied_volatility&amp; rhs) = delete;
+        implied_volatility(implied_volatility&amp;&amp; rhs) = delete;
+        implied_volatility&amp; operator=(implied_volatility&amp;&amp; rhs) = delete;
+
+    protected:
+
+        implied_volatility(const std::string&amp; name);
+        implied_volatility(const implied_volatility&amp; rhs);
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    volatility::volatility(const volatility&amp; rhs)
+        : m_name(rhs.m_name)
+    {
+    }
+
+    implied_volatility::implied_volatility(const implied_volatility&amp; rhs)
+        : volatility(rhs), m_volatility(rhs.m_volatility)
+    {
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Entity semantic</h3>
+                        <pre class="panel"><code class="panel cpp">
+    void test_cast()
+    {
+        volatility* v1 = make_volatility("BNP Paribas", {0.15, 0.18, 0.20, 0.22});
+        implied_volatility* iv = dynamic_cast&lt;implied_volatility*&gt;(v1);
+        bumped_volatility* bv = dynamic_cast&lt;bumped_volatility*&gt;(v1);
+        std::cout &lt;&lt; iv &lt;&lt; std::endl;
+        std::cout &lt;&lt; bv &lt;&lt; std::endl;
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <ul>
+                            <li>B should inherit from A if B is a kind of A</li>
+                            <li>B should inherit from A if there exists an "is-a" relation between A and B</li>
+                        </ul>
+                        <p class="fragment">That's <b>WRONG</b></p>
+                        <ul class="fragment">
+                            <li>B should inherit from A if B <b>behaves</b> like A in the context of your program</li>
+                            <li>B should inherit from A if you want A to be <b>substitutable</b> by B</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <p>Liskov Substitution Principle</p>
+                        <p>If S is a subtype of T, then objects of type T in a program may be replaced
+                        with objects of type S without altering any of the desirable properties of the program</p>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class rectangle : public drawable
+    {
+    public:
+
+        virtual ~rectangle();
+        virtual void draw(const canvas&amp; c) const;
+
+        virtual void resize(int length, int width);
+    };
+                        </code></pre>
+                        <p>Should square inherit from rectangle?</p>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class square : public rectangle
+    {
+    public:
+
+        virtual ~square();
+        virtual void draw(const canvas&amp; c) const;
+
+        virtual void resize(int length, int width); // ???
+    };
+                        </code></pre>
+                        <p class="fragment">square should NOT inherit from rectangle</p>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <p>Non-virtual interface</p>
+                        <pre class="panel"><code class="panel cpp">
+    class volatility
+    {
+    public:
+
+        double get_volatility(size_t index) const;
+
+    private:
+
+        virtual double get_volatility_impl(size_t index) const = 0;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <p>Non-virtual interface</p>
+                        <pre class="panel"><code class="panel cpp">
+    double volatility::get_volatility(size_t index) const
+    {
+        // add code that should be executed before any call to get_volatility_impl
+        // that may be assert on the inputs
+        double res = get_volatility_impl(index);
+        // add code that should be executed after any call to get_volatility_impl
+        return res;
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <p>Template method</p>
+                        <pre class="panel"><code class="panel cpp">
+    class algo
+    {
+    public:
+
+        void run();
+
+    protected:
+
+        virtual void first_step();
+        virtual void second_step();
+        virtual void third_step();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <p>Template method</p>
+                        <pre class="panel"><code class="panel cpp">
+    void algo::run()
+    {
+        first_step();
+        second_step();
+        third_step();
+    }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Design principles</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class my_vector : public vector
+    {
+    public:
+
+        explicit my_vector(const std::string&amp; name);
+        ~my_vector();
+
+    private:
+
+        std::string m_name;
+    };
+                        </code></pre>
+                        <p>DONT. DO. THAT.</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Private inheritance</h3>
+                        <p>Design a named vector</p>
+                        <pre class="panel fragment"><code class="panel cpp">
+    class my_vector
+    {
+    public:
+
+        double&amp; operator[](size_t i);
+        const double&amp; operator[](size_t i) const;
+
+    private:
+
+        std::vector&lt;double&gt; m_data;
+        std::string m_name;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Private inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class my_vector : private std::vector&lt;double&gt;
+    {
+    public:
+
+        using base_type = std::vector&lt;double&gt;;
+        
+        using base_type::size;
+        using base_type::empty;
+        using base_type::operator[];
+
+    private:
+
+        std::string m_data;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Private inheritance</h3>
+                        <p>Assume B is a private base of D</p>
+                        <ul>
+                            <li>All methods of B are private in D</li>
+                            <li>You cannot assign a D* to a B*</li>
+                            <li>Previous statements are not true for friend classes / functions</li>
+                            <li>D can only acces public and protected sections of B</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>Multiple inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class implementation : public interface1, public interface2
+    {
+    public:
+
+        virtual ~implementation();
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Multiple inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class root {};
+    
+    class interface_1 : public root {};
+    class interface_2 : public root {};
+
+    // The following is problematic
+    class implementation : public interface_1, public interface2 {};
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Multiple inheritance</h3>
+                        <pre class="panel"><code class="panel cpp">
+    class implied_volatility : public volatility, private surface
+    {
+    public:
+
+        ~implied_volatility();
+    };
+                        </code></pre>
+                    </section>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
