@@ -116,7 +116,7 @@ namespace dauphine
     void test_division()
     {
         std::cout << "POLYNOMIAL DIVISION" << std::endl;
-        polynomial p1 = { 1, -1, -1, 3., -2., 1. };
+        polynomial p1 = { 1, -1, -1, 3., -2., 0. };
         polynomial p2 = { 1., -1., 1. };
         polynomial qres = { 1., 0., -2., 1. };
         polynomial rres = { 1., -1. };
