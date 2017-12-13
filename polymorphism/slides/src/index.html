@@ -399,7 +399,7 @@
     // volatility.cpp
     double volatility::get_volatility(size_t index) const
     {
-        std::cout &lt;&lt; volatility::get_volatility&lt;&lt; std::endl;
+        std::cout &lt;&lt; "volatility::get_volatility" &lt;&lt; std::endl;
         return 0.;
     }
 
@@ -411,7 +411,7 @@
 
     double implied_volatility::get_volatility(size_t index) const
     {
-        std::cout &lt;&lt; implied_volatility::get_volatility&lt;&lt; std::endl;
+        std::cout &lt;&lt; "implied_volatility::get_volatility" &lt;&lt; std::endl;
         return m_volatility[index];
     } 
                         </code></pre>
@@ -476,7 +476,7 @@
                         </code></pre>
                     </section>
                     <section>
-                        <h3>Inheritance</h3>
+                        <h3>Polymorphism</h3>
                         <pre class="panel"><code class="panel cpp">
     // volatility.hpp
     class volatility
@@ -547,14 +547,14 @@
     volatility::volatility(const std::string&amp; name)
         : m_name(name)
     {
-        std::cout &lt;&lt; volatility_constructor &lt;&lt; std::endl;
+        std::cout &lt;&lt; "volatility_constructor" &lt;&lt; std::endl;
     }
 
     implied_volatility::implied_volatility(const std::string&amp; name,
                                            std::vector&lt;double&gt;&amp; vol)
         : volatility(name), m_volatility(vol)
     {
-        std::cout &lt;&lt; implied_volatility_constructor &lt;&lt; std::endl;
+        std::cout &lt;&lt; "implied_volatility_constructor" &lt;&lt; std::endl;
     }
                         </code></pre>
                     </section>
@@ -622,12 +622,12 @@
     bumped_volatility::bumped_volatility(volatility* vol, double bump)
         : volatility(vol-&gt;underlying_name()), p_volatility(vol, m_bump(bump)
     {
-        sd::cout &lt;&lt; "bumped_volatility constructor" &lt;&llt; std::endl;
+        sd::cout &lt;&lt; "bumped_volatility constructor" &lt;&lt; std::endl;
     }
 
     bumped_volatility::~bumped_volatility()
     {
-        sd::cout &lt;&lt; "bumped_volatility destructor" &lt;&llt; std::endl;
+        sd::cout &lt;&lt; "bumped_volatility destructor" &lt;&lt; std::endl;
         p_volatility = nullptr;
     }
                         </code></pre>
@@ -759,7 +759,7 @@
         iv2-&gt;print();
         delete bv;
         delete iv2;
-        delete iv;
+        delete iv1;
     }
                         </code></pre>
                     </section>
@@ -922,16 +922,12 @@
     {
     public:
 
+        implied_volatility(const std::string&amp; name, const std::vector&lt;double&gt;&amp; vol);
         virtual ~implied_volatility();
         virtual implied_volatility* clone() const;
 
-        implied_volatility&amp; operator=(const implied_volatility&amp; rhs) = delete;
-        implied_volatility(implied_volatility&amp;&amp; rhs) = delete;
-        implied_volatility&amp; operator=(implied_volatility&amp;&amp; rhs) = delete;
-
     protected:
 
-        implied_volatility(const std::string&amp; name);
         implied_volatility(const implied_volatility&amp; rhs);
     };
                         </code></pre>
@@ -960,6 +956,7 @@
         bumped_volatility* bv = dynamic_cast&lt;bumped_volatility*&gt;(v1);
         std::cout &lt;&lt; iv &lt;&lt; std::endl;
         std::cout &lt;&lt; bv &lt;&lt; std::endl;
+        delete v1;
     }
                         </code></pre>
                     </section>
