@@ -5,60 +5,58 @@
 #include <iostream>
 #include <vector>
 
-namespace mathphi
+namespace dauphine
 {
-    // VOLATILITY CLASS
-	class volatility
-    {
-	
-	/*
-	- PUBLIC:		Access granted to everyone
-	- PRIVATE:		Access granted to class only
-	- PROTECTED:	Access granted to class and inheriting classes
-	*/
+	// VOLATILITY (class)
+	class volatility{
+		
+	public:
+		// Basic commands
+		explicit volatility(const std::string& name = "");
+		virtual ~volatility();
+		const std::string& underlying_name() const;
+		
+		// Something here
+		virtual double get_volatility(size_t index) const = 0;
+		virtual void print() const;
+		
 	
 	private:
 		std::string m_name;
 	
-	protected:
-	/*Only accessibled in the class hiearchy (in the class itself)*/
-		int m_id;
+	};
 	
-	public:
-		// Default constructor
-		/*
-		==============================================================
-		We use explicit
+	// IMPLIED VOLATILLITY (subclass)
+	class implied_volatility : public volatility
+	{
 		
-		It avoids implicit conversion (bug)
-		
-			int compute(const implied_volatility& v);
-			compute("bnp");
-		
-		instead of:
-		
-			int compute(const v("bnp"));
-		==============================================================
-		*/
-		
-		explicit volatility(const std::string& name = "");
-		
-        const std::string& underlying_name() const;
+		public:
+			implied_volatility(const std::string& name, const std::vector<double>& vol);
+			virtual ~implied_volatility();
+			virtual double get_volatility(size_t index) const;
+			virtual void print() const;
+			
+		private:
+			std::vector<double> m_volatility;
+	};
 	
-    };
-
-		
-		
-	// IMPLIED VOLATILITY SUB-CLASS
-    class implied_volatility : public volatility
-    {
-	public:
-		// Default constructor
-		explicit implied_volatility(const std::string& name = "");
-		void print() const;
-		
+	// BUMBED VOLATILITY (subclass)
+	class bumped_volatility : public volatility
+	{
+		public:
+			bumped_volatility(volatility* vol, double bump);
+			virtual ~bumped_volatility();
+			virtual double get_volatility(size_t index) const;
+			virtual void print() const;
+			
+		private:
+			volatility* p_volatility;
+			double m_bump;
+	};
 	
-    };
+	volatility* make_volatility(const std::string& ud, const std::vector<double>& vol);
+	volatility* make_volatility(volatility* vol, double bump);
+	
 }
 
 #endif
