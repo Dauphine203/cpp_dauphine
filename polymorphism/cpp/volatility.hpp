@@ -5,6 +5,8 @@
 #include <iostream>
 #include <vector>
 
+/*If you don't use*/
+
 namespace dauphine
 {
 	// VOLATILITY (class)
@@ -19,6 +21,9 @@ namespace dauphine
 		// Something here
 		virtual double get_volatility(size_t index) const = 0;
 		virtual void print() const;
+		
+		// Emaluating a copy constructor (to call it outside of the class)
+		//virtual volatility* clone() const = 0;
 		
 	
 	private:

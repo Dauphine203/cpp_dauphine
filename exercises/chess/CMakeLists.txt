@@ -20,9 +20,9 @@ if(MSVC)
     set(CMAKE_EXE_LINKER_FLAGS /MANIFEST:NO)
 endif()
 
-set(TYPES_SRCS
+set(CHESS_SRCS
     main.cpp)
 
-set(TYPES_TARGET res)
-add_executable(${TYPES_TARGET} ${TYPES_SRCS})
+set(CHESS_TARGET chess)
+add_executable(${CHESS_TARGET} ${CHESS_SRCS})
 

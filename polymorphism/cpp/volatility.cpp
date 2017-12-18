@@ -53,11 +53,11 @@ namespace dauphine
 	// Constructor
 	bumped_volatility::bumped_volatility(volatility* vol, double bump)
         :volatility(vol->underlying_name()), p_volatility(vol), m_bump(bump)
-    { std::cout << "BV Constructor" << std::endl; }
+    { std::cout << "BV: Constructor" << std::endl; }
 	
 	// Destructor
     bumped_volatility::~bumped_volatility()
-    { std::cout << "BV Destructor" << std::endl; }
+    { std::cout << "BV: Destructor" << std::endl; }
 	
 	// Function
     double bumped_volatility::get_volatility(size_t index) const
