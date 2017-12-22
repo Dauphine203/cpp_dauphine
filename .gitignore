@@ -42,3 +42,16 @@ node_modules/
 *.log
 *.aux
 *.synctex.gz
+/.vs
+/projects/cpp_project
+/projects/CPP_SCORING_FX/packages/eigen
+/projects/CPP_SCORING_FX/ScoringFX/Debug/ScoringFX.ilk
+/projects/CPP_SCORING_FX/ScoringFX/Debug/ScoringFX.pdb
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/x64/Debug/ScoringFX.tlog
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/x64/Debug/vc141.idb
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/x64/Debug/vc141.pdb
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/Debug
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/ScoringFX.vcxproj
+/projects/CPP_SCORING_FX/ScoringFX/ScoringFX/ScoringFX.vcxproj.filters
+/projects/CPP_SCORING_FX/ScoringFX/x64/Debug
+/projects/CPP_SCORING_FX/ScoringFX/.vs/ScoringFX/v15
