@@ -9,6 +9,7 @@ File: Implementation
 */
 
 #include <iostream>
+#include "data.h"
 #include "scoring.h"
 #include "scoring.cpp"
 
