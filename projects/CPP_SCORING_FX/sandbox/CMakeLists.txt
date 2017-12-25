@@ -21,7 +21,7 @@ if(MSVC)
 endif()
 
 set(TYPES_SRCS
-	mdarrays.cpp)
+	randmat.cpp)
 
 set(TYPES_TARGET res)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})

@@ -1,5 +1,5 @@
 // SANDBOX
-// RANDOM ANTISYMMETRIC MATRIX
+// -- RANDOM ANTISYMMETRIC MATRIX --
 
 // To compile for Windows users:
 
