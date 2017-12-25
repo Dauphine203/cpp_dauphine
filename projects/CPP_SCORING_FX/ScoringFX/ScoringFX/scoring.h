@@ -15,18 +15,39 @@ class Scoring {
 
 	private:
 		// Dimension of antisymmetric matrix M
-		size_t dim;
+		int dim;
 		
 		// Antisymmetric matrix M
-		// std::vector<std::vector<double>> M;
+		std::vector<std::vector<double>> M;
 
 	public:
-		// Generate a random antisymmetric matrix
-		Scoring(size_t N) :
+		// Default constructor
+		Scoring(int N) :
 			dim(N)
 		{
 			std::cout << "Constructed a square matrix of size " << N << std::endl;
 		}
+
+		// Change default dimension value
+		void setDimension(int dim) {
+			this-> dim = dim;
+			std::cout << "You changed the dimension to " << dim << std::endl;
+		};
+
+		// Get dimension value
+		int getDimension() const {
+			return dim;
+		}
+
+		// Destructor
+		~Scoring() { std::cout << "No regrets Mr. Freeman !" << std::endl; };
+
+		// Copy constructor
+		Scoring(const Scoring &other):
+			dim(other.dim)
+		{
+			std::cout << "Copied class" << std::endl;
+		};
 		
 };
 

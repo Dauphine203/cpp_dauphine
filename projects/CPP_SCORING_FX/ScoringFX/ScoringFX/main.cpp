@@ -20,8 +20,13 @@ int main() {
 	Part 1: IMPLEMENTATION WITH RANDOMIZED DATA
 	*/
 	std::cout << "Part 1: IMPLEMENTATION WITH RANDOMIZED DATA" << std::endl;
-	
+		
 	Scoring Xen(2);
+	Scoring BlackMesa = Xen;
+	Xen.setDimension(3);
+	std::cout << Xen.getDimension() << std::endl;        // 3 is expected
+	std::cout << BlackMesa.getDimension() << std::endl;  // 2 is expected
+	Xen.~Scoring();
 
 	/*
 	Part 2: IMPLEMENTATION WITH 25D FX RISK REVERSAL DATA
