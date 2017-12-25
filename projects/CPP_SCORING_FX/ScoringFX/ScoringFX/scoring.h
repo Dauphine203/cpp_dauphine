@@ -8,7 +8,11 @@ File: FX Scoring Class Initialization
 #ifndef SCORING_HPP
 #define SCORING_HPP
 
-class scoring {
+class Scoring {
+
+};
+
+class lstsq_eigen: public Scoring {
 
 };
 
