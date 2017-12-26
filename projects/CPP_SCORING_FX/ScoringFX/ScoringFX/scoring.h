@@ -11,16 +11,24 @@ File: FX Scoring Class Initialization
 #include <iostream>
 #include <vector>
 
+
 class Scoring {
 
 	private:
-		// Dimension of antisymmetric matrix M
+		// Dimension of the antisymmetric matrix M
+		// It's the number of currencies in our scoring algorithm
 		int dim;
 		
 		// Antisymmetric matrix M
-		std::vector<std::vector<double>> M;
+		// This is the matrix of pairwise currency skew volatilities
+		// Can be butterfly, risk reversal values, etc.
+		std::vector<std::vector<double>> matrix;
 
 	public:
+		/*******************************************
+		1. BASICS
+		********************************************/
+
 		// Default constructor
 		Scoring(int N) :
 			dim(N)
@@ -40,7 +48,7 @@ class Scoring {
 		}
 
 		// Destructor
-		~Scoring() { std::cout << "No regrets Mr. Freeman !" << std::endl; };
+		~Scoring() { std::cout << "No regrets, Mr. Freeman !" << std::endl; };
 
 		// Copy constructor
 		Scoring(const Scoring &other):
@@ -48,11 +56,33 @@ class Scoring {
 		{
 			std::cout << "Copied class" << std::endl;
 		};
+
+
+		/*******************************************
+		2. DATA GENERATION
+		********************************************/
+		// Method 1: Generate random data
+		void RandSkewMatrix(int dim);
+
+		// Method 2: Use external data
+		// TBD
+
+		// Printing and getting matrices
+		void PrintSkewMatrix() const;
+		//std::vector<double> GetMatrix() const;
 		
 };
 
 
 class Regression: public Scoring {
+
+
+
+};
+
+
+
+class Eigen : public Regression {
 
 
 

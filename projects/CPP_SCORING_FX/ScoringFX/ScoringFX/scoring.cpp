@@ -5,7 +5,50 @@ Date: 22/12/2017
 File: FX Scoring Class Methods
 */
 
-/**/
-
 #include "scoring.h"
+#include <cstdlib>
+#include <ctime>
 
+
+void Scoring::RandSkewMatrix(int dim) {
+
+	int N = dim;
+	std::vector<std::vector<double>> M(N, std::vector<double>(N));
+	
+	// Initialize matrix (here as a 2D dynamical array)
+	srand(time(0));
+	for (int i = 0; i<N; i++) {
+		for (int j = 0; j<N; j++) {
+			M[i][j] = (std::rand() % 5) + 1.0; } }
+
+	// Comply the random matrix as an antisymmetric matrix
+	for (int i = 0; i<N; i++) {
+		for (int j = 0; j<N; j++) {
+			if (i == j) {
+				M[i][j] = 0.0;
+			}
+			else {
+				M[j][i] = -M[i][j];
+			}
+		}
+	}
+
+	// Set private variable as the random antisymmetric matrix
+	matrix = M;
+}
+
+
+void Scoring::PrintSkewMatrix() const {
+	int N = matrix.size();
+	for (int i = 0; i<N; i++) {
+		for (int j = 0; j<N; j++) { std::cout << matrix[i][j] << " "; }
+		std::cout << std::endl; }
+}
+
+/*
+std::vector<double> Scoring::GetMatrix() const {
+
+	return matrix;
+
+}
+*/
