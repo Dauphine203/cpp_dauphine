@@ -75,34 +75,32 @@ int main() {
 	// Test 4: READING TEXT FILES
 	// #####################################################################################
 	printf("\nREADING TEXT FILES\n");
-	printf("\n1. Antisymmetric Matrix\n");
 
-	const int D = 11;
-	std::ifstream in("data.txt");
-	double M[D][D];
+	// I. Currencies
+	printf("\nI. List of Currencies\n");
 
-	if (!in) { std::cout << "Cannot open file.\n"; }
+	std::vector<std::string> fx_vector = data_reader::ImportCurrencies("currencies.txt");
 
-	for (int y = 0; y < 11; y++) {
-		for (int x = 0; x < 11; x++) {
-			in >> M[x][y];
-			std::cout << M[x][y] << " , "; }
-		std::cout << std::endl; }
-	in.close();
-
-	printf("\n2. List of currencies\n");
-
-	std::ifstream currencies_file("currencies.txt");
-	std::vector<std::string> currencies;
-	std::copy(std::istream_iterator<std::string>(currencies_file),
-		std::istream_iterator<std::string>(),
-		std::back_inserter(currencies));
-
-	std::cout << currencies.size() << std::endl;
-	for (int i = 0; i < currencies.size(); i++) {
-		std::cout << currencies[i] << ", ";
+	std::cout << fx_vector.size() << std::endl;
+	for (int i = 0; i < fx_vector.size(); i++) {
+		std::cout << fx_vector[i] << ", ";
 	}
 	std::cout << std::endl;
+
+	// II. Anti-Symmetric Matrix
+	printf("\nII. Anti-Symmetric Matrix\n");
+
+	std::vector<std::vector<double>> X = data_reader::ImportSkewMatrix("data.txt", 11);
+	
+	std::cout << X.size() << std::endl;
+
+	for (int i = 0; i < X.size(); i++) {
+		for (int j = 0; j < X.size(); j++) {
+			std::cout << X[i][j] << " , ";
+		}
+		std::cout << std::endl;
+	}
+
 
 
 	// #####################################################################################
