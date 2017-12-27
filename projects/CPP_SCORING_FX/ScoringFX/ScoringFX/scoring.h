@@ -28,9 +28,9 @@ class Scoring {
 		// TBD
 
 	public:
-		/*******************************************
-		1. CONSTRUCTORS, SETTERS & GETTERS
-		********************************************/
+		// ##################################################################
+		// 1. CONSTRUCTORS, SETTERS & GETTERS
+		// ##################################################################
 
 		// Default constructor
 		// Need to put N = initial value (or else it won't be seen as a default constructor by C++)
@@ -51,9 +51,9 @@ class Scoring {
 		int GetDimension() const { return dim; }
 
 
-		/*******************************************
-		2. ANTISYMMETRIC DATA GENERATION
-		********************************************/
+		// ##################################################################
+		// 2. ANTISYMMETRIC DATA GENERATION
+		// ##################################################################
 		// Method 1: GENERATE RANDOM DATA FOR ANTISYMMETRIC MATRIX
 		void RandomSkewMatrix();
 

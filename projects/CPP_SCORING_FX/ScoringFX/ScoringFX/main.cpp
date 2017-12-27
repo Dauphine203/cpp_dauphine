@@ -6,12 +6,19 @@ File: Implementation
 */
 
 #include <iostream>
-#include "data.h"
-#include "scoring.h"
 
-#include <Eigen/dense>
-#include <Eigen/sparse>
-using namespace Eigen;
+#include <fstream>
+#include <iterator>
+#include <string>
+#include <algorithm>
+
+//#include <Eigen/dense>
+//#include <Eigen/sparse>
+//using namespace Eigen;
+
+
+#include "data_reader.h"
+#include "scoring.h"
 
 
 int main() {
@@ -23,7 +30,7 @@ int main() {
 
 
 	// #####################################################################################
-	// Test 1: Basic OOP
+	// Test 1: BASIC OOP
 	// #####################################################################################
 	printf("BASIC OOP TESTING\n");
 
@@ -36,7 +43,7 @@ int main() {
 	
 
 	// #####################################################################################
-	// Test 2: Random antisymmetric matrix generator
+	// Test 2: RANDOM ANTISYMMETRIC MATRIX GENERATOR
 	// #####################################################################################
 	printf("\nRANDOM ANTISYMMETRIC MATRIX GENERATOR\n");
 	
@@ -47,7 +54,7 @@ int main() {
 
 
 	// #####################################################################################
-	// Test 3: Heritage (Scoring <- Regression)
+	// Test 3: INHERITANCE (Scoring <- Regression)
 	// #####################################################################################
 	printf("\nINHERITANCE\n");
 	Regression GLaDOS;
@@ -65,7 +72,41 @@ int main() {
 
 
 	// #####################################################################################
-	// Test 4: Testing Eigen for Least Squares Problem
+	// Test 4: READING TEXT FILES
+	// #####################################################################################
+	printf("\nREADING TEXT FILES\n");
+	printf("\n1. Antisymmetric Matrix\n");
+
+	const int D = 11;
+	std::ifstream in("data.txt");
+	double M[D][D];
+
+	if (!in) { std::cout << "Cannot open file.\n"; }
+
+	for (int y = 0; y < 11; y++) {
+		for (int x = 0; x < 11; x++) {
+			in >> M[x][y];
+			std::cout << M[x][y] << " , "; }
+		std::cout << std::endl; }
+	in.close();
+
+	printf("\n2. List of currencies\n");
+
+	std::ifstream currencies_file("currencies.txt");
+	std::vector<std::string> currencies;
+	std::copy(std::istream_iterator<std::string>(currencies_file),
+		std::istream_iterator<std::string>(),
+		std::back_inserter(currencies));
+
+	std::cout << currencies.size() << std::endl;
+	for (int i = 0; i < currencies.size(); i++) {
+		std::cout << currencies[i] << ", ";
+	}
+	std::cout << std::endl;
+
+
+	// #####################################################################################
+	// Test 5: TESTING EIGEN
 	// #####################################################################################
 
 	// Need to #include Additional libraries a folder with Eigen functions
