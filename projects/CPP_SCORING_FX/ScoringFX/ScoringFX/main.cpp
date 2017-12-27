@@ -57,7 +57,7 @@ int main() {
 	std::cout << t1 << std::endl;
 	GLaDOS.~Regression();
 
-	GLaDOS.SetDimension(4);
+	GLaDOS.SetDimension(4);  // Change here the dimension of square matrix
 	std::cout << GLaDOS.GetDimension() << std::endl;
 
 	GLaDOS.RandomSkewMatrix();

@@ -41,6 +41,6 @@ void Scoring::RandomSkewMatrix() {
 void Scoring::PrintSkewMatrix() const {
 	int N = matrix.size();
 	for (int i = 0; i<N; i++) {
-		for (int j = 0; j<N; j++) { std::cout << matrix[i][j] << " "; }
+		for (int j = 0; j<N; j++) { std::cout << matrix[i][j] << " , "; }
 		std::cout << std::endl; }
 }
