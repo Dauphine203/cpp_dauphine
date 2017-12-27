@@ -10,7 +10,7 @@ File: FX Scoring Class Methods
 #include <ctime>
 
 
-void Scoring::RandSkewMatrix(int dim) {
+void Scoring::RandomSkewMatrix() {
 
 	int N = dim;
 	std::vector<std::vector<double>> M(N, std::vector<double>(N));
@@ -44,11 +44,3 @@ void Scoring::PrintSkewMatrix() const {
 		for (int j = 0; j<N; j++) { std::cout << matrix[i][j] << " "; }
 		std::cout << std::endl; }
 }
-
-/*
-std::vector<double> Scoring::GetMatrix() const {
-
-	return matrix;
-
-}
-*/
