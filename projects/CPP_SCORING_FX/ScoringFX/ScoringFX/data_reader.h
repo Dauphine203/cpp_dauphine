@@ -12,6 +12,8 @@ File: Namespace for importing data
 #include <string>
 #include <algorithm>
 
+#include <Eigen/Eigen>
+
 namespace data_reader {
 
 	// IMPORTING THE LIST OF CURRENCIES
@@ -49,6 +51,15 @@ namespace data_reader {
 		file.close();
 
 		return matrix;
+	}
+
+	// Convert to Eigen Matrix
+	Eigen::MatrixXd ConvertToEigenMatrix(std::vector<std::vector<double>> data)
+	{
+		Eigen::MatrixXd eMatrix(data.size(), data[0].size());
+		for (int i = 0; i < data.size(); ++i)
+			eMatrix.row(i) = Eigen::VectorXd::Map(&data[i][0], data[0].size());
+		return eMatrix;
 	}
 
 }

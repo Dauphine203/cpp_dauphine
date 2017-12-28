@@ -10,6 +10,7 @@ File: FX Scoring Class Initialization
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 
 class Scoring {
@@ -22,10 +23,10 @@ class Scoring {
 		// Antisymmetric matrix M
 		// This is the matrix of pairwise currency skew volatilities
 		// Can be butterfly, risk reversal values, etc.
-		std::vector<std::vector<double>> matrix;
+		std::vector<std::vector<double>> SkewMatrix;
 
 		// Currencies (vector of strings)
-		// TBD
+		std::vector<std::string> Currencies;
 
 	public:
 		// ##################################################################
@@ -62,7 +63,7 @@ class Scoring {
 
 		// Methods for printing and getting the antisymmetric matrix
 		void PrintSkewMatrix() const;
-		std::vector<std::vector<double>> GetSkewMatrix() const { return matrix; }
+		std::vector<std::vector<double>> GetSkewMatrix() const { return SkewMatrix; }
 
 };
 

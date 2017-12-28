@@ -12,8 +12,8 @@ File: Implementation
 #include <string>
 #include <algorithm>
 
-//#include <Eigen/dense>
-//#include <Eigen/sparse>
+#include <Eigen/dense>
+#include <Eigen/sparse>
 //using namespace Eigen;
 
 
@@ -90,23 +90,38 @@ int main() {
 	// II. Anti-Symmetric Matrix
 	printf("\nII. Anti-Symmetric Matrix\n");
 
-	std::vector<std::vector<double>> X = data_reader::ImportSkewMatrix("data.txt", 11);
+	std::vector<std::vector<double>> M_import = data_reader::ImportSkewMatrix("data.txt", 11);
 	
-	std::cout << X.size() << std::endl;
+	std::cout << M_import.size() << std::endl;
 
-	for (int i = 0; i < X.size(); i++) {
-		for (int j = 0; j < X.size(); j++) {
-			std::cout << X[i][j] << " , ";
+	for (int i = 0; i < M_import.size(); i++) {
+		for (int j = 0; j < M_import.size(); j++) {
+			std::cout << M_import[i][j] << " , ";
 		}
 		std::cout << std::endl;
 	}
 
+	std::cout << "Size of M_import = " << M_import.size() << std::endl;
 
 
 	// #####################################################################################
 	// Test 5: TESTING EIGEN
 	// #####################################################################################
+	printf("\nTESTING EIGEN LIBRARY\n");
 
+	// Basics
+	int N = 11;
+	Eigen::MatrixXd A = Eigen::MatrixXd::Zero(N,N);
+	std::cout << "(" << A.rows() << "," << A.cols() << ")" << std::endl;
+
+	// Convert 2D Dynamic Arrays to Eigen Matrices
+	Eigen::MatrixXd M = data_reader::ConvertToEigenMatrix(M_import);
+	std::cout << M << std::endl;
+
+	// Vector of outputs Y
+	int n = N*(N - 1);
+	std::cout << n << std::endl;
+	
 	// Need to #include Additional libraries a folder with Eigen functions
 	/*
 	printf("\nTESTING EIGEN\n");
