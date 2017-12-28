@@ -5,6 +5,8 @@ Date: 22/12/2017
 File: Implementation
 */
 
+
+/// PACKAGES
 #include <iostream>
 
 #include <fstream>
@@ -12,125 +14,147 @@ File: Implementation
 #include <string>
 #include <algorithm>
 
-#include <Eigen/dense>
-#include <Eigen/sparse>
-//using namespace Eigen;
+#include <Eigen/Eigen>
 
 
-#include "data_reader.h"
+/// FILES
+#include "sandbox.h"
 #include "scoring.h"
+#include "regression.h"
 
 
 int main() {
 	
-	std::cout << "SCORING CLASS FOR RANKING GLOBAL CURRENCIES\n" << std::endl;
+	printf("C++ CLASS FOR RANKING GLOBAL CURRENCIES\n");
+
+
+	/// ##################################################################
+	/// 1. TESTING REGRESSION CLASS
+	/// ##################################################################
+
+	printf("\nTESTING REGRESSION CLASS\n");
+
+	Scoring Earth;
+	Earth.SetDimension(3);
+	Earth.RandomSkewMatrix();
+	Earth.PrintSkewMatrix();
+
+	Regression Xen;
+	Xen.ImportCurrencies("currencies.txt");
+	Xen.ImportSkewMatrix("data.txt", 11);
 	
-	std::cout << "Welcome to the H.E.V. Mark 4 protective system." << std::endl;
-	std::cout << "For use in hazardous environment conditions.\n" << std::endl;
-
-
-	// #####################################################################################
-	// Test 1: BASIC OOP
-	// #####################################################################################
-	printf("BASIC OOP TESTING\n");
-
-	Scoring Xen(2);
-	Scoring BlackMesa = Xen;
-	Xen.SetDimension(3);
-	std::cout << "Xen: " << Xen.GetDimension() << std::endl;        // 3 is expected
-	std::cout << "BlackMesa: " << BlackMesa.GetDimension() << std::endl;  // 2 is expected
-	Xen.~Scoring();
-	
-
-	// #####################################################################################
-	// Test 2: RANDOM ANTISYMMETRIC MATRIX GENERATOR
-	// #####################################################################################
-	printf("\nRANDOM ANTISYMMETRIC MATRIX GENERATOR\n");
-	
-	Xen.RandomSkewMatrix();
+	Xen.PrintCurrencies();
 	Xen.PrintSkewMatrix();
-	std::vector<std::vector<double>> a = Xen.GetSkewMatrix();
-	std::cout << "a[0][1]: " << a[0][1] << std::endl;
 
+	std::vector<std::vector<double>> M_ = Xen.GetSkewMatrix();
+	std::vector<std::string> C = Xen.GetCurrencies();
+	Eigen::MatrixXd M = Xen.ConvertToEigenMatrix();
+	std::cout << M << std::endl;
+	
 
-	// #####################################################################################
-	// Test 3: INHERITANCE (Scoring <- Regression)
-	// #####################################################################################
-	printf("\nINHERITANCE\n");
-	Regression GLaDOS;
+	/// ##################################################################
+	/// 2. LEAST SQUARES REGRESSION
+	/// ##################################################################
 
-	// Subclass GlaDOS has access to all the methods of Scoring class
-	int t1 = GLaDOS.GetDimension();
-	std::cout << t1 << std::endl;
-	GLaDOS.~Regression();
+	int n = M.rows() * (M.rows() - 1);	   // 110
+	std::cout << "M.size() = " << M.size() << std::endl;
 
-	GLaDOS.SetDimension(4);  // Change here the dimension of square matrix
-	std::cout << GLaDOS.GetDimension() << std::endl;
+	int x = -1;
+	Eigen::MatrixXd Y = Eigen::MatrixXd::Zero(n, 1);
+	std::cout << Y.rows() << std::endl;
+	Eigen::MatrixXd Y_ix = Eigen::MatrixXd::Zero(n, 2);
 
-	GLaDOS.RandomSkewMatrix();
-	GLaDOS.PrintSkewMatrix();
+	// OUTPUT VECTOR (Y)
+	for (int i = 0; i < M.rows(); i++) {
+		for (int j = 0; j < M.cols(); j++) {
 
-
-	// #####################################################################################
-	// Test 4: READING TEXT FILES
-	// #####################################################################################
-	printf("\nREADING TEXT FILES\n");
-
-	// I. Currencies
-	printf("\nI. List of Currencies\n");
-
-	std::vector<std::string> fx_vector = data_reader::ImportCurrencies("currencies.txt");
-
-	std::cout << fx_vector.size() << std::endl;
-	for (int i = 0; i < fx_vector.size(); i++) {
-		std::cout << fx_vector[i] << ", ";
+			if (M(i, j) != 0){
+				x = x + 1;
+				// Output vector Y elements
+				Y(x, 0) = M(i, j);
+				Y_ix(x, 0) = i + 1;
+				Y_ix(x, 1) = j + 1;
+			}
+		}
 	}
+	std::cout << M.sum() << " , " << Y.sum() << std::endl;
+	std::cout << "x = " << x << std::endl;
+
+	// DESIGN MATRIX (X)
+	std::cout << "Y_ix.sum() = " << Y_ix.sum() << std::endl;    // 1320
+	std::cout << "Y.rows() = " << Y.rows() << std::endl;
+
+	Eigen::MatrixXd X = Eigen::MatrixXd::Zero(Y.rows(), M.rows());
+
+	for (int i = 0; i < Y.rows(); i++) {
+
+		int s_i = Y_ix(i, 0);
+		int s_j = Y_ix(i, 1);
+
+		for (int j = 0; j < M.rows(); j++) {
+
+			if (j + i == s_i) {
+				X(i, j) = 1.0;
+			}
+			if (j + 1 == s_j) {
+				X(i, j) = -1.0;
+			}
+		}
+	}
+	std::cout << "(" << X.rows() << "," << X.cols() << ")" << std::endl;
 	std::cout << std::endl;
 
-	// II. Anti-Symmetric Matrix
-	printf("\nII. Anti-Symmetric Matrix\n");
+	// Check matrix sizes
+	std::cout << "Dimension of vector Y: (" << Y.rows() << "," << Y.cols() << ")" << std::endl;
+	std::cout << "Dimension of matrix X: (" << X.rows() << "," << X.cols() << ")" << std::endl;
 
-	std::vector<std::vector<double>> M_import = data_reader::ImportSkewMatrix("data.txt", 11);
-	
-	std::cout << M_import.size() << std::endl;
 
-	for (int i = 0; i < M_import.size(); i++) {
-		for (int j = 0; j < M_import.size(); j++) {
-			std::cout << M_import[i][j] << " , ";
-		}
-		std::cout << std::endl;
+	// LEAST SQUARES LINEAR REGRESSION
+
+	// Vector of currency scores (S)
+	Eigen::VectorXd S = Eigen::VectorXd::Random(M.rows());
+
+	// METHOD 1: Dense matrix decomposition
+	std::cout << "Least-squares solution via SVD:" << std::endl;
+
+	S = X.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y);
+
+	std::cout << S << std::endl;
+
+	// METHOD 2: Sparse matrix decomposition (= overkill, gives same result as Dense)
+	S = Eigen::VectorXd::Random(M.rows());
+
+	std::cout << "Least-squares solution via Conjugate Gradient:" << std::endl;
+	Eigen::LeastSquaresConjugateGradient<Eigen::MatrixXd> lscg;
+	lscg.compute(X);
+	S = lscg.solve(Y);
+	std::cout << "iterations: " << lscg.iterations() << std::endl;  // iterations = 2
+	std::cout << "estimated error: " << lscg.error() << std::endl;
+	S = lscg.solve(Y);
+
+	std::cout << S << std::endl;
+	std::cout << std::endl;
+
+	// RANKING OF CURRENCIES
+	for (int i = 0; i < C.size(); i++) {
+		std::cout << C[i] << "   :   " << S[i] << std::endl;
 	}
 
-	std::cout << "Size of M_import = " << M_import.size() << std::endl;
-
-
-	// #####################################################################################
-	// Test 5: TESTING EIGEN
-	// #####################################################################################
-	printf("\nTESTING EIGEN LIBRARY\n");
-
-	// Basics
-	int N = 11;
-	Eigen::MatrixXd A = Eigen::MatrixXd::Zero(N,N);
-	std::cout << "(" << A.rows() << "," << A.cols() << ")" << std::endl;
-
-	// Convert 2D Dynamic Arrays to Eigen Matrices
-	Eigen::MatrixXd M = data_reader::ConvertToEigenMatrix(M_import);
-	std::cout << M << std::endl;
-
-	// Vector of outputs Y
-	int n = N*(N - 1);
-	std::cout << n << std::endl;
-	
-	// Need to #include Additional libraries a folder with Eigen functions
 	/*
-	printf("\nTESTING EIGEN\n");
-	MatrixXf A = MatrixXf::Random(3, 2);
-	VectorXf b = VectorXf::Random(3);
-	std::cout << "The solution using the QR decomposition is:\n"
-		<< A.colPivHouseholderQr().solve(b) << std::endl;
-	*/
 
+	AUD   :   -0.194862
+	GBP   :   -0.104
+	CAD   :   -0.153486
+	DKK   :   0.202
+	EUR   :   0.153
+	JPY   :   0.48
+	NZD   :   -0.314
+	NOK   :   -0.287
+	SEK   :   -0.15
+	CHF   :   0.404
+	USD   :   -0.044
+
+	*/
 
 	system("pause");
 	return 0;

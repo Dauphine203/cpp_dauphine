@@ -14,9 +14,9 @@ File: Namespace for importing data
 
 #include <Eigen/Eigen>
 
-namespace data_reader {
+namespace sandbox {
 
-	// IMPORTING THE LIST OF CURRENCIES
+	/// IMPORTING THE LIST OF CURRENCIES
 	
 	std::vector<std::string> ImportCurrencies(const std::string& path){
 		// Import
@@ -34,7 +34,7 @@ namespace data_reader {
 	}
 	
 
-	// IMPORTING THE ANTISYMMETRIC MATRIX DATA
+	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA
 
 	std::vector<std::vector<double>> ImportSkewMatrix(const std::string& path, const int nb_currencies) {
 		
@@ -53,7 +53,8 @@ namespace data_reader {
 		return matrix;
 	}
 
-	// Convert to Eigen Matrix
+	/// CONVERT TO EIGEN MATRICES
+
 	Eigen::MatrixXd ConvertToEigenMatrix(std::vector<std::vector<double>> data)
 	{
 		Eigen::MatrixXd eMatrix(data.size(), data[0].size());

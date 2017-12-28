@@ -21,7 +21,7 @@ if(MSVC)
 endif()
 
 set(TYPES_SRCS
-	randmat.cpp)
+	pointers.cpp)
 
 set(TYPES_TARGET res)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})

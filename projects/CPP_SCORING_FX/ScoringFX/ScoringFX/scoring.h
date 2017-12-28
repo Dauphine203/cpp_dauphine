@@ -16,71 +16,50 @@ File: FX Scoring Class Initialization
 class Scoring {
 
 	protected:
-		// Dimension of the antisymmetric matrix M
-		// It's the number of currencies in our scoring algorithm
 		int dim;
-		
-		// Antisymmetric matrix M
-		// This is the matrix of pairwise currency skew volatilities
-		// Can be butterfly, risk reversal values, etc.
+		/* Dimension of the antisymmetric matrix M
+		   It's the number of currencies in our scoring algorithm */
+				
 		std::vector<std::vector<double>> SkewMatrix;
+		/* Antisymmetric matrix (here as a 2D dynamic array) M
+		   This is the matrix of pairwise currency skew volatilities
+		   Can be ATM volatility, butterfly, risk reversal values, etc. */
 
-		// Currencies (vector of strings)
 		std::vector<std::string> Currencies;
+		/* Currencies (vector of strings) */
 
 	public:
-		// ##################################################################
-		// 1. CONSTRUCTORS, SETTERS & GETTERS
-		// ##################################################################
+		/// CONSTRUCTORS
 
-		// Default constructor
-		// Need to put N = initial value (or else it won't be seen as a default constructor by C++)
-		Scoring(int D = 2) : dim(D) { std::cout << "Constructed a square matrix of dimension: (" << D << "," << D << ")" << std::endl; }
-
-		// Copy constructor
+		Scoring(int D = 2) :
+			dim(D)
+		{
+			std::cout << "Constructed a square matrix of dimension: (" << D << "," << D << ")" << std::endl;
+		}
 		Scoring(const Scoring &copy) : dim(copy.dim) { std::cout << "Copied class" << std::endl; };
-
-		// Destructor
 		~Scoring() { std::cout << "No regrets, Mr. Freeman..." << std::endl; };
 
-		// Change default dimension value
-		void SetDimension(int dim) {
-			this-> dim = dim;
-			std::cout << "You have changed the dimension to: (" << dim << "," << dim << ")" << std::endl; };
 
-		// Get dimension value
+		/// GETTERS AND SETTERS
+
+		void SetDimension(int dim) { this-> dim = dim; std::cout << "Changed the dimension to: (" << dim << "," << dim << ")" << std::endl; };
 		int GetDimension() const { return dim; }
 
 
-		// ##################################################################
-		// 2. ANTISYMMETRIC DATA GENERATION
-		// ##################################################################
-		// Method 1: GENERATE RANDOM DATA FOR ANTISYMMETRIC MATRIX
+		/// CURRENCIES VECTOR
+
+		void ImportCurrencies(const std::string& path);
+		void PrintCurrencies() const;
+		std::vector<std::string> GetCurrencies() const { return Currencies; }
+
+
+		/// ANTISYMMETRIC MATRIX
+
 		void RandomSkewMatrix();
-
-		// Method 2: Use external data
-		/* TO BE DETERMINED */
-
-		// Methods for printing and getting the antisymmetric matrix
+		void ImportSkewMatrix(const std::string& path, const int nb_currencies);
 		void PrintSkewMatrix() const;
 		std::vector<std::vector<double>> GetSkewMatrix() const { return SkewMatrix; }
 
 };
-
-
-class Regression : public Scoring {
-
-	public:
-		Regression() { std::cout << "Created Regression subclass of Scoring" << std::endl; }
-		//Regression(const Regression &copy) : dim(copy.dim) { std::cout << "Copied class" << std::endl; };
-		~Regression() { std::cout << "Status: Observation Terminated" << std::endl; };
-		
-		void test(int dim) {
-			std::cout << dim << std::endl;
-		}
-		
-
-};
-
 
 #endif
