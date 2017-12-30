@@ -35,23 +35,24 @@ class Regression : public Scoring {
 		~Regression() { std::cout << "STATUS: Observation Terminated" << std::endl; };
 
 
-		/// GENERATE "TARGET" VECTOR Y - "DESIGN" MATRIX X
-		void EigenInputs();
+		/// LEAST SQUARES REGRESSION
+		/// GET PROTECTED ATTRIBUTS: M, X, Y, S
+		void EigenLeastSquares();
 
 
 		/// GETTERS
-		Eigen::MatrixXd getM() { return M; };
-		Eigen::MatrixXd getY() { return Y; };
-		Eigen::MatrixXd getX() { return X; };
-		Eigen::MatrixXd getS() { return S; };
+		Eigen::MatrixXd GetM() { return M; };
+		Eigen::MatrixXd GetY() { return Y; };
+		Eigen::MatrixXd GetX() { return X; };
+		Eigen::MatrixXd GetS() { return S; };
 
 
 		/// CONVERT 2D DYNAMIC ARRAYS TO EIGEN MATRICES
 		Eigen::MatrixXd ConvertToEigenMatrix();
 
 
-		/// LEAST SQUARES REGRESSION
-		void EigenLeastSquares();
+		/// RANKED CURRENCIES
+
 
 	};
 

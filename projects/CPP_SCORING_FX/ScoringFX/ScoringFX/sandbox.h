@@ -53,6 +53,7 @@ namespace sandbox {
 		return matrix;
 	}
 
+
 	/// CONVERT TO EIGEN MATRICES
 
 	Eigen::MatrixXd ConvertToEigenMatrix(std::vector<std::vector<double>> data)
