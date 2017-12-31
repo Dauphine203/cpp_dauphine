@@ -75,12 +75,8 @@ void Regression::EigenLeastSquares() {
 	Eigen::VectorXd S_ = Eigen::VectorXd::Random(M_.rows());   // Protected variable
 	S_ = X_.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y_);
 
-	for (int i = 0; i < Currencies.size(); i++) {
-		std::cout << Currencies[i] << "  :  " << S_[i] << std::endl;
-	}
-
 	
-	// RESULTS
+	// RESULTS FOR PROTECTED VARIABLES
 	M = M_;
 	X = X_;
 	Y = Y_;

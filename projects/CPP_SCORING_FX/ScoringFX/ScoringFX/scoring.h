@@ -37,10 +37,10 @@ class Scoring {
 			std::cout << "Constructed a square matrix of dimension: (" << D << "," << D << ")" << std::endl;
 		}
 		Scoring(const Scoring &copy) : dim(copy.dim) { std::cout << "Copied class" << std::endl; };
-		~Scoring() { std::cout << "No regrets, Mr. Freeman..." << std::endl; };
+		~Scoring() { std::cout << "TERMINATED" << std::endl; };
 
 
-		/// GETTERS AND SETTERS
+		/// NUMBER OF CURRENCIES
 
 		void SetDimension(int dim) { this-> dim = dim; std::cout << "Changed the dimension to: (" << dim << "," << dim << ")" << std::endl; };
 		int GetDimension() const { return dim; }

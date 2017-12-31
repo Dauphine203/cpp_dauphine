@@ -23,7 +23,7 @@ File: Implementation
 #include "regression.h"
 
 
-int main() {
+int main(int argc, char* argv[]) {
 	
 	printf("C++ CLASS FOR RANKING GLOBAL CURRENCIES\n");
 
@@ -53,9 +53,9 @@ int main() {
 		
 
 	/// ##################################################################
-	/// 2. LEAST SQUARES REGRESSION
+	/// 2. LEAST SQUARES REGRESSION WITH IMPORTED DATA
 	/// ##################################################################
-	printf("\n\nLEAST SQUARES REGRESSION WITH EIGEN\n");
+	printf("\n\nLEAST SQUARES REGRESSION WITH IMPORTED DATA\n");
 
 	Xen.EigenLeastSquares();
 	Eigen::MatrixXd M = Xen.GetM();
@@ -68,15 +68,12 @@ int main() {
 	//std::cout << Y(0,0) << std::endl;
 	//std::cout << X(0,0) << std::endl;
 	//std::cout << S(0,0) << std::endl;
-
-	std::cout << std::endl;
-
+		
 	for (int i = 0; i < C.size(); i++) {
 		std::cout << C[i] << "  :  " << S(i,0) << std::endl;
 	}
-	
-	/*
 
+	/*
 	AUD  :  -0.194037
 	GBP  :  -0.1042
 	CAD  :  -0.152404
@@ -90,6 +87,18 @@ int main() {
 	USD  :  -0.0448
 
 	*/
+
+
+	/// ##################################################################
+	/// 3. LEAST SQUARES REGRESSION WITH RANDOM DATA
+	/// ##################################################################
+	printf("\n\nLEAST SQUARES REGRESSION WITH RANDOM DATA\n");
+
+	Xen.SetDimension(20);
+	Xen.RandomSkewMatrix();
+	Xen.EigenLeastSquares();
+	Eigen::MatrixXd S_rnd = Xen.GetS();
+	std::cout << S_rnd << std::endl;
 
 	system("pause");
 	return 0;

@@ -31,8 +31,8 @@ class Regression : public Scoring {
 	public:
 	
 		/// CONSTRUCTORS
-		Regression() { std::cout << "Created Regression subclass of Scoring" << std::endl; }
-		~Regression() { std::cout << "STATUS: Observation Terminated" << std::endl; };
+		Regression() { std::cout << "INITIALIZATION: subclass Regression" << std::endl; }
+		~Regression() { std::cout << std::endl; };
 
 
 		/// LEAST SQUARES REGRESSION
