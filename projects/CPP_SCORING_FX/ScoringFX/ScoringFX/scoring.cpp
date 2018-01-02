@@ -8,6 +8,8 @@ File: FX Scoring Class Methods
 #include "scoring.h"
 #include <cstdlib>
 #include <ctime>
+#include <iomanip>
+#include <cmath>
 
 #include <iostream>
 #include <vector>
@@ -17,88 +19,89 @@ File: FX Scoring Class Methods
 #include <algorithm>
 
 
+
 void Scoring::RandomSkewMatrix() {
 
-	int N = dim;
-	std::vector<std::vector<double>> matrix(N, std::vector<double>(N));
+	std::vector<std::vector<double>> M(dim, std::vector<double>(dim));
 	
 	// Initialize matrix (here as a 2D dynamical array)
 	srand(time(0));
-	for (int i = 0; i<N; i++) {
-		for (int j = 0; j<N; j++) {
-			matrix[i][j] = (std::rand() % 5) + 1.0; } }
+	for (int i = 0; i < dim; i++) {
+		for (int j = 0; j < dim; j++) {
+			M[i][j] = (std::rand() % 5) + 1.0; } }
 
 	// Comply the random matrix as an antisymmetric matrix
-	for (int i = 0; i<N; i++) {
-		for (int j = 0; j<N; j++) {
+	for (int i = 0; i < dim; i++) {
+		for (int j = 0; j < dim; j++) {
 			if (i == j) {
-				matrix[i][j] = 0.0;
+				M[i][j] = 0.0;
 			}
 			else {
-				matrix[j][i] = -matrix[i][j];
+				M[j][i] = -M[i][j];
 			}
 		}
 	}
 
 	// Set "protected" variable as the random antisymmetric matrix
-	std::cout << "Generated random antisymmetric matrix" << std::endl;
-	std::cout << std::endl;
-	SkewMatrix = matrix;
+	std::cout << "Invoked RandomSkewMatrix(). Overwritten SkewMatrix." << std::endl;
+	std::cout << "Generated SkewMatrix of dimension (" << dim << "," << dim << ")" << std::endl;
+	SkewMatrix = M;
 }
+
 
 
 void Scoring::PrintSkewMatrix() const {
-	int N = SkewMatrix.size();
-	for (int i = 0; i<N; i++) {
-		for (int j = 0; j<N; j++) { std::cout << SkewMatrix[i][j] << " , "; }
+	for (int i = 0; i < dim; i++) {
+		for (int j = 0; j < dim; j++) {
+			std::cout << SkewMatrix[i][j] << " , ";
+		}
 		std::cout << std::endl;
 	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 }
 
 
-void Scoring::ImportSkewMatrix(const std::string& path, const int nb_currencies) {
 
-	// Import
+void Scoring::ImportSkewMatrix(const std::string& path, const int N) {
+
+	// File
 	std::ifstream file(path);
 	if (!file) { std::cout << "Cannot open file.\n"; }
-
+	
 	// Matrix
-	int D = nb_currencies;
-	std::vector<std::vector<double>> matrix(D, std::vector<double>(D));
-	for (int i = 0; i < D; i++) {
-		for (int j = 0; j < D; j++) {
-			file >> matrix[i][j];
+	std::vector<std::vector<double>> M(N, std::vector<double>(N));
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			file >> M[i][j];
 		}
 	}
 	file.close();
 
-	std::cout << "Imported matrix of antisymmetric data" << std::endl;
-	std::cout << std::endl;
-	SkewMatrix = matrix;
+	std::cout << "Invoked ImportSkewMatrix(). Overwritten dim, SkewMatrix." << std::endl;
+	
+	// Results
+	dim = N;
+	SkewMatrix = M;
 }
+
 
 
 void Scoring::ImportCurrencies(const std::string& path) {
 
-	// Import
-	std::ifstream file(path); // Path
+	// File
+	std::ifstream file(path);
+	if (!file.is_open()) { std::cerr << "Unable to open file" << "\n"; std::exit(-1); }
 
-	if (!file.is_open())
-	{
-		std::cerr << "Unable to open file" << "\n";
-		std::exit(-1);
-	}
 	// Vector
-	std::vector<std::string> vector;
-	std::copy(std::istream_iterator<std::string>(file), std::istream_iterator<std::string>(), std::back_inserter(vector));
+	std::vector<std::string> V;
+	std::copy(std::istream_iterator<std::string>(file),
+			  std::istream_iterator<std::string>(),
+			  std::back_inserter(V));
 	file.close();
 
-	std::cout << "Imported vector of currency tickers" << std::endl;
-	std::cout << std::endl;
-	Currencies = vector;
+	std::cout << "Invoked ImportCurrencies(). Overwritten Currencies." << std::endl;
+	Currencies = V;
 }
+
 
 
 void Scoring::PrintCurrencies() const {
@@ -106,6 +109,5 @@ void Scoring::PrintCurrencies() const {
 	for (int i = 0; i < Currencies.size(); i++) {
 		std::cout << Currencies[i] << ", ";
 	}
-	std::cout << std::endl;
 	std::cout << std::endl;
 }

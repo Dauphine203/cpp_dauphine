@@ -2,7 +2,7 @@
 CURRENCY RANKING C++ MASTER 203 PROJECT
 
 Date: 22/12/2017
-File: Namespace for importing data
+File: Sandbox for testing
 */
 
 #include <iostream>
@@ -15,10 +15,10 @@ File: Namespace for importing data
 #include <Eigen/Eigen>
 
 namespace sandbox {
-
+	
 	/// IMPORTING THE LIST OF CURRENCIES
 	
-	std::vector<std::string> ImportCurrencies(const std::string& path){
+	std::vector<std::string> ImportCurrenciesX(const std::string& path){
 		// Import
 		std::ifstream file(path); // Path
 
@@ -34,9 +34,9 @@ namespace sandbox {
 	}
 	
 
-	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA
+	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA  (1)
 
-	std::vector<std::vector<double>> ImportSkewMatrix(const std::string& path, const int nb_currencies) {
+	std::vector<std::vector<double>> ImportSkewMatrixX(const std::string& path, const int nb_currencies) {
 		
 		// Import
 		std::ifstream file(path);
@@ -54,14 +54,35 @@ namespace sandbox {
 	}
 
 
-	/// CONVERT TO EIGEN MATRICES
+	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA  (2)
 
-	Eigen::MatrixXd ConvertToEigenMatrix(std::vector<std::vector<double>> data)
+	/*
+	std::vector<std::vector<double>> ImportSkewMatrixY(const std::string& path) {
+
+		// Import
+		std::ifstream file(path);
+		if (!file) { std::cout << "Cannot open file.\n"; }
+
+		// Matrix
+		std::vector<std::vector<double>> matrix;
+		std::copy(std::istream_iterator<std::vector<double>>(file),
+			      std::istream_iterator<std::vector<double>>(),
+			      std::back_inserter(matrix));
+		file.close();
+
+		return matrix;
+	}
+	*/
+
+	/// CONVERT TO EIGEN MATRICES
+	
+	Eigen::MatrixXd ConvertToEigenMatrixX(std::vector<std::vector<double>> data)
 	{
 		Eigen::MatrixXd eMatrix(data.size(), data[0].size());
 		for (int i = 0; i < data.size(); ++i)
 			eMatrix.row(i) = Eigen::VectorXd::Map(&data[i][0], data[0].size());
 		return eMatrix;
 	}
+
 
 }
