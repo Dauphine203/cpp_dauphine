@@ -93,12 +93,14 @@ void Regression::EigenLeastSquares() {
 				// double o = S_(i) - S_(j);
 				// O_(i, j) = std::floor(o * 100 + 0.5) / 100;
 				O_(i, j) = S_(i) - S_(j);
+				O_(i, j)=arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
+				
 			}
 		}
 	
 		// NORM OF DIFFERENCE BETWEEN MATRICES M AND O
-		//Eigen::MatrixXd diff = M - O;
-		//double cost_ = diff.squaredNorm();
+		Eigen::MatrixXd diff = M - O_;
+		double cost_ = diff.squaredNorm(); // Which is Frobenius norm squared, as we have |M-O|²
 	
 		// RESULTS FOR PROTECTED VARIABLES
 		M = M_;
