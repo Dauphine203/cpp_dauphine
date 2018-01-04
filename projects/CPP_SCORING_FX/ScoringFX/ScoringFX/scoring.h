@@ -55,10 +55,33 @@ class Scoring {
 
 		/// NUMBER OF CURRENCIES
 
-		void SetDimension(int dim) {
-			this-> dim = dim;
-			std::cout << "Invoked SetDimension(). Changed dimension to " << dim << std::endl;
-		};
+		//void SetDimension(int dim) {
+		//	this-> dim = dim;
+		//	std::cout << "Invoked SetDimension(). Changed dimension to " << dim << std::endl;
+		//};
+		
+		// Suggestion to have a dynamic dimension integer that adapts to data.txt length:
+		#include <fstream>
+		#include <istream>
+	
+		int nb_currency(fstream &myfile)
+		{
+			int number_of_lines = 0;
+			int dim = 0;
+			string line;
+			ifstream myfile("data.txt");
+			while (myfile.good())
+			{
+				getline(myfile, line);
+				cout << line << endl;
+				++number_of_lines;
+			}
+
+			number_of_lines = number_of_lines - 1 // removal of the currencies' name
+			cout << "Number of currencies  is " << number_of_lines << endl;
+			dim = number_of_lines;
+			return dim;
+		}
 
 		int GetDimension() const {
 			return dim;
