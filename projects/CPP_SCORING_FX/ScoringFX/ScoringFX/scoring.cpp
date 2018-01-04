@@ -28,7 +28,8 @@ void Scoring::RandomSkewMatrix() {
 	srand(time(0));
 	for (int i = 0; i < dim; i++) {
 		for (int j = 0; j < dim; j++) {
-			M[i][j] = (std::rand() % 5) + 1.0; } }
+			//M[i][j] = (std::rand() % 5) + 1.0; } }
+			M[i][j] = (std::rand() % ( 20 - (-20) + 1.0)-20 ; } } // random numbers between -20 et 20
 
 	// Comply the random matrix as an antisymmetric matrix
 	for (int i = 0; i < dim; i++) {
