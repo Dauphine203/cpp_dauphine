@@ -118,6 +118,15 @@ void Regression::EigenLeastSquares() {
 
 }
 
+float arrondi(float a, int b) // returns the round value of a float a, given the arrondi value b we want, b=2 to get to the 0.01.
+{
+    int power;
+    float result;
+    power=pow(10,b); // 10^b
+    result=floor(a*power)/power;
+    return result;
+}
+
 void Regression::PrintResults() const {
 	
 	time_t timev;
