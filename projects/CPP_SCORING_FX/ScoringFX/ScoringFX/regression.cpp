@@ -88,13 +88,11 @@ void Regression::EigenLeastSquares() {
 		Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());   // Protected variable
 		for (int i = 0; i < SkewMatrix.size(); ++i) {
 			for (int j = 0; j < SkewMatrix.size(); ++j) {
-			
-				// Set precision to 2 decimals
 				// double o = S_(i) - S_(j);
-				// O_(i, j) = std::floor(o * 100 + 0.5) / 100;
 				O_(i, j) = S_(i) - S_(j);
 				O_(i, j)=arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
 				
+
 			}
 		}
 	
