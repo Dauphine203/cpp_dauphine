@@ -90,13 +90,15 @@ void Regression::EigenLeastSquares() {
 			for (int j = 0; j < SkewMatrix.size(); ++j) {
 				// double o = S_(i) - S_(j);
 				O_(i, j) = S_(i) - S_(j);
-				O_(i, j)=arrondi(O_(i, j),2); // gets the precision to the hundredth
+				O_(i, j)=arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
+				
+
 			}
 		}
 	
 		// NORM OF DIFFERENCE BETWEEN MATRICES M AND O
-		//Eigen::MatrixXd diff = M - O;
-		//double cost_ = diff.squaredNorm();
+		Eigen::MatrixXd diff = M - O_;
+		double cost_ = diff.squaredNorm(); // Which is Frobenius norm squared, as we have |M-O|²
 	
 		// RESULTS FOR PROTECTED VARIABLES
 		M = M_;
@@ -114,6 +116,15 @@ void Regression::EigenLeastSquares() {
 		std::cout << "Currencies vector does not have the same rank as SkewMatrix." << std::endl;
 	}
 
+}
+
+float arrondi(float a, int b) // returns the round value of a float a, given the arrondi value b we want, b=2 to get to the 0.01.
+{
+    int power;
+    float result;
+    power=pow(10,b); // 10^b
+    result=floor(a*power)/power;
+    return result;
 }
 
 void Regression::PrintResults() const {
