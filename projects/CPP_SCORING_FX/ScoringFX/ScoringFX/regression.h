@@ -38,12 +38,33 @@ class Regression : public Scoring {
 		Eigen::MatrixXd O;
 		/* Outer-difference matrix of the score vector */
 
+		std::string Method;
+		/* Method used for least squares: SVD, Normal equations, QR, Conjugate Gradient */
+
+		bool CheckRegression;
+		/* Checks if regression was launched */
+
 
 	public:
 	
 		/// CONSTRUCTORS
-		Regression() {
+		Regression(Eigen::MatrixXd M_ = Eigen::MatrixXd::Zero(2,2),
+				   Eigen::MatrixXd Y_ = Eigen::MatrixXd::Zero(2,1),
+				   Eigen::MatrixXd X_ = Eigen::MatrixXd::Zero(2,2),
+				   Eigen::MatrixXd S_ = Eigen::MatrixXd::Zero(2,1),
+				   Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(2,2),
+				   std::string m = "",
+			       bool b = false) :
+
+			M(M_), Y(Y_), X(X_), S(S_), O(O_), Method(m), CheckRegression(b)
+		{
 			std::cout << "Invoked Regression(). Initialized Regression Object." << std::endl;
+		};
+
+		Regression(const Regression &copy) : M(copy.M), Y(copy.Y), X(copy.X), S(copy.S),
+			O(copy.O), Method(copy.Method), CheckRegression(copy.CheckRegression)
+		{
+			std::cout << "Invoked Copy Regresssion(). Copied Regression Object." << std::endl;
 		};
 
 		~Regression() {
@@ -53,7 +74,7 @@ class Regression : public Scoring {
 
 		/// LEAST SQUARES REGRESSION
 		/// GET PROTECTED ATTRIBUTS: M, X, Y, S
-		void EigenLeastSquares();
+		void LeastSquaresRegression(std::string method);
 
 
 		/// GETTERS

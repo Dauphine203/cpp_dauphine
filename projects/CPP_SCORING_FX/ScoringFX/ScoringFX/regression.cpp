@@ -41,7 +41,7 @@ double arrondi(double a, int b)
 
 
 
-void Regression::EigenLeastSquares() {
+void Regression::LeastSquaresRegression(std::string method) {
 	
 	// GENERATE ANTISYMMETRIC MATRIX (M)
 	Eigen::MatrixXd M_(SkewMatrix.size(), SkewMatrix[0].size());    // Protected variable
@@ -92,9 +92,40 @@ void Regression::EigenLeastSquares() {
 
 		
 	// LEAST SQUARES REGRESSION (S)
-	Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());   // Protected variable
-	S_ = X_.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y_);
-	
+
+	Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());  // Protected variable
+
+	// Method 1: Singular Value Decomposition
+	if (method == "SVD"){
+		Method = "by Singular Value Decomposition";
+		S_ = X_.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y_);
+	}
+
+	// Method 2: QR Decomposition
+	else if (method == "QR") {
+		Method = "by QR Decomposition";
+		S_ = X_.colPivHouseholderQr().solve(Y_);
+	}
+
+	// Method 3: Normal Equations
+	else if (method == "NE") {
+		Method = "by Normal Equations";
+		S_ = (X_.transpose() * X_).ldlt().solve(X_.transpose() * Y_);
+	}
+
+	// Method 4: Conjugate Gradient Descent
+	else if (method == "CG") {
+		Method = "by Conjugate Gradient";
+		Eigen::LeastSquaresConjugateGradient<Eigen::MatrixXd> lscg;
+		lscg.compute(X_);
+		S_ = lscg.solve(Y_);
+	}
+	else {
+		std::cout << "Error. Requires specification of least squares method." << std::endl;
+		std::cout << "Choices available: SVD, QR, Normal equations (NE), Conjugate Gradient Descent (CG)" << std::endl;
+	}
+
+
 
 	// OUTER-DIFFERENCE MATRIX (O) OF THE SCORE VECTOR S
 	Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());   // Protected variable
@@ -102,17 +133,18 @@ void Regression::EigenLeastSquares() {
 		for (int j = 0; j < SkewMatrix.size(); ++j) {
 				
 			O_(i, j) = S_(i) - S_(j);
-			O_(i, j) = arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
+			//O_(i, j) = arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
 				
 		}
 	}
 	
-	// RESULTS FOR PROTECTED VARIABLES
-	M = M_;
-	X = X_;
-	Y = Y_;
-	S = S_;
-	O = O_;
+	// UPDATE PROTECTED VARIABLES
+	M = M_;							// Antisymmetric matrix
+	X = X_;							// Design matrix (X)
+	Y = Y_;							// Output vector (Y)
+	S = S_;							// Score vector (S)
+	O = O_;							// Outerdifference matrix of score vector (O)
+	CheckRegression = true;
 
 	std::cout << "Invoked EigenLeastSquares() successfully." << std::endl;
 
@@ -122,48 +154,58 @@ void Regression::EigenLeastSquares() {
 
 void Regression::PrintResults() const {
 
-	std::cout << std::endl;
-	std::cout << "=======================================================" << std::endl;
-	std::cout << "SUMMARY OF REGRESSION RESULTS" << std::endl;
-	std::cout << "=======================================================" << std::endl;
-	std::cout << "Time: " << time(0) << std::endl;
-	std::cout << "Method: Least squares (singular value decomposition)" << std::endl;
-	std::cout << "External library: Eigen" << std::endl;
-	if (ImportedData == true) {
-		std::cout << "Data: Imported" << std::endl;
+	if (CheckRegression == true){
+
+		std::cout << std::endl;
+		std::cout << "=========================================================" << std::endl;
+		std::cout << "SUMMARY OF RESULTS" << std::endl;
+		std::cout << "=========================================================" << std::endl;
+		std::cout << "Time: " << time(0) << std::endl;
+		std::cout << "Method: Least Squares " << Method << std::endl;
+		std::cout << "External library: Eigen" << std::endl;
+		if (ImportedData == true) {
+			std::cout << "Data: Imported" << std::endl;
+		}
+		else {
+			std::cout << "Data: Random" << std::endl;
+		}
+		std::cout << "No. Observations: " << Y.rows() << std::endl;
+		std::cout << "No. Currencies: " << dim << std::endl;
+		std::cout << "Frobenius Norm (approximation cost): " << (M - O).squaredNorm() << std::endl;
+		std::cout << "=========================================================" << std::endl;
+		std::cout << "CURRENCY STRENGTH SCORES" << std::endl;
+		bool error = false;
+	
+		for (int i = 0; i < SkewMatrix.size() ; ++i) {
+		
+			if (ImportedData == true) {
+				// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank
+				if (Currencies.size() == SkewMatrix.size()) { std::cout << Currencies[i] << " : " << S(i) << std::endl;
+				}
+				else {
+				// Case 2: Imported Data. Currencies vector rank doesn't match antisymmetric matrix rank
+					error = true;
+				}
+			} else {
+				// Case 3: Random data. No need for currency string vector
+				std::cout << "Score " << i + 1 << " : " << S(i) << std::endl;
+			}
+		}
+		if (error == true) {
+			std::cout << "Error. Rank of currencies vector doesn't match rank of" << std::endl;
+			std::cout << "antisymmetric matrix." << std::endl;
+			std::cout << "Rank of currencies vector: " << Currencies.size() << std::endl;
+			std::cout << "Rank of antisymmetric matrix: " << SkewMatrix.size() << std::endl;
+		}
+
+		std::cout << "=========================================================" << std::endl;
+		std::cout << std::endl;
+	
 	}
 	else {
-		std::cout << "Data: Random" << std::endl;
+		std::cout << std::endl;
+		std::cout << "Error. No regression detected. Use LeastSquaresRegression()." << std::endl;
+		std::cout << std::endl;
 	}
-	std::cout << "No. Observations: " << Y.rows() << std::endl;
-	std::cout << "No. Currencies: " << dim << std::endl;
-	std::cout << "Cost: " << (M - O).squaredNorm() << std::endl;
-	std::cout << "=======================================================" << std::endl;
-	std::cout << "CURRENCY STRENGTH SCORES" << std::endl;
-	bool error = false;
 	
-	for (int i = 0; i < SkewMatrix.size() ; ++i) {
-		
-		if (ImportedData == true) {
-			// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank
-			if (Currencies.size() == SkewMatrix.size()) { std::cout << Currencies[i] << " : " << S(i) << std::endl;
-			}
-			else {
-			// Case 2: Imported Data. Currencies vector rank doesn't match antisymmetric matrix mark
-				error = true;
-			}
-		} else {
-			// Case 3: Random data. No need for currency string vector
-			std::cout << "Score " << i + 1 << " : " << S(i) << std::endl;
-		}
-	}
-	if (error == true) {
-		std::cout << "Error. Rank of currencies vector doesn't match rank of" << std::endl;
-		std::cout << "antisymmetric matrix." << std::endl;
-		std::cout << "Rank of currencies vector: " << Currencies.size() << std::endl;
-		std::cout << "Rank of antisymmetric matrix: " << SkewMatrix.size() << std::endl;
-	}
-
-	std::cout << "=======================================================" << std::endl;
-	std::cout << std::endl;
 }

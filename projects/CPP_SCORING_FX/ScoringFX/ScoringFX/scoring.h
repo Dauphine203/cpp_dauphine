@@ -15,6 +15,12 @@ File: FX Scoring Class Initialization
 
 class Scoring {
 
+	/*
+	This class is for managing the data for our scoring algorithm.
+	If need to add different versions for regression, one simply has
+	to declare heritage between this class and the newer regression
+	subclass implementation.
+	*/
 
 	protected:
 		/// PROTECTED VARIABLES
@@ -55,7 +61,7 @@ class Scoring {
 		Scoring(const Scoring &copy) : dim(copy.dim), Currencies(copy.Currencies),
 			SkewMatrix(copy.SkewMatrix), ImportedData(copy.ImportedData)
 		{
-			std::cout << "Invoked copy Scoring(). Copied Scoring Object." << std::endl;
+			std::cout << "Invoked Copy Scoring(). Copied Scoring Object." << std::endl;
 		};
 		
 
@@ -67,7 +73,8 @@ class Scoring {
 
 		/// NUMBER OF CURRENCIES
 		/* Removed the option to set the Dimension manually. The dimension
-		   gets changed when you invoke the RandomSkewMatrix() or ImportSkewMatrix(). */
+		   gets changed when you invoke the RandomSkewMatrix() or ImportSkewMatrix().
+		   You can't change dim through a SetDimension() command. */
 
 		int GetDimension() const {
 			return dim;

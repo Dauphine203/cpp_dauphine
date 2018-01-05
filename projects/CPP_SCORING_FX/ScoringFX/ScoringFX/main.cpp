@@ -40,8 +40,9 @@ int main(int argc, char* argv[]) {
 	
 	// Implementation
 	Regression Xen;
+		
 	Xen.RandomSkewMatrix(20);
-	Xen.EigenLeastSquares();
+	Xen.LeastSquaresRegression("CG");
 	Xen.PrintResults();
 
 	system("pause");
@@ -57,7 +58,7 @@ int main(int argc, char* argv[]) {
 	// Implementation
 	Xen.ImportSkewMatrix("data.txt");
 	Xen.ImportCurrencies("currencies.txt");
-	Xen.EigenLeastSquares();
+	Xen.LeastSquaresRegression("CG");
 	Xen.PrintResults();
 
 	system("pause");
