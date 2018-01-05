@@ -150,6 +150,17 @@ void Regression::LeastSquaresRegression(std::string method) {
 
 }
 
+//Merge the currency-vector and the score-vector
+void MergeVectors(std::vector<std::string> svect, std::vector<double> nvect, std::vector<std::pair<std::string, double>> &vect)
+{
+	vect.resize(svect.size());
+
+	for (int i = 0; i < svect.size();i++)
+	{
+		vect[i] = std::make_pair(svect[i],nvect[i]);
+	}
+}
+
 //Ranks the currencies according to the score
 void tri(std::vector<std::pair<std::string, double>> &vect)
 {
