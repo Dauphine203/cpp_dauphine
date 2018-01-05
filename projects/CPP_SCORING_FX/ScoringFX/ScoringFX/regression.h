@@ -95,7 +95,7 @@ class Regression : public Scoring {
 
 		/// RANKED CURRENCIES
 		/// Algorithme de tri  <=====
-
+		void tri(std::vector<std::pair<std::string, double>> &vect);
 	};
 
 #endif
