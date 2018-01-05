@@ -150,7 +150,32 @@ void Regression::LeastSquaresRegression(std::string method) {
 
 }
 
-
+//Ranks the currencies according to the score
+void tri(std::vector<std::pair<std::string, double>> &vect)
+{
+	for (int i = 0; i < vect.size() - 1; i++)
+	{
+		int minimum = i;
+		for (int j = i + 1; j < vect.size(); j++)
+		{
+			if (vect[j].second < vect[minimum].second)
+			{
+				minimum = j;
+			}
+		}
+		if (minimum != i)
+		{
+			std::string temp1;
+			double temp2;
+			temp1 = vect[i].first;
+			temp2 = vect[i].second;
+			vect[i].first = vect[minimum].first;
+			vect[i].second = vect[minimum].second;
+			vect[minimum].first = temp1;
+			vect[minimum].second = temp2;
+		}
+	}
+}
 
 void Regression::PrintResults() const {
 
