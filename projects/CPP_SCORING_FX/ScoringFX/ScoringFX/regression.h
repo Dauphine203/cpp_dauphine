@@ -95,6 +95,8 @@ class Regression : public Scoring {
 
 		/// RANKED CURRENCIES
 		/// Algorithme de tri  <=====
+	
+		void MergeVectors(std::vector<std::string> svect, std::vector<double> nvect, std::vector<std::pair<std::string, double>> &vect);
 		void tri(std::vector<std::pair<std::string, double>> &vect);
 	};
 
