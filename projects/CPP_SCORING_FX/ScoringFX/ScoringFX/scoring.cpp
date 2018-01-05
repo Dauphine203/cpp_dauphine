@@ -5,6 +5,8 @@ Date: 22/12/2017
 File: FX Scoring Class Methods
 */
 
+
+// Packages
 #include "scoring.h"
 #include <cstdlib>
 #include <ctime>
@@ -20,20 +22,23 @@ File: FX Scoring Class Methods
 
 
 
-void Scoring::RandomSkewMatrix() {
+void Scoring::RandomSkewMatrix(int D) {
 
-	std::vector<std::vector<double>> M(dim, std::vector<double>(dim));
+	std::vector<std::vector<double>> M(D, std::vector<double>(D));
 	
 	// Initialize matrix (here as a 2D dynamical array)
 	srand(time(0));
-	for (int i = 0; i < dim; i++) {
-		for (int j = 0; j < dim; j++) {
-			//M[i][j] = (std::rand() % 5) + 1.0; } }
-			M[i][j] = (std::rand() % ( 20 - (-20) + 1.0)-20 ; } } // random numbers between -20 et 20
+
+	for (int i = 0; i < D; i++) {
+		for (int j = 0; j < D; j++) {
+			// Between -20 to +20
+			M[i][j] = (std::rand() % ( 20 - (-20) + 1) - 20 );
+		}
+	}
 
 	// Comply the random matrix as an antisymmetric matrix
-	for (int i = 0; i < dim; i++) {
-		for (int j = 0; j < dim; j++) {
+	for (int i = 0; i < D; i++) {
+		for (int j = 0; j < D; j++) {
 			if (i == j) {
 				M[i][j] = 0.0;
 			}
@@ -45,8 +50,12 @@ void Scoring::RandomSkewMatrix() {
 
 	// Set "protected" variable as the random antisymmetric matrix
 	std::cout << "Invoked RandomSkewMatrix(). Overwritten SkewMatrix." << std::endl;
-	std::cout << "Generated SkewMatrix of dimension (" << dim << "," << dim << ")" << std::endl;
+	std::cout << "Generated SkewMatrix of dimension (" << D << "," << D << ")" << std::endl;
+	
+	// Protected varaibles
+	dim = D;
 	SkewMatrix = M;
+	ImportedData = false;
 }
 
 
@@ -62,26 +71,36 @@ void Scoring::PrintSkewMatrix() const {
 
 
 
-void Scoring::ImportSkewMatrix(const std::string& path, const int N) {
+void Scoring::ImportSkewMatrix(const std::string& path) {
 
-	// File
+	// Count dynamically nb. of currencies
+	int N = 0;
+
 	std::ifstream file(path);
-	if (!file) { std::cout << "Cannot open file.\n"; }
-	
-	// Matrix
-	std::vector<std::vector<double>> M(N, std::vector<double>(N));
-	for (int i = 0; i < N; i++) {
-		for (int j = 0; j < N; j++) {
-			file >> M[i][j];
-		}
+	std::string line;
+	while (file.good()) {
+		getline(file, line);
+		++N;
 	}
 	file.close();
 
-	std::cout << "Invoked ImportSkewMatrix(). Overwritten dim, SkewMatrix." << std::endl;
-	
+	// Matrix
+	// Can't reuse ifstream file(path) or else it fails to import (unknown reason)
+	std::ifstream f(path);
+	std::vector<std::vector<double>> M(N, std::vector<double>(N));
+	for (int i = 0; i < N; i++) {
+		for (int j = 0; j < N; j++) {
+			f >> M[i][j];
+		}
+	}
+	f.close();
+
+	std::cout << "Invoked ImportSkewMatrix(). Overwritten dim, SkewMatrix, ImportedData." << std::endl;
+
 	// Results
 	dim = N;
 	SkewMatrix = M;
+	ImportedData = true;
 }
 
 

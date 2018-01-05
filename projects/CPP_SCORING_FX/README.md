@@ -1,17 +1,10 @@
-# C++ Currency Ranking Project
+**A C++ scoring algorithm for ranking global currencies based on financial market sentiment**
 
-**1. ANTISYMMETRIC MATRIX**
-- Import CSV or Excel files
-- Uses a 2D std::vector (data generation in independent)
-- Includes an option for generating random data
+Master 203 C++ Project
 
-**2. CLASS FOR ALL THE SCORING METHODS**
-- Checks if the input matrix is really antisymmetric (private). The verification is done with std::vector
-- Option to generate random data with std::vector
-- 1 general class for all possible scoring models (uses Heritage concept)
-- 1 subclass for least squares using Eigen sparse matrix
-- 1 subclass for least squares using xtensor with blas/lapack (optional)
-
-**3. IMPLEMENTATION**
-- Random data
-- Realworld snapshot of 25D Risk Reversal values (1W 21/12/2017)
+Features:
+- An object-oriented heritage architecture that allows developpers to input their own implementations
+- Uses 25D risk reversal pairwise currency data (easily available on Bloomberg) to gauge financial market sentiment
+- One can use butterfly values instead of risk reversal
+- For importing data, needs 2 text files (as dataframes are not provided in C++): a string vector of currency tickers and an antisymmetric matrix of risk reversals
+- An implementation on randomized data and a real-world snapshot is featured in this folder

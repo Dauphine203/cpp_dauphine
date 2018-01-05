@@ -14,6 +14,8 @@ File: Sandbox for testing
 
 #include <Eigen/Eigen>
 
+#include <istream>
+
 namespace sandbox {
 	
 	/// IMPORTING THE LIST OF CURRENCIES
@@ -34,7 +36,7 @@ namespace sandbox {
 	}
 	
 
-	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA  (1)
+	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA
 
 	std::vector<std::vector<double>> ImportSkewMatrixX(const std::string& path, const int nb_currencies) {
 		
@@ -54,26 +56,6 @@ namespace sandbox {
 	}
 
 
-	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA  (2)
-
-	/*
-	std::vector<std::vector<double>> ImportSkewMatrixY(const std::string& path) {
-
-		// Import
-		std::ifstream file(path);
-		if (!file) { std::cout << "Cannot open file.\n"; }
-
-		// Matrix
-		std::vector<std::vector<double>> matrix;
-		std::copy(std::istream_iterator<std::vector<double>>(file),
-			      std::istream_iterator<std::vector<double>>(),
-			      std::back_inserter(matrix));
-		file.close();
-
-		return matrix;
-	}
-	*/
-
 	/// CONVERT TO EIGEN MATRICES
 	
 	Eigen::MatrixXd ConvertToEigenMatrixX(std::vector<std::vector<double>> data)
@@ -85,4 +67,24 @@ namespace sandbox {
 	}
 
 
+	/// COUNT AUTOMATICALLY THE NUMBER OF CURRENCIES
+	// Suggestion to have a dynamic dimension integer that adapts to data.txt length
+	// Will be integrated with the import data.txt function
+
+	int nb_currency(const std::string path)
+	{
+		int number_of_lines = 0;
+		int dim = 0;
+
+		std::ifstream myfile(path);
+		std::string line;
+		while (myfile.good())
+		{
+			getline(myfile, line);
+			++number_of_lines;
+		}
+
+		dim = number_of_lines;
+		return dim;
+	}
 }

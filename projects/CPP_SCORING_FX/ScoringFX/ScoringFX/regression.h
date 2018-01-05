@@ -38,11 +38,6 @@ class Regression : public Scoring {
 		Eigen::MatrixXd O;
 		/* Outer-difference matrix of the score vector */
 
-		double FrobeniusNorm;
-		/* Frobenius norm of the difference between M and O */
-
-		bool CheckRegression;
-		/* Was the regression successful ? */
 
 	public:
 	
@@ -67,14 +62,10 @@ class Regression : public Scoring {
 		Eigen::MatrixXd GetX() { return X; };
 		Eigen::MatrixXd GetS() { return S; };
 		Eigen::MatrixXd GetO() { return O; };
-		//double GetFNorm() { return FrobeniusNorm; };
 
 
 		/// PRINT RESULTS
 		void PrintResults() const;
-
-
-		/// SETTERS (just in case)
 
 
 		/// CONVERT 2D DYNAMIC ARRAYS TO EIGEN MATRICES
@@ -82,7 +73,7 @@ class Regression : public Scoring {
 
 
 		/// RANKED CURRENCIES
-
+		/// Algorithme de tri  <=====
 
 	};
 
