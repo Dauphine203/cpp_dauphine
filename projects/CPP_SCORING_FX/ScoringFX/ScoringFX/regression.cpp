@@ -212,18 +212,24 @@ void Regression::PrintResults() const {
 		std::cout << "CURRENCY STRENGTH SCORES" << std::endl;
 		bool error = false;
 	
-		for (int i = 0; i < SkewMatrix.size() ; ++i) {
 		
-			if (ImportedData == true) {
-				// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank
-				if (Currencies.size() == SkewMatrix.size()) { std::cout << Currencies[i] << " : " << S(i) << std::endl;
+		if (ImportedData == true) {
+			// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank
+			if (Currencies.size() == SkewMatrix.size()) { 
+				std::vector<std::pair<std::string, double>> v;
+				MergeVectors(s, n, v);
+				tri(Currencies, SkewMatrix, v);
+				for(int = 0; i < v.size(); i++){
+					std::cout << v[i].first << ":" << v[i].second << std::endl;					}
 				}
-				else {
-				// Case 2: Imported Data. Currencies vector rank doesn't match antisymmetric matrix rank
-					error = true;
-				}
-			} else {
-				// Case 3: Random data. No need for currency string vector
+			}
+			else {
+			// Case 2: Imported Data. Currencies vector rank doesn't match antisymmetric matrix rank
+				error = true;
+			}
+		else {
+		// Case 3: Random data. No need for currency string vector
+			for (int i = 0; i < SkewMatrix.size() ; ++i){
 				std::cout << "Score " << i + 1 << " : " << S(i) << std::endl;
 			}
 		}
