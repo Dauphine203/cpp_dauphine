@@ -123,7 +123,7 @@ void Regression::LeastSquaresRegression(std::string method) {
 		for (int j = 0; j < SkewMatrix.size(); ++j) {
 				
 			O_(i, j) = S_(i) - S_(j);
-			//O_(i, j) = sandbox::arrondi(O_(i, j),2); // We want the outer difference to be precise to the hundredth
+			//O_(i, j) = sandbox::Arrondir(O_(i, j),2); // We want the outer difference to be precise to the hundredth
 				
 		}
 	}
@@ -179,19 +179,17 @@ void Regression::PrintResults() const {
 		std::cout << "Time: " << time(0) << std::endl;
 		std::cout << "Method: Least Squares " << Method << std::endl;
 		std::cout << "External library: Eigen" << std::endl;
-		if (ImportedData == true) {
-			std::cout << "Data: Imported" << std::endl;
-		}
-		else {
-			std::cout << "Data: Random" << std::endl;
-		}
+		if (ImportedData == true) { std::cout << "Data: Imported" << std::endl; }
+		else { std::cout << "Data: Random" << std::endl; }
 		std::cout << "No. Observations: " << Y.rows() << std::endl;
 		std::cout << "No. Currencies: " << dim << std::endl;
 		std::cout << "Frobenius Norm (approximation cost): " << (M - O).squaredNorm() << std::endl;
-		std::cout << "=========================================================" << std::endl;
-		std::cout << "CURRENCY STRENGTH SCORES" << std::endl;
+
+		std::cout << "---------------------------------------------------------" << std::endl;
+		std::cout << "SCORES" << std::endl;
+		std::cout << "---------------------------------------------------------" << std::endl;
+		
 		bool error = false;
-	
 		
 		if (ImportedData == true) {
 			// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank

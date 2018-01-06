@@ -95,4 +95,13 @@ namespace sandbox {
 		}
 	}
 
+	/// ARRONDIR
+	double Arrondir(double a, int b) {
+		int power;
+		double result;
+		power = pow(10, b);  // 10^b
+		result = floor(a*power) / power;
+		return result;
+	}
+
 }

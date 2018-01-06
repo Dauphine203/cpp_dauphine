@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "Using a real-world snapshot of the 25-Delta risk reversal values, compute a ''score'' for a list of at least 15" << std::endl;
 	std::cout << "currencies of the world following the criterion described in the previous section, including precious metals.\n" << std::endl;
 
-	// Implementation
+	// IMPLEMENTATION
 	Xen.ImportSkewMatrix("data.txt");
 	Xen.ImportCurrencies("currencies.txt");
 	Xen.LeastSquaresRegression("SVD");
