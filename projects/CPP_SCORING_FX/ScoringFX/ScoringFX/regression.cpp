@@ -219,7 +219,7 @@ void Regression::PrintResults() const {
 				std::vector<std::pair<std::string, double>> v;
 				MergeVectors(s, n, v);
 				tri(Currencies, SkewMatrix, v);
-				for(int = 0; i < v.size(); i++){
+				for(int i = v.size()-1; i >=0; i--){
 					std::cout << v[i].first << ":" << v[i].second << std::endl;					}
 				}
 			}
