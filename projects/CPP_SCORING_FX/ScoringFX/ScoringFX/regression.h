@@ -97,7 +97,7 @@ class Regression : public Scoring {
 		/// Algorithme de tri  <=====
 	
 		void MergeVectors(std::vector<std::string> svect, std::vector<double> nvect, std::vector<std::pair<std::string, double>> &vect);
-		std::vector<std::pair<std::string, double>> tri(std::vector<std::pair<std::string, double>> &vect);
+		void tri(std::vector<std::pair<std::string, double>> &vect);
 	};
 
 #endif
