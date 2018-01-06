@@ -13,39 +13,39 @@ Invoked RandomSkewMatrix(). Overwritten SkewMatrix.
 Generated SkewMatrix of dimension (20,20)
 Invoked EigenLeastSquares() successfully.
 
-=======================================================
-SUMMARY OF REGRESSION RESULTS
-=======================================================
-Time: 1515121883
-Method: Least squares (singular value decomposition)
+=========================================================
+SUMMARY OF RESULTS
+=========================================================
+Time: 1515265714
+Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Random
 No. Observations: 380
 No. Currencies: 20
-Cost: 49673.2
-=======================================================
+Frobenius Norm (approximation cost): 49568.4
+=========================================================
 CURRENCY STRENGTH SCORES
-Score 1 : 0.146628
-Score 2 : 1.68421
-Score 3 : 2.78592
-Score 4 : -2.88889
-Score 5 : -5.68421
-Score 6 : 3.05643e-16
-Score 7 : -0.631579
-Score 8 : -2.47368
-Score 9 : 3.31579
-Score 10 : 0.947368
-Score 11 : 2.47368
-Score 12 : -4.5
-Score 13 : 3.52632
-Score 14 : -0.294118
-Score 15 : 0.111111
-Score 16 : 4.38889
-Score 17 : -4
-Score 18 : 3.63158
-Score 19 : -0.333333
-Score 20 : -1.57895
-=======================================================
+Score 4 : 6.11111
+Score 7 : 4.47059
+Score 20 : 3.66667
+Score 13 : 2.63158
+Score 6 : 2.36842
+Score 10 : 2
+Score 19 : 1.89474
+Score 15 : 1.77778
+Score 5 : 1.05556
+Score 12 : 0.789474
+Score 2 : 0.5
+Score 1 : 0.420613
+Score 8 : 0.263158
+Score 18 : -0.947368
+Score 9 : -3
+Score 11 : -3.88235
+Score 14 : -4.22222
+Score 16 : -4.55556
+Score 3 : -4.58774
+Score 17 : -6.21053
+=========================================================
 
 Press any key to continue . . .
 
@@ -58,29 +58,38 @@ Invoked ImportSkewMatrix(). Overwritten dim, SkewMatrix, ImportedData.
 Invoked ImportCurrencies(). Overwritten Currencies.
 Invoked EigenLeastSquares() successfully.
 
-=======================================================
-SUMMARY OF REGRESSION RESULTS
-=======================================================
-Time: 1515121896
-Method: Least squares (singular value decomposition)
+=========================================================
+SUMMARY OF RESULTS
+=========================================================
+Time: 1515265716
+Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Imported
 No. Observations: 110
 No. Currencies: 11
-Cost: 1.55361
-=======================================================
+Frobenius Norm (approximation cost): 1.55361
+=========================================================
 CURRENCY STRENGTH SCORES
-AUD : -0.194037
-GBP : -0.1042
-CAD : -0.152404
+JPY : 0.4771
+CHF : 0.403
 DKK : 0.2016
 EUR : 0.1547
-JPY : 0.4771
-NZD : -0.3118
-NOK : -0.2869
-SEK : -0.1505
-CHF : 0.403
 USD : -0.0448
-=======================================================
+GBP : -0.1042
+SEK : -0.1505
+CAD : -0.152404
+AUD : -0.194037
+NOK : -0.2869
+NZD : -0.3118
+=========================================================
 
 Press any key to continue . . .
+
+
+
+
+
+
+
+
+
