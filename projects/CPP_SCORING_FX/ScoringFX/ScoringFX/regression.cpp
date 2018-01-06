@@ -162,7 +162,7 @@ void MergeVectors(std::vector<std::string> svect, std::vector<double> nvect, std
 }
 
 //Ranks the currencies according to the score
-std::vector<std::pair<std::string, double>> tri(std::vector<std::pair<std::string, double>> &vect)
+void tri(std::vector<std::pair<std::string, double>> &vect)
 {
 	for (int i = 0; i < vect.size() - 1; i++)
 	{
@@ -186,7 +186,6 @@ std::vector<std::pair<std::string, double>> tri(std::vector<std::pair<std::strin
 			vect[minimum].second = temp2;
 		}
 	}
-	return vect;
 }
 
 void Regression::PrintResults() const {
