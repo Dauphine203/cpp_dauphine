@@ -17,74 +17,82 @@ File: Sandbox for testing
 #include <istream>
 
 namespace sandbox {
-	
-	/// IMPORTING THE LIST OF CURRENCIES
-	
-	std::vector<std::string> ImportCurrenciesX(const std::string& path){
-		// Import
-		std::ifstream file(path); // Path
 
-		if (!file.is_open())
-		{ std::cerr << "Unable to open file" << "\n";
-		  std::exit(-1); }
-		// Vector
-		std::vector<std::string> vector;
-		std::copy(std::istream_iterator<std::string>(file), std::istream_iterator<std::string>(), std::back_inserter(vector));
-		file.close();
-
-		return vector;
-	}
-	
-
-	/// IMPORTING THE ANTISYMMETRIC MATRIX DATA
-
-	std::vector<std::vector<double>> ImportSkewMatrixX(const std::string& path, const int nb_currencies) {
-		
-		// Import
-		std::ifstream file(path);
-		if (!file) { std::cout << "Cannot open file.\n"; }
-
-		// Matrix
-		int D = nb_currencies;
-		std::vector<std::vector<double>> matrix(D, std::vector<double>(D));
-		for (int i = 0; i < D; i++) {
-			for (int j = 0; j < D; j++) {
-				file >> matrix[i][j]; } }
-		file.close();
-
-		return matrix;
-	}
-
-
-	/// CONVERT TO EIGEN MATRICES
-	
-	Eigen::MatrixXd ConvertToEigenMatrixX(std::vector<std::vector<double>> data)
+	/// ALGORITHME DE TRI
+	//  Create std::pair vector
+	void MergeVectors_SD(const std::vector<std::string> C, const std::vector<double> S, std::vector<std::pair<std::string, double>> &vect)
 	{
-		Eigen::MatrixXd eMatrix(data.size(), data[0].size());
-		for (int i = 0; i < data.size(); ++i)
-			eMatrix.row(i) = Eigen::VectorXd::Map(&data[i][0], data[0].size());
-		return eMatrix;
-	}
+		vect.resize(C.size());
 
-
-	/// COUNT AUTOMATICALLY THE NUMBER OF CURRENCIES
-	// Suggestion to have a dynamic dimension integer that adapts to data.txt length
-	// Will be integrated with the import data.txt function
-
-	int nb_currency(const std::string path)
-	{
-		int number_of_lines = 0;
-		int dim = 0;
-
-		std::ifstream myfile(path);
-		std::string line;
-		while (myfile.good())
+		for (int i = 0; i < C.size(); i++)
 		{
-			getline(myfile, line);
-			++number_of_lines;
+			vect[i] = std::make_pair(C[i], S[i]);
 		}
-
-		dim = number_of_lines;
-		return dim;
 	}
+
+	void MergeVectors_ID(const std::vector<int> C, const std::vector<double> S, std::vector<std::pair<int, double>> &vect)
+	{
+		vect.resize(C.size());
+
+		for (int i = 0; i < C.size(); i++)
+		{
+			vect[i] = std::make_pair(C[i], S[i]);
+		}
+	}
+
+
+	//	Rank currencies according to their score (PAIRED VECTOR CASE)
+	void Tri_SD(std::vector<std::pair<std::string, double>> &vect)
+	{
+		for (int i = 0; i < vect.size() - 1; i++)
+		{
+			int minimum = i;
+			for (int j = i + 1; j < vect.size(); j++)
+			{
+				if (vect[j].second < vect[minimum].second)
+				{
+					minimum = j;
+				}
+			}
+			if (minimum != i)
+			{
+				std::string temp1;
+				double temp2;
+				temp1 = vect[i].first;
+				temp2 = vect[i].second;
+				vect[i].first = vect[minimum].first;
+				vect[i].second = vect[minimum].second;
+				vect[minimum].first = temp1;
+				vect[minimum].second = temp2;
+			}
+		}
+	}
+
+	//	Rank currencies according to their score (PAIRED VECTOR CASE)
+	void Tri_ID(std::vector<std::pair<int, double>> &vect)
+	{
+		for (int i = 0; i < vect.size() - 1; i++)
+		{
+			int minimum = i;
+			for (int j = i + 1; j < vect.size(); j++)
+			{
+				if (vect[j].second < vect[minimum].second)
+				{
+					minimum = j;
+				}
+			}
+			if (minimum != i)
+			{
+				int temp1;
+				double temp2;
+				temp1 = vect[i].first;
+				temp2 = vect[i].second;
+				vect[i].first = vect[minimum].first;
+				vect[i].second = vect[minimum].second;
+				vect[minimum].first = temp1;
+				vect[minimum].second = temp2;
+			}
+		}
+	}
+
 }
