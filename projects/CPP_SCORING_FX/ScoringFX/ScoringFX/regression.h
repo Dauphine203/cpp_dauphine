@@ -44,6 +44,12 @@ class Regression : public Scoring {
 		bool CheckRegression;
 		/* Checks if regression was launched */
 
+		std::vector<std::pair<std::string, double>> Ranks1;
+		/* Ranking of scores per currency */
+
+		std::vector<std::pair<int, double>> Ranks2;
+		/* Ranking of scores per currency */
+
 
 	public:
 	
@@ -73,7 +79,7 @@ class Regression : public Scoring {
 
 
 		/// LEAST SQUARES REGRESSION
-		/// GET PROTECTED ATTRIBUTS: M, X, Y, S
+		/// GET PROTECTED ATTRIBUTS: M, X, Y, S, Ranks
 		void LeastSquaresRegression(std::string method);
 
 
@@ -84,7 +90,6 @@ class Regression : public Scoring {
 		Eigen::MatrixXd GetS() { return S; };
 		Eigen::MatrixXd GetO() { return O; };
 
-
 		/// PRINT RESULTS
 		void PrintResults() const;
 
@@ -92,12 +97,6 @@ class Regression : public Scoring {
 		/// CONVERT 2D DYNAMIC ARRAYS TO EIGEN MATRICES
 		Eigen::MatrixXd ConvertToEigenMatrix();
 
-
-		/// RANKED CURRENCIES
-		/// Algorithme de tri  <=====
-	
-		void MergeVectors(std::vector<std::string> svect, std::vector<double> nvect, std::vector<std::pair<std::string, double>> &vect);
-		void tri(std::vector<std::pair<std::string, double>> &vect);
 	};
 
 #endif

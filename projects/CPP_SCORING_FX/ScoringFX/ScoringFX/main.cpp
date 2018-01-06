@@ -8,18 +8,15 @@ File: Implementation
 
 /// PACKAGES
 #include <iostream>
-
 #include <fstream>
 #include <iterator>
 #include <string>
 #include <algorithm>
 #include <iomanip>
-
 #include <Eigen/Eigen>
 
 
 /// FILES
-#include "sandbox.h"
 #include "scoring.h"
 #include "regression.h"
 
@@ -38,15 +35,21 @@ int main(int argc, char* argv[]) {
 	std::cout << "Using the C++ programming language (and testing with generated data), produce a routine performing the" << std::endl;
 	std::cout << "approximation of an antisymmetrical matrix with the outerdifference of a score vector.\n" << std::endl;
 	
-	// Implementation
+	// INVOKE REGRESSION CLASS
 	Regression Xen;
-		
+	
+	// IMPLEMENTATION
+	/* Singular Value Decomposition (SVD)
+	   QR Decompostion (QR)
+	   Normal Equations (NE)
+	   Conjugate Gradient (CG) */
+	
 	Xen.RandomSkewMatrix(20);
-	Xen.LeastSquaresRegression("CG");
+	Xen.LeastSquaresRegression("SVD");
 	Xen.PrintResults();
 
 	system("pause");
-
+	
 
 	/// 2. IMPORTED DATA
 	/// ##################################################################
@@ -58,7 +61,7 @@ int main(int argc, char* argv[]) {
 	// Implementation
 	Xen.ImportSkewMatrix("data.txt");
 	Xen.ImportCurrencies("currencies.txt");
-	Xen.LeastSquaresRegression("CG");
+	Xen.LeastSquaresRegression("SVD");
 	Xen.PrintResults();
 
 	system("pause");
