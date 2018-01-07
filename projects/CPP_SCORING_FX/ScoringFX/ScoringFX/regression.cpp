@@ -165,7 +165,16 @@ void Regression::LeastSquaresRegression(std::string method) {
 	std::cout << "Invoked EigenLeastSquares() successfully." << std::endl;
 
 }
-	
+
+
+void GetTime()
+
+// Requires to use #define _CRT_SECURE_NO_WARNINGS or change properties --> 
+// C/C++ --> Preprocessor --> _CRT_SECURE_NO_WARNINGS
+{
+	std::time_t t = time(0);
+	std::cout << std::asctime(std::localtime(&t)) << std::endl;
+}
 
 /// PRINT RESULTS
 void Regression::PrintResults() const {
@@ -176,7 +185,7 @@ void Regression::PrintResults() const {
 		std::cout << "=========================================================" << std::endl;
 		std::cout << "SUMMARY OF RESULTS" << std::endl;
 		std::cout << "=========================================================" << std::endl;
-		sandbox::GetTime();
+		GetTime();
 		std::cout << "Method: Least Squares " << Method << std::endl;
 		std::cout << "External library: Eigen" << std::endl;
 		if (ImportedData == true) { std::cout << "Data: Imported" << std::endl; }
