@@ -15,7 +15,6 @@ File: Implementation
 #include <iomanip>
 #include <Eigen/Eigen>
 
-
 /// FILES
 #include "scoring.h"
 #include "regression.h"
@@ -25,7 +24,7 @@ int main(int argc, char* argv[]) {
 	
 
 	std::cout << "A C++ SCORING ALGORITHM FOR RANKING GLOBAL CURRENCIES BASED ON FINANCIAL MARKET SENTIMENT\n" << std::endl;
-	std::cout << "A simple method for ranking currencies based on their relative stability\n" << std::endl;
+	std::cout << "A simple method for ranking currencies based on their relative stability" << std::endl;
 	
 
 	/// 1. RANDOM DATA
@@ -35,6 +34,7 @@ int main(int argc, char* argv[]) {
 	std::cout << "Using the C++ programming language (and testing with generated data), produce a routine performing the" << std::endl;
 	std::cout << "approximation of an antisymmetrical matrix with the outerdifference of a score vector.\n" << std::endl;
 	
+
 	// INVOKE REGRESSION CLASS
 	Regression Xen;
 	
@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
 
 	system("pause");
 	
-
+	
 	/// 2. IMPORTED DATA
 	/// ##################################################################
 

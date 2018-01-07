@@ -176,7 +176,7 @@ void Regression::PrintResults() const {
 		std::cout << "=========================================================" << std::endl;
 		std::cout << "SUMMARY OF RESULTS" << std::endl;
 		std::cout << "=========================================================" << std::endl;
-		std::cout << "Time: " << time(0) << std::endl;
+		sandbox::GetTime();
 		std::cout << "Method: Least Squares " << Method << std::endl;
 		std::cout << "External library: Eigen" << std::endl;
 		if (ImportedData == true) { std::cout << "Data: Imported" << std::endl; }

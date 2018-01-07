@@ -11,10 +11,11 @@ File: Sandbox for testing
 #include <iterator>
 #include <string>
 #include <algorithm>
-
 #include <Eigen/Eigen>
-
 #include <istream>
+#include <Windows.h>
+#include <wchar.h>
+
 
 namespace sandbox {
 
@@ -102,6 +103,15 @@ namespace sandbox {
 		power = pow(10, b);  // 10^b
 		result = floor(a*power) / power;
 		return result;
+	}
+
+
+	/// GET DATETIME STAMP
+	void GetTime() {
+		SYSTEMTIME time;
+		GetLocalTime(&time);
+		wprintf(L"Datetime: %02d/%02d/%02d - %02d:%02d:%02d\n", time.wDay, time.wMonth, time.wYear,
+												        	    time.wHour, time.wMinute, time.wSecond);
 	}
 
 }
