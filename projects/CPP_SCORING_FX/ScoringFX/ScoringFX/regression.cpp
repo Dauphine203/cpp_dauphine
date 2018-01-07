@@ -43,132 +43,134 @@ void Regression::LeastSquaresRegression(std::string method) {
 	for (int i = 0; i < SkewMatrix.size(); ++i)
 		M_.row(i) = Eigen::VectorXd::Map(&SkewMatrix[i][0], SkewMatrix[0].size());
 
-
-	// 2. GENERATE OUTPUT VECTOR (Y)
-	int n = M_.rows() * (M_.rows() - 1);
+	if (M_.transpose() == -M_){
+		// 2. GENERATE OUTPUT VECTOR (Y)
+		int n = M_.rows() * (M_.rows() - 1);
 	
-	int x = -1;
-	Eigen::MatrixXd Y_ = Eigen::MatrixXd::Zero(n, 1);    // Protected variable
-	Eigen::MatrixXd Y_ix = Eigen::MatrixXd::Zero(n, 2);
+		int x = -1;
+		Eigen::MatrixXd Y_ = Eigen::MatrixXd::Zero(n, 1);    // Protected variable
+		Eigen::MatrixXd Y_ix = Eigen::MatrixXd::Zero(n, 2);
 	
-	for (int i = 0; i < M_.rows(); i++) {
-		for (int j = 0; j < M_.cols(); j++) {
+		for (int i = 0; i < M_.rows(); i++) {
+			for (int j = 0; j < M_.cols(); j++) {
 
-			if (M_(i, j) != 0) {
-				x = x + 1;
+				if (M_(i, j) != 0) {
+					x = x + 1;
 
-				// Elements
-				Y_(x, 0) = M_(i, j);
-				Y_ix(x, 0) = i + 1;
-				Y_ix(x, 1) = j + 1;
+					// Elements
+					Y_(x, 0) = M_(i, j);
+					Y_ix(x, 0) = i + 1;
+					Y_ix(x, 1) = j + 1;
+				}
 			}
 		}
-	}
 	
 
-	// 3. GENERATE DESIGN MATRIX (X)
-	Eigen::MatrixXd X_ = Eigen::MatrixXd::Zero(Y_.rows(), M_.rows());    // Protected variable
+		// 3. GENERATE DESIGN MATRIX (X)
+		Eigen::MatrixXd X_ = Eigen::MatrixXd::Zero(Y_.rows(), M_.rows());    // Protected variable
 
-	for (int i = 0; i < Y_.rows(); i++) {
+		for (int i = 0; i < Y_.rows(); i++) {
 
-		int s_i = Y_ix(i, 0);
-		int s_j = Y_ix(i, 1);
+			int s_i = Y_ix(i, 0);
+			int s_j = Y_ix(i, 1);
 
-		for (int j = 0; j < M_.rows(); j++) {
+			for (int j = 0; j < M_.rows(); j++) {
 
-			if (j + i == s_i) {
-				X_(i, j) = 1.0;
-			}
-			if (j + 1 == s_j) {
-				X_(i, j) = -1.0;
+				if (j + i == s_i) {
+					X_(i, j) = 1.0;
+				}
+				if (j + 1 == s_j) {
+					X_(i, j) = -1.0;
+				}
 			}
 		}
-	}
 
 		
-	// 4. LEAST SQUARES REGRESSION (S)
+		// 4. LEAST SQUARES REGRESSION (S)
 
-	Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());  // Protected variable
+		Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());  // Protected variable
 
-	// Method 1: Singular Value Decomposition
-	if (method == "SVD"){
-		Method = "by Singular Value Decomposition";
-		S_ = X_.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y_);
-	}
-
-	// Method 2: QR Decomposition
-	else if (method == "QR") {
-		Method = "by QR Decomposition";
-		S_ = X_.colPivHouseholderQr().solve(Y_);
-	}
-
-	// Method 3: Normal Equations
-	else if (method == "NE") {
-		Method = "by Normal Equations";
-		S_ = (X_.transpose() * X_).ldlt().solve(X_.transpose() * Y_);
-	}
-
-	// Method 4: Conjugate Gradient Descent
-	else if (method == "CG") {
-		Method = "by Conjugate Gradient";
-		Eigen::LeastSquaresConjugateGradient<Eigen::MatrixXd> lscg;
-		lscg.compute(X_);
-		S_ = lscg.solve(Y_);
-	}
-	else {
-		std::cout << "Error. Requires specification of least squares method." << std::endl;
-		std::cout << "Choices available: SVD, QR, Normal equations (NE), Conjugate Gradient Descent (CG)" << std::endl;
-	}
-
-
-
-	// OUTER-DIFFERENCE MATRIX (O) OF THE SCORE VECTOR S
-	Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());   // Protected variable
-	for (int i = 0; i < SkewMatrix.size(); ++i) {
-		for (int j = 0; j < SkewMatrix.size(); ++j) {
-				
-			O_(i, j) = S_(i) - S_(j);
-			//O_(i, j) = sandbox::Arrondir(O_(i, j),2); // We want the outer difference to be precise to the hundredth
-				
+		// Method 1: Singular Value Decomposition
+		if (method == "SVD"){
+			Method = "by Singular Value Decomposition";
+			S_ = X_.jacobiSvd(Eigen::ComputeThinU | Eigen::ComputeThinV).solve(Y_);
 		}
-	}
+
+		// Method 2: QR Decomposition
+		else if (method == "QR") {
+			Method = "by QR Decomposition";
+			S_ = X_.colPivHouseholderQr().solve(Y_);
+		}
+
+		// Method 3: Normal Equations
+		else if (method == "NE") {
+			Method = "by Normal Equations";
+			S_ = (X_.transpose() * X_).ldlt().solve(X_.transpose() * Y_);
+		}
+
+		// Method 4: Conjugate Gradient Descent
+		else if (method == "CG") {
+			Method = "by Conjugate Gradient";
+			Eigen::LeastSquaresConjugateGradient<Eigen::MatrixXd> lscg;
+			lscg.compute(X_);
+			S_ = lscg.solve(Y_);
+		}
+		else {
+			std::cout << "Error. Requires specification of least squares method." << std::endl;
+			std::cout << "Choices available: SVD, QR, Normal equations (NE), Conjugate Gradient Descent (CG)" << std::endl;
+		}
+
+
+
+		// OUTER-DIFFERENCE MATRIX (O) OF THE SCORE VECTOR S
+		Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());   // Protected variable
+		for (int i = 0; i < SkewMatrix.size(); ++i) {
+			for (int j = 0; j < SkewMatrix.size(); ++j) {
+				
+				O_(i, j) = S_(i) - S_(j);
+				//O_(i, j) = sandbox::Arrondir(O_(i, j),2); // We want the outer difference to be precise to the hundredth
+				
+			}
+		}
 	
-	// UPDATE PROTECTED VARIABLES
-	M = M_;							// Antisymmetric matrix
-	X = X_;							// Design matrix (X)
-	Y = Y_;							// Output vector (Y)
-	S = S_;							// Score vector (S)
-	O = O_;							// Outerdifference matrix of score vector (O)
-	CheckRegression = true;
+		// UPDATE PROTECTED VARIABLES
+		M = M_;							// Antisymmetric matrix
+		X = X_;							// Design matrix (X)
+		Y = Y_;							// Output vector (Y)
+		S = S_;							// Score vector (S)
+		O = O_;							// Outerdifference matrix of score vector (O)
+		CheckRegression = true;
 
+		// ALGORITHME DE TRI
+		// Convert again results into std::vector s for ranking
+		std::vector<double> s(dim);
+		for (int i = 0; i < s.size(); i++) {
+			s[i] = S_(i);
+		}
 
-	// ALGORITHME DE TRI
-	// Convert again results into std::vector s for ranking
-	std::vector<double> s(dim);
-	for (int i = 0; i < s.size(); i++) {
-		s[i] = S_(i);
-	}
+		// Triage
+		if (ImportedData == true) {
+			std::vector<std::pair<std::string, double>> v;
 
-	// Triage
-	if (ImportedData == true) {
-		std::vector<std::pair<std::string, double>> v;
+			sandbox::MergeVectors_SD(Currencies, s, v);
+			sandbox::Tri_SD(v);
+			Ranks1 = v;
+		}
+		else {
+			std::vector<int> c(dim);
+			for (int i = 0; i < s.size(); i++) { c[i] = i+1; };
+			std::vector<std::pair<int, double>> v;
 
-		sandbox::MergeVectors_SD(Currencies, s, v);
-		sandbox::Tri_SD(v);
-		Ranks1 = v;
+			sandbox::MergeVectors_ID(c, s, v);
+			sandbox::Tri_ID(v);
+			Ranks2 = v;
+		}
+
+		std::cout << "Invoked EigenLeastSquares() successfully." << std::endl;
 	}
 	else {
-		std::vector<int> c(dim);
-		for (int i = 0; i < s.size(); i++) { c[i] = i+1; };
-		std::vector<std::pair<int, double>> v;
-
-		sandbox::MergeVectors_ID(c, s, v);
-		sandbox::Tri_ID(v);
-		Ranks2 = v;
+		std::cout << "Error. SkewMatrix supplied is not an antisymmetric matrix" << std::endl;
 	}
-
-	std::cout << "Invoked EigenLeastSquares() successfully." << std::endl;
-
 }
 
 
@@ -178,8 +180,9 @@ void GetTime()
 // C/C++ --> Preprocessor --> _CRT_SECURE_NO_WARNINGS
 {
 	std::time_t t = time(0);
-	std::cout << std::asctime(std::localtime(&t)) << std::endl;
+	std::cout << "Time: " << std::asctime(std::localtime(&t));
 }
+
 
 /// PRINT RESULTS
 void Regression::PrintResults() const {

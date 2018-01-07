@@ -2,7 +2,6 @@ A C++ SCORING ALGORITHM FOR RANKING GLOBAL CURRENCIES BASED ON FINANCIAL MARKET 
 
 A simple method for ranking currencies based on their relative stability
 
-
 1. ROUTINE
 Using the C++ programming language (and testing with generated data), produce a routine performing the
 approximation of an antisymmetrical matrix with the outerdifference of a score vector.
@@ -16,35 +15,36 @@ Invoked EigenLeastSquares() successfully.
 =========================================================
 SUMMARY OF RESULTS
 =========================================================
-Time: 1515265714
+Time: Sun Jan  7 19:27:49 2018
 Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Random
 No. Observations: 380
 No. Currencies: 20
-Frobenius Norm (approximation cost): 49568.4
-=========================================================
-CURRENCY STRENGTH SCORES
-Score 4 : 6.11111
-Score 7 : 4.47059
-Score 20 : 3.66667
-Score 13 : 2.63158
-Score 6 : 2.36842
-Score 10 : 2
-Score 19 : 1.89474
-Score 15 : 1.77778
-Score 5 : 1.05556
-Score 12 : 0.789474
-Score 2 : 0.5
-Score 1 : 0.420613
-Score 8 : 0.263158
-Score 18 : -0.947368
-Score 9 : -3
-Score 11 : -3.88235
-Score 14 : -4.22222
-Score 16 : -4.55556
-Score 3 : -4.58774
-Score 17 : -6.21053
+Frobenius Norm (approximation cost): 51454.9
+---------------------------------------------------------
+SCORES
+---------------------------------------------------------
+Score 12 : 3.78947
+Score 17 : 3.72222
+Score 4 : 3.55556
+Score 15 : 2.77778
+Score 10 : 2.15789
+Score 5 : 2.10526
+Score 20 : 1.68421
+Score 7 : 0.833333
+Score 9 : 0.526316
+Score 1 : 0.298153
+Score 14 : 0.210526
+Score 18 : -0.111111
+Score 2 : -1.52632
+Score 8 : -1.61111
+Score 16 : -2
+Score 3 : -2.03694
+Score 11 : -2.05263
+Score 13 : -3.47368
+Score 6 : -3.89474
+Score 19 : -4.21053
 =========================================================
 
 Press any key to continue . . .
@@ -61,18 +61,19 @@ Invoked EigenLeastSquares() successfully.
 =========================================================
 SUMMARY OF RESULTS
 =========================================================
-Time: 1515265716
+Time: Sun Jan  7 19:27:51 2018
 Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Imported
 No. Observations: 110
 No. Currencies: 11
-Frobenius Norm (approximation cost): 1.55361
-=========================================================
-CURRENCY STRENGTH SCORES
+Frobenius Norm (approximation cost): 1.55451
+---------------------------------------------------------
+SCORES
+---------------------------------------------------------
 JPY : 0.4771
 CHF : 0.403
-DKK : 0.2016
+DKK : 0.2024
 EUR : 0.1547
 USD : -0.0448
 GBP : -0.1042
@@ -84,12 +85,3 @@ NZD : -0.3118
 =========================================================
 
 Press any key to continue . . .
-
-
-
-
-
-
-
-
-

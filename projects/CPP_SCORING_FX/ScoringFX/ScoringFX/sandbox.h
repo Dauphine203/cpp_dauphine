@@ -107,11 +107,13 @@ namespace sandbox {
 
 
 	/// GET DATETIME STAMP
-	void GetTime() {
+	void GetTimeTest() {
 		SYSTEMTIME time;
 		GetLocalTime(&time);
 		wprintf(L"Datetime: %02d/%02d/%02d - %02d:%02d:%02d\n", time.wDay, time.wMonth, time.wYear,
 												        	    time.wHour, time.wMinute, time.wSecond);
 	}
+
+
 
 }

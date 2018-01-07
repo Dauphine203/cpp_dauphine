@@ -96,9 +96,6 @@ class Regression : public Scoring {
 
 		/// CONVERT 2D DYNAMIC ARRAYS TO EIGEN MATRICES
 		Eigen::MatrixXd ConvertToEigenMatrix();
-	
-		// Get current time
-		void GetTime();
 
 	};
 
