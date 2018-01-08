@@ -12,8 +12,8 @@ File: FX Scoring Class Methods
 #include <ctime>
 #include <iomanip>
 #include <cmath>
-
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <fstream>
 #include <iterator>
@@ -105,7 +105,7 @@ void Scoring::ImportSkewMatrix(const std::string& path) {
 
 void Scoring::loadFromCSV( const std::string& filename )
 {
-    std::ifstreamvfile( filename.c_str() );
+    std::ifstream file( filename.c_str() );
     std::vector< std::vector<std::string> > matrix;
     std::vector<std::string>row;
     std::string line;
@@ -131,9 +131,8 @@ void Scoring::loadFromCSV( const std::string& filename )
 
         std::cout << std::endl;
     }
+
 }
-
-
 
 
 void Scoring::ImportCurrencies(const std::string& path) {

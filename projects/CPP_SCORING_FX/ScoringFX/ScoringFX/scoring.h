@@ -112,6 +112,11 @@ class Scoring {
 
 		std::vector<std::vector<double>> GetSkewMatrix() const { return SkewMatrix; }
 
+
+		/// IMPORT CSV DATA
+		void Scoring::loadFromCSV(const std::string& filename);
+
+
 };
 
 #endif
