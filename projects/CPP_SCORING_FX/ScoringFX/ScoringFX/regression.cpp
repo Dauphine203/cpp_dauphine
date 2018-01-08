@@ -38,13 +38,18 @@ Eigen::MatrixXd Regression::ConvertToEigenMatrix() {
 /// LEAST SQUARES REGRESSION
 void Regression::LeastSquaresRegression(std::string method) {
 	
-	// 1. GENERATE ANTISYMMETRIC MATRIX (M)
-	Eigen::MatrixXd M_(SkewMatrix.size(), SkewMatrix[0].size());    // Protected variable
+
+	/// 1. Generate antisymmetric matrix (M)
+	// Takes here the data from SkewMatrix (either imported or randomly generated)
+	Eigen::MatrixXd M_(SkewMatrix.size(), SkewMatrix[0].size());
 	for (int i = 0; i < SkewMatrix.size(); ++i)
 		M_.row(i) = Eigen::VectorXd::Map(&SkewMatrix[i][0], SkewMatrix[0].size());
 
+	// Impose a condition : needs to be an antisymmetric matrix
 	if (M_.transpose() == -M_){
-		// 2. GENERATE OUTPUT VECTOR (Y)
+
+
+		/// 2. Output vector of risk reversal values (Y) = Dependent variables
 		int n = M_.rows() * (M_.rows() - 1);
 	
 		int x = -1;
@@ -55,10 +60,16 @@ void Regression::LeastSquaresRegression(std::string method) {
 			for (int j = 0; j < M_.cols(); j++) {
 
 				if (M_(i, j) != 0) {
+
 					x = x + 1;
 
-					// Elements
+					// Fill the output vector Y of every Mij element (except cases of i = j where Mij = 0)
 					Y_(x, 0) = M_(i, j);
+					
+					// Matrix that indicates for every Mij risk reversal value which
+					// currency we are dealing with (currencies i and j). This is ne-
+					// cecessary for constructing the design matrix X of independent
+					// variables
 					Y_ix(x, 0) = i + 1;
 					Y_ix(x, 1) = j + 1;
 				}
@@ -66,11 +77,15 @@ void Regression::LeastSquaresRegression(std::string method) {
 		}
 	
 
-		// 3. GENERATE DESIGN MATRIX (X)
-		Eigen::MatrixXd X_ = Eigen::MatrixXd::Zero(Y_.rows(), M_.rows());    // Protected variable
+		/// 3. Generate design matrix of independent variables (X)
+		Eigen::MatrixXd X_ = Eigen::MatrixXd::Zero(Y_.rows(), M_.rows());
 
 		for (int i = 0; i < Y_.rows(); i++) {
 
+			// For every M_ij element, it has 2 independent variables: Scores S_i and S_j
+			// M_ij = S_i - S_j. Thus, if we are dealing with currencies 1 and 2, we have
+			// M_12 = S_1 - S_2. Check C++ Summary Report for full details of implementa-
+			// tion.
 			int s_i = Y_ix(i, 0);
 			int s_j = Y_ix(i, 1);
 
@@ -86,9 +101,9 @@ void Regression::LeastSquaresRegression(std::string method) {
 		}
 
 		
-		// 4. LEAST SQUARES REGRESSION (S)
+		/// 4. Least squares regression Y = X * S for computing score vector (S)
 
-		Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());  // Protected variable
+		Eigen::VectorXd S_ = Eigen::VectorXd::Random(SkewMatrix.size());
 
 		// Method 1: Singular Value Decomposition
 		if (method == "SVD"){
@@ -122,26 +137,26 @@ void Regression::LeastSquaresRegression(std::string method) {
 
 
 
-		// OUTER-DIFFERENCE MATRIX (O) OF THE SCORE VECTOR S
-		Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());   // Protected variable
+		/// 5. Outdifference matrix of a score vector (O)
+		Eigen::MatrixXd O_ = Eigen::MatrixXd::Zero(SkewMatrix.size(), SkewMatrix.size());
 		for (int i = 0; i < SkewMatrix.size(); ++i) {
 			for (int j = 0; j < SkewMatrix.size(); ++j) {
 				
 				O_(i, j) = S_(i) - S_(j);
-				//O_(i, j) = sandbox::Arrondir(O_(i, j),2); // We want the outer difference to be precise to the hundredth
-				
 			}
 		}
 	
-		// UPDATE PROTECTED VARIABLES
-		M = M_;							// Antisymmetric matrix
-		X = X_;							// Design matrix (X)
-		Y = Y_;							// Output vector (Y)
-		S = S_;							// Score vector (S)
-		O = O_;							// Outerdifference matrix of score vector (O)
+
+		/// 6. Update protected variables
+		M = M_;									// Antisymmetric matrix (M)
+		X = X_;									// Design matrix (X)
+		Y = Y_;									// Output vector (Y)
+		S = S_;									// Score vector (S)
+		O = O_;									// Outerdifference matrix of score vector (O)
 		CheckRegression = true;
 
-		// ALGORITHME DE TRI
+
+		/// 7. Rank currencies
 		// Convert again results into std::vector s for ranking
 		std::vector<double> s(dim);
 		for (int i = 0; i < s.size(); i++) {
@@ -249,7 +264,7 @@ void Regression::PrintResults() const {
 }
 
 
-// To make it more presentable
+/// To make it more presentable when we print the outerdifference matrix
 Eigen::MatrixXd Regression::GetO(){
 
 	Eigen::MatrixXd O_ = O;

@@ -134,7 +134,8 @@ void Scoring::PrintCurrencies() const {
 
 
 void Scoring::loadFromCSV(const std::string& filename)
-{
+{	
+
 	std::ifstream file(filename.c_str());
 	std::vector< std::vector<std::string> > matrix;
 	std::vector<std::string>row;
