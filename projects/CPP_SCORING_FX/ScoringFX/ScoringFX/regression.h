@@ -88,7 +88,7 @@ class Regression : public Scoring {
 		Eigen::MatrixXd GetY() { return Y; };
 		Eigen::MatrixXd GetX() { return X; };
 		Eigen::MatrixXd GetS() { return S; };
-		Eigen::MatrixXd GetO() { return O; };
+		Eigen::MatrixXd GetO();
 
 		/// PRINT RESULTS
 		void PrintResults() const;

@@ -247,3 +247,17 @@ void Regression::PrintResults() const {
 	}
 	
 }
+
+
+// To make it more presentable
+Eigen::MatrixXd Regression::GetO(){
+
+	Eigen::MatrixXd O_ = O;
+
+	for (int i = 0; i < O_.rows(); i++) {
+		for (int j = 0; j < O_.cols(); j++) {
+			O_(i, j) = sandbox::Arrondir(O_(i, j), 2);
+		}
+	}
+	return O_;
+};
