@@ -211,9 +211,10 @@ void Regression::PrintResults() const {
 		if (ImportedData == true) {
 			// Case 1: Imported Data. Currencies vector rank matches antisymmetric matrix rank
 			if (Currencies.size() == SkewMatrix.size()) {
-
+				int r = 0;
 				for (std::vector<int>::size_type i = Ranks1.size() - 1; i != (std::vector<int>::size_type) - 1; i--) {
-					std::cout << Ranks1[i].first << " : " << Ranks1[i].second << std::endl;
+					r = r + 1;
+					std::cout << r << ". " << Ranks1[i].first << " : " << Ranks1[i].second << std::endl;
 				}
 			}
 			else {

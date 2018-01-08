@@ -15,36 +15,36 @@ Invoked EigenLeastSquares() successfully.
 =========================================================
 SUMMARY OF RESULTS
 =========================================================
-Time: Sun Jan  7 19:27:49 2018
+Time: Mon Jan  8 14:36:00 2018
 Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Random
 No. Observations: 380
 No. Currencies: 20
-Frobenius Norm (approximation cost): 51454.9
+Frobenius Norm (approximation cost): 49981
 ---------------------------------------------------------
 SCORES
 ---------------------------------------------------------
-Score 12 : 3.78947
-Score 17 : 3.72222
-Score 4 : 3.55556
-Score 15 : 2.77778
-Score 10 : 2.15789
-Score 5 : 2.10526
-Score 20 : 1.68421
-Score 7 : 0.833333
-Score 9 : 0.526316
-Score 1 : 0.298153
-Score 14 : 0.210526
-Score 18 : -0.111111
-Score 2 : -1.52632
-Score 8 : -1.61111
-Score 16 : -2
-Score 3 : -2.03694
-Score 11 : -2.05263
-Score 13 : -3.47368
-Score 6 : -3.89474
-Score 19 : -4.21053
+Score 6 : 5.21053
+Score 8 : 3.05556
+Score 11 : 3
+Score 10 : 2.72222
+Score 12 : 2.36842
+Score 7 : 2
+Score 20 : 1.36842
+Score 19 : 0.789474
+Score 15 : 0.166667
+Score 4 : -0.166667
+Score 5 : -0.210526
+Score 13 : -1.21053
+Score 3 : -1.45404
+Score 14 : -1.73684
+Score 16 : -2.05556
+Score 2 : -2.05556
+Score 1 : -2.1727
+Score 9 : -2.84211
+Score 17 : -3.26316
+Score 18 : -4.11111
 =========================================================
 
 Press any key to continue . . .
@@ -61,27 +61,35 @@ Invoked EigenLeastSquares() successfully.
 =========================================================
 SUMMARY OF RESULTS
 =========================================================
-Time: Sun Jan  7 19:27:51 2018
+Time: Mon Jan  8 14:36:02 2018
 Method: Least Squares by Singular Value Decomposition
 External library: Eigen
 Data: Imported
-No. Observations: 110
-No. Currencies: 11
-Frobenius Norm (approximation cost): 1.55451
+No. Observations: 342
+No. Currencies: 19
+Frobenius Norm (approximation cost): 28.5363
 ---------------------------------------------------------
 SCORES
 ---------------------------------------------------------
-JPY : 0.4771
-CHF : 0.403
-DKK : 0.2024
-EUR : 0.1547
-USD : -0.0448
-GBP : -0.1042
-SEK : -0.1505
-CAD : -0.152404
-AUD : -0.194037
-NOK : -0.2869
-NZD : -0.3118
+1. XAU : 0.567956
+2. XAG : 0.562206
+3. CHF : 0.531661
+4. EUR : 0.399333
+5. JPY : 0.37995
+6. CNY : 0.290411
+7. USD : 0.187278
+8. GBP : 0.168128
+9. HKD : 0.157778
+10. DKK : 0.143306
+11. CAD : 0.132082
+12. AUD : 0.112983
+13. NZD : 0.106217
+14. SEK : 0.0860667
+15. NOK : 0.00666111
+16. THB : -0.0491
+17. BRL : -0.865278
+18. RUB : -1.36694
+19. ZAR : -1.54273
 =========================================================
 
 Press any key to continue . . .
