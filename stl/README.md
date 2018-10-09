@@ -1,4 +1,4 @@
-The slides are available on [QuantStack's website](http://quantstack.net/talks/cpp_dauphine/stl/index.html)
+The slides are available on [QuantStack's website](http://quantstack.net/cpp_dauphine/stl/index.html)
 
 ## cmake cheatsheet
 

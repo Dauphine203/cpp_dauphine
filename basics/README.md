@@ -1,4 +1,4 @@
-The slides are available on [QuantStack's website](http://quantstack.net/talks/cpp_dauphine/basics/index.html)
+The slides are available on [QuantStack's website](http://quantstack.net/cpp_dauphine/basics/index.html)
 
 ## Command line cheatsheet
 
@@ -9,3 +9,5 @@ The slides are available on [QuantStack's website](http://quantstack.net/talks/c
 - rm file    : removes the file named file
 - rm -r dir  : removes the subdirectory dir and all it contains
 
+The TAB key can be used to autocomplete. For instance, if you want to `cd` in `my_super_long_directory`,
+just type `cd my_s` and hit the TAB key.
