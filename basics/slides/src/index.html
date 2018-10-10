@@ -859,9 +859,96 @@ d[4] = 2.7;
                 </section>
                 <section>
                     <section>
-                        <h1>Exercise</h1>
+                        <h1>Exercises</h1>
                     </section>
                     <section>
+                        <p>Write a program that computes the factorial of a number</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int factorial = 1;
+    for(int i = 1; i &lt;= num; ++i)
+    {
+        factorial *= i;
+    }
+    std::cout &lt;&lt; "The factorial of " &lt;&lt; num &lt;&lt; " is " &lt;&lt; factorial &lt;&lt; std::endl;
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Write a program to check whether a number is prime or not.</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int nb_div = 0;
+    for(int div = 1; i &lt;= num; ++i)
+    {
+        if(num % div == 0)
+        {
+            ++nb_div;
+        }
+    }
+    if(nb_div == 2)
+    {
+        std::cout &lt;&lt; "The entered number is a prime number" &lt;&lt; std::endl;
+    }
+    else
+    {
+        std::cout &lt;&lt; "The entered number is not a prime number" &lt;&lt; std::endl;
+    }
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Write a program that computes the sum of the digits of an integer</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int i = num, sum = 0;
+    while(i &gt; 0)
+    {
+        int r = i % 10;
+        i /= 10;
+        sum += r;
+    }
+    std::cout &lt;&lt; "The sum of digits of " &lt;&lt; num &lt;&lt; " is " &lt;&lt; sum &lt;&lt; std::endl;
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Write a program that computes the frequency of each digit in a given integer</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    for(int i = 0; i &lt; 10; ++i)
+    {
+        std::cout &lt;&lt; "The frequency of " &lt;&lt; i &lt;&lt; " is ";
+        int cnt = 0;
+        for(int j = num; j &gt; 0; j /= 10)
+        {
+            int r = j % 10;
+            if(r == i)
+            {
+                ++cnt;
+            }
+        }
+        std::cout &lt;&lt; cnt &lt;&lt; std::endl;
+    }
+                            </code></pre>
+                        </div>
+                    </section>
+                    <section>
+                        <p>Write a program that prints the first n terms of Fibonacci series</p>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    int f1 = 0, f2 = 1;
+    std::cout &lt;&lt; f1 &lt;&lt; " " &lt;&lt; f2;
+    for(int i = 2; i &lt; n; ++i)
+    {
+        int f3 = f1 + f2;
+        std::cout &lt;&lt; " " &lt;&lt; f3;
+        f1 = f2;
+        f2 = f3;
+    }
+    std::cout &lt;&lt; std::endl;
+                            </code></pre>
+                        </div>
                     </section>
                 </section>
             </div>
