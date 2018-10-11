@@ -198,6 +198,35 @@
                 </section>
                 <section>
                     <section>
+                        <h2>Required tools - Windows</h2>
+                        <ul>
+                            <li>Git bash (download at https://gitforwindows.org/)</li>
+                            <li>CMake (download at https://cmake.org/download/)</li>
+                            <li>Visual Studio 2015 Community edition, with C++ component</li>
+                            <li>DO NOT INSTALL Visual Studio 2017</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Required tools - Linux</h2>
+                        <ul>
+                            <li>Git</li>
+                            <li>gcc</li>
+                            <li>cmake</li>
+                            <li>an editor (vim, atom emacs, gedit)</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Required tools - OSX</h2>
+                        <ul>
+                            <li>Git</li>
+                            <li>clang or XCode</li>
+                            <li>cmake</li>
+                            <li>optional: an editor if you don't want to use xcode</li>
+                        </ul>
+                    </section>
+                </section>
+                <section>
+                    <section>
                         <h2>Version Control System</h2>
                         <ul>
                             <li>Document_v1</li>
@@ -247,9 +276,12 @@
                     </section>
                     <section>
                         <h2>Git</h2>
+                        <p>Create a "document_name.txt" into basics/git_tutorial/</p>
+                        <p>(where name is replace with your last name)</p>
+                        <p>that contains your first name and last name, and your github pseudo</p>
                         <pre class="panel"><code class="bash panel">
     git checkout -b my_branch
-    git add document.txt
+    git add document_XX.txt
     git commit -m "commit message"
                         </code></pre>
                     </section>
@@ -261,6 +293,8 @@
                     </section>
                     <section>
                         <h2>Git</h2>
+                        <p>Do not execute the following lines, that's for illustration</p>
+                        <p>Instead, go to https://github.com/QuantStack/cpp_dauphine and open a Pull Request</p>
                         <pre class="panel"><code class="bash panel">
     git checkout master
     git merge my_branch
