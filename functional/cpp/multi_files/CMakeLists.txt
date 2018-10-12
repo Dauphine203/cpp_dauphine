@@ -22,7 +22,9 @@ endif()
 
 set(FUNCTIONAL_SRCS
     main.cpp
-    discount_factor.cpp)
+    discount_factor.cpp
+    discount_factor.hpp
+    bond_pricer.hpp)
 
 set(FUNCTIONAL_TARGET functional)
 add_executable(${FUNCTIONAL_TARGET} ${FUNCTIONAL_SRCS})
