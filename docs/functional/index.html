@@ -144,14 +144,43 @@
                         }
                     </style>
                     <section>
-                        <h3>Function declaration</h3>
-                        <pre class="panel"><code class="cpp panel">
-    double discount_factor(double rate, double maturity);
-    void print_discount_factor(double rate, double maturity);
-    //
-    return_type function_name(arg_type1 arg1, arg_type2 arg2);
+                        <h3>Update your repo</h3>
+                        <p>Open a terminal (or git bash), cd to your repo and type the following</p>
+                        <pre class="panel"><code class="bash panel">
+    git checkout master
+    git pull upstream master
+    git push origin master
+    git branch -d my_branch
+    git checkout -b functional
                         </code></pre>
                     </section>
+                    <section>
+                        <h3>Check your build setup - OSX</h3>
+                        <p>In the terminal, cd to functional/cpp/single_file</p>
+                        <pre class="panel"><code class="bash panel">
+    mkdir build
+    cd build
+    cmake ..
+    make
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Check your build setup - Windows</h3>
+                        <p>In git-bash, cd to functional/cpp/single_file</p>
+                        <pre class="panel"><code class="bash panel">
+    mkdir build
+    cd build
+                        </code></pre>
+                        <p>Open "Invite de commandes des outils natifs x64 de VS2015</p>
+                        <p>(just type "natifs" in the search bar of Windows)</p>
+                        <p>cd to C:\Users\your_name\cpp_dauphine\functional\cpp\single_file\build</p>
+                        <pre class="panel"><code class="bash panel">
+    cmake -G "NMake Makefiles" ..
+    nmake
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
                     <section>
                         <h3>Function definition</h3>
                         <pre class="panel"><code class="cpp panel">
@@ -168,14 +197,6 @@
         // No return statement here
     }
                         </code></pre>
-                    </section>
-                    <section>
-                        <h3>One definition rule (ODR)</h3>
-                        <ul>
-                            <li>For every C++ primitive (variable, function, class)</li>
-                            <li>Many declarations allowed</li>
-                            <li>Only ONE definition</li>
-                        </ul>
                     </section>
                     <section>
                         <h3>Arguments</h3>
@@ -204,7 +225,7 @@
                         <h3>Arguments</h3>
                         <p>Type checking</p>
                         <pre class="panel"><code class="cpp panel">
-double discount_factor(double rate, double maturity);
+double discount_factor(double rate, double maturity) { ... }
 int main(int argc, char* argv[])
 {
     const char* rate = "0.04";
@@ -220,12 +241,12 @@ int main(int argc, char* argv[])
                         <h3>Arguments</h3>
                         <p>Arguments conversion</p>
                         <pre class="panel"><code class="cpp panel">
-double discount_factor(double rate, double maturity);
+double discount_factor(double rate, double maturity) { ... }
 int main(int argc, char* argv[])
 {
     const char* rate = "0.04";
     double r = 0.04;
-    int m = 2.5;
+    int m = 2;
     discount_factor(rate, m); // Error
     discount_factor(r, m);    // Ok
     return 0;
@@ -237,35 +258,21 @@ int main(int argc, char* argv[])
                         <p>Default argument</p>
                         <div>
                             <pre class="panel"><code class="cpp panel">
-    double discount_factor(double rate, double maturity);
+    double discount_factor(double rate, double maturity) { ... }
     double d = discount_factor(0.04); // Error
                             </code></pre>
                         </div>
                         <div class="fragment">
                             <pre class="panel"><code class="cpp panel">
-    double discount_factor(double rate, double maturity = 1.);
+    double discount_factor(double rate, double maturity = 1.) { ... }
     double d = discount_factor(0.04); // OK - Equivalent to discount_factor(0.04, 1.)
-                            </code></pre>
-                        </div>
-                    </section>
-                    <section>
-                        <h3>Arguments</h3>
-                        <p>Default argument</p>
-                        <div>
-                            <pre class="panel"><code class="cpp panel">
-    double discount_factor(double rate = 0.01, double maturity); // Illegal
-    double my_function(double a1, double a2 = 0., double a3);    // Illegal
+    double d = discount_factor(0.04, 2.5) // OK, does not use the default argument
                             </code></pre>
                         </div>
                         <div class="fragment">
                             <pre class="panel"><code class="cpp panel">
-    // Declaration
-    double discount_factor(double rate, double maturity = 1.);
-    // Definition
-    double discount_factor(double rate, double maturity = 1.) // Illegal
-    {
-        return srd::exp(-rate * maturity);
-    }
+    double discount_factor(double rate = 0.01, double maturity) { ... } // Illegal
+    double my_function(double a1, double a2 = 0., double a3) { ... }    // Illegal
                             </code></pre>
                         </div>
                     </section>
@@ -413,17 +420,19 @@ void discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vecto
                         <pre class="panel"><code class="cpp panel">
 std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity);
 
-void client()
+int main(int argc, char* argv[])
 {
     double df = discount_factor(0.04, 1.5); // error, cannot convert parameter 1 ...
+    return 0;
 }
                         </code></pre>
                         <div class="fragment">
                             <pre class="panel"><code class="cpp panel">
-void client()
+int main(int argc, char* argv[])
 {
     std::vector&lt;double&gt; res = discount_factor(std::vector&lt;double&gt;(1, 0.04), std::vector&lt;double&gt;(1, 1.5));
     double df = res[0];
+    return 0;
 }
                             </code></pre>
                         </div>
@@ -434,12 +443,13 @@ void client()
 std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt;&amp; rate, const std::vector&lt;double&gt;&amp; maturity);
 double discount_factor(double rate, double maturity);
 
-void client()
+int main(int argc, char* argv[])
 {
     std::vector&lt;double&gt; r(3, 0.04);
     std::vector&lt;double&gt; m(3, 1.5);
     std::vector&lt;double&gt; df_vec = discount_factor(r, m);
     double df = discount_factor(0.04, 1.5);
+    return 0;
 }
                         </code></pre>
                     </section>
@@ -481,6 +491,12 @@ void client()
                 <section>
                     <section>
                         <h3>Code organization</h3>
+                        <p>In the terminal, cd to ../multi_files</p>
+                        <p>Open discount_factor.cpp and follow the instruction</p>
+                        <p>Open main.cpp and follow the instruction</p>
+                    </section>
+                    <section>
+                        <h3>Code organization</h3>
                         <pre class="panel"><code class="cpp panel">
 // discount_factor.cpp
 double discount_factor(double rate, double maturity)
@@ -491,48 +507,92 @@ std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, con
 {
     // ...
 }
+void print_discount_factor(double rate, double maturity)
+{
+    // ...
+}
                         </code></pre>
                         <pre class="panel"><code class="cpp panel">
 // main.cpp
-void client()
+int main(int argc, char* argv[])
 {
-    double df = discount_factor(0.04, 1.5); //Error, discount_factor does not exist
+    double df = discount_factor(0.04, 1.5);
+    return 0;
 }
                         </code></pre>
                     </section>
                     <section>
-                        <h3>Code organization</h3>
+                        <h3>Code organization - OSX</h3>
+                        <p>Try to build the program</p>
                         <pre class="panel"><code class="cpp panel">
-// discount_factor.hpp
-#ifndef DISCOUNT_FACTOR_HPP
-#define DISCOUNT_FACTOR_HPP
-
-double discount_factor(double rate, double maturity);
-std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
-#endif
-
-// main.cpp
-#include "discount_factor.hpp"
-void client()
-{
-    double df discount_factor(0.04, 1.5);
-}
+    mkdir build
+    cd build
+    cmake ..
+    make
                         </code></pre>
+                    </section>
+                    <section>
+                        <h3>Code organization - Windows</h3>
+                        <p>Try to build the program</p>
+                        <pre class="panel"><code class="cpp panel">
+    mkdir build
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    cd build
+    cmake -G "NMake Makefiles" ..
+    nmake
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Function declaration</h3>
+                        <pre class="panel"><code class="cpp panel">
+    double discount_factor(double rate, double maturity);
+    std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+    void print_discount_factor(double rate, double maturity);
+    
+    // Syntax of a function declaration:
+    return_type function_name(arg_type1 arg1, arg_type2 arg2);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Default arguments</h3>
+                        <pre class="panel"><code class="cpp panel">
+    // Declaration
+    double discount_factor(double rate, double maturity = 1.);
+    // Definition
+    double discount_factor(double rate, double maturity = 1.) // Illegal
+    {
+        return srd::exp(-rate * maturity);
+    }
+                        </code></pre>
+                        <div class="fragment">
+                            <pre class="panel"><code class="cpp panel">
+    // Declaration
+    double discount_factor(double rate, double maturity = 1.);
+    // Definition
+    double discount_factor(double rate, double maturity) // Ok
+    {
+        return srd::exp(-rate * maturity);
+    }
+                            </code></pre>
+                        </div>
                     </section>
                     <section>
                         <h3>Code organization</h3>
                         <pre class="panel"><code class="cpp panel">
-// discount_factor.cpp
-#include "discount_factor.hpp"
-double discount_factor(double rate, double maturity)
-{
-    // ...
-}
-
-std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m)
-{
-    // ...
-}
+    // discount_factor.hpp
+    double discount_factor(double rate, double maturity);
+    std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+    void print_discount_factor(double rate, double maturity);
+                        </code></pre>
+                        <pre class="panel"><code class="cpp panel">
+    // main.cpp
+    // Add the following before the main function
+    #include "discount_factor.hpp"
+    
+    // discount_factor.cpp
+    // Add the following before the functions definition
+    #include "discount_factor.hpp"
                         </code></pre>
                     </section>
                     <section>
@@ -543,60 +603,76 @@ std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, con
                         <h3>Link</h3>
                         <img alt="link" src="link.svg" width="50%"/>
                     </section>
+                </section>
+                <section>
                     <section>
-                        <h3>inline</h3>
+                        <h3>One definition rule (ODR)</h3>
+                        <ul>
+                            <li>For every C++ primitive (variable, function, class)</li>
+                            <li>Many declarations allowed</li>
+                            <li>Only ONE definition</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3>One definition rule (ODR)</h3>
+                        <p>Replace the declaration of discount_factor with its definitions</p>
                         <pre class="panel"><code class="cpp panel">
 // discount_factor.hpp
-#ifndef DISCOUNT_FACTOR_HPP
-#define DISCOUNT_FACTOR_HPP
-
-#include &lt;cmath&gt;
-
-double discount_factor(double rate, double maturity);
+double discount_factor(double rate, double maturity)
 {
-    return std::exp(-rate * maturity);
+    // ...
 }
 
-std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
-
-#endif
+// discount_factor.cpp
+// Remove the function double discount_factor(double rate, double maturity)
                         </code></pre>
+                        <p>Try to compile</p>
                     </section>
                     <section>
                         <h3>inline</h3>
                         <pre class="panel"><code class="cpp panel">
 // discount_factor.hpp
-#ifndef DISCOUNT_FACTOR_HPP
-#define DISCOUNT_FACTOR_HPP
-
-#include &lt;cmath&gt;
-
-inline double discount_factor(double rate, double maturity);
+inline double discount_factor(double rate, double maturity)
 {
-    return std::exp(-rate * maturity);
+    // ...
 }
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>One definition rule (ODR)</h3>
+                        <p>Open "bond_pricer.hpp" and uncomment its content</p>
+                        <p>Include "bond_pricer.hpp" in "main.cpp"</p>
+                        <p>Try to build the program</p>
+                    </section>
+                    <section>
+                        <h3>Inclusion guard</h3>
+                        <pre class="panel"><code class="cpp panel">
+    // discount_factor.hpp
+    #ifndef DISCOUNT_FACTOR_HPP // Inclusion Guard
+    #define DISCOUNT_FACTOR_HPP
 
-std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
-
-#endif
+    inline double discount_factor(double rate, double maturity) { ... }
+    std::vector&lt;double&gt; discount_factor(const std::vector&lt;double&gt; r, const std::vector&lt;double&gt; m);
+    void print_discount_factor(double rate, double maturity);
+    #endif // DISCOUNT_FACTOR_HPP
                         </code></pre>
                     </section>
                     <section>
                         <h3>static</h3>
                         <pre class="panel"><code class="cpp panel">
 // discount_factor.cpp
-int check = 1;
+int check = 7;
 
 // main.cpp
-int check = 1;
+int check = 4;
                         </code></pre>
                         <div class="fragment">
                             <pre class="panel"><code class="cpp panel">
 // discount_factor.cpp
-static int check = 1;
+static int check = 7;
 
 // main.cpp
-static int check = 1;
+static int check = 4;
                             </code></pre>
                         </div>
                     </section>
@@ -621,12 +697,12 @@ int func_mem()
                     <section>
                         <h3>Namespace</h3>
                         <pre class="panel"><code class="cpp panel">
-// discount_factor2.hpp
-double discount_factor(double rate, double maturity);
+// bon_pricer.hpp
+inilne double discount_factor(double rate, double maturity) { ... }
 
 // main.cpp
 #include "discount_factor.hpp"
-#include "discount_factor2.hpp"
+#include "bond_pricer.hpp"
 
 int main(int argc, char* argv[])
 {
@@ -641,13 +717,13 @@ int main(int argc, char* argv[])
 // discount_factor.hpp
 namespace ds1
 {
-    double discount_factor(double rate, double maturity);
+    inline double discount_factor(double rate, double maturity) { ... }
 }
 
-// discount_factor2.hpp
+// bond_pricer.hpp
 namespace ds2
 {
-    double discount_factor(double rate, double maturity);
+    inline double discount_factor(double rate, double maturity) { ... }
 }
                         </code></pre>
                     </section>
@@ -712,17 +788,17 @@ using namespace std; // Ultimate Evil!
                         <h3>Anonymous namespace</h3>
                             <pre class="panel"><code class="cpp panel">
 // discount_factor.cpp
-int check = 1;
+static int check = 7;
 
-// discount_factor2.cpp
-int check = 1;
+// main.cpp
+static int check = 4;
                             </code></pre>
                             <div class="fragment">
                                 <pre class="panel"><code class="cpp panel">
 // discount_factor.cpp
 namespace // Anonymous namespace
 {
-    int check = 1;
+    int check = 7;
 }
 // check is accessible in discount_factor.cpp only
                                 </code></pre>

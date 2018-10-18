@@ -1,27 +1,40 @@
 // Custom reveal.js integration
 (function(){
-	var revealElement = document.querySelector( '.reveal' );
-	if( revealElement ) {
+	var isEnabled = true;
 
-		revealElement.addEventListener( 'mousedown', function( event ) {
-			var defaultModifier = /Linux/.test( window.navigator.platform ) ? 'ctrl' : 'alt';
+	document.querySelector( '.reveal .slides' ).addEventListener( 'mousedown', function( event ) {
+		var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : 'alt' ) + 'Key';
 
-			var modifier = ( Reveal.getConfig().zoomKey ? Reveal.getConfig().zoomKey : defaultModifier ) + 'Key';
-			var zoomLevel = ( Reveal.getConfig().zoomLevel ? Reveal.getConfig().zoomLevel : 2 );
+		var zoomPadding = 20;
+		var revealScale = Reveal.getScale();
 
-			if( event[ modifier ] && !Reveal.isOverview() ) {
-				event.preventDefault();
+		if( event[ modifier ] && isEnabled ) {
+			event.preventDefault();
 
-				zoom.to({
-					x: event.clientX,
-					y: event.clientY,
-					scale: zoomLevel,
-					pan: false
-				});
+			var bounds;
+			var originalDisplay = event.target.style.display;
+
+			// Get the bounding rect of the contents, not the containing box
+			if( window.getComputedStyle( event.target ).display === 'block' ) {
+				event.target.style.display = 'inline-block';
+				bounds = event.target.getBoundingClientRect();
+				event.target.style.display = originalDisplay;
+			} else {
+				bounds = event.target.getBoundingClientRect();
 			}
-		} );
 
-	}
+			zoom.to({
+				x: ( bounds.left * revealScale ) - zoomPadding,
+				y: ( bounds.top * revealScale ) - zoomPadding,
+				width: ( bounds.width * revealScale ) + ( zoomPadding * 2 ),
+				height: ( bounds.height * revealScale ) + ( zoomPadding * 2 ),
+				pan: false
+			});
+		}
+	} );
+
+	Reveal.addEventListener( 'overviewshown', function() { isEnabled = false; } );
+	Reveal.addEventListener( 'overviewhidden', function() { isEnabled = true; } );
 })();
 
 /*!
@@ -270,3 +283,6 @@ var zoom = (function(){
 	}
 
 })();
+
+
+
