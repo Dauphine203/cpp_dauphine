@@ -171,6 +171,7 @@
                 <section>
                     <p>Update the repo</p>
                     <ul>
+                        <li>git push origin functional</li>
                         <li>git checkout master</li>
                         <li>git pull upstream master</li>
                         <li>git push origin master</li>
@@ -208,7 +209,7 @@
 
     std::vector&lt;double&gt; v(10, 1.);
     v[2] = 4.5;
-    std::cout &lt;&lt; v.size() &lt;&lt; std:endl;
+    std::cout &lt;&lt; v.size() &lt;&lt; std::endl;
     std::cout &lt;&lt; v[4] &lt;&lt; std::endl;
                         </code></pre>
                         <p class="fragment">Write a function that prints the elements of a vector, separated by commas</p>
@@ -231,8 +232,8 @@
                         <ul>
                             <li>mkdir build</li>
                             <li>cd build</li>
-                            <li>cmake -G "NMake Makefiles" ..</li>
-                            <li>nmake</li>
+                            <li>cmake ..</li>
+                            <li>make</li>
                         </ul>
                     </section>
                     <section>
@@ -254,7 +255,7 @@
                     <section>
                         <p>Write a function that computes the mean of a vector</p>
                         <pre class="panel fragment"><code class="cpp panel">
-    double mean(const std::vector&lt;double&gt; v)
+    double mean(const std::vector&lt;double&gt;&amp; v)
     {
         double res = 0.;
         for(size_t i = 0; i &lt; v.size(); ++i)
@@ -288,7 +289,7 @@
                     <section>
                         <h3>Solution 1</h3>
                         <pre class="panel"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp; v)
+    void extend_vector1(std::vector&lt;double&gt;&amp; v)
     {
         size_t size = v.size();
         v.resize(2 * size);
@@ -302,7 +303,7 @@
                     <section>
                         <h3>Solution 2</h3>
                         <pre class="panel"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp; v)
+    void extend_vector2(std::vector&lt;double&gt;&amp; v)
     {
         size_t size = v.size();
         v.reserve(2 * size); // not required, for performance considerations only
@@ -318,7 +319,7 @@
                         <div class=fragment>
                             <p>Solution 1</p>
                             <pre class="panel"><code class="cpp panel">
-    void append(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
+    void append1(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
     {
         size_t src_size = src.size();
         size_t dst_size = dst.size();
@@ -334,7 +335,7 @@
                     <section>
                         <p>Solution 2</p>
                         <pre class="panel"><code class="cpp panel">
-    void append(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
+    void append2(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
     {
         size_t src_size = src.size();
         dst.reserve(dst.size() + src_size); // For performance only
@@ -390,7 +391,7 @@
                         <div class="fragment">
                             <p>Solution 1</p>
                             <pre class="panel"><code class="cpp panel">
-    void append(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
+    void append1(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
     {
         size_t dst_size = dst.size();
         dst.resize(dst_size + src.size());
@@ -404,7 +405,7 @@
                         <pre class="panel"><code class="cpp panel">
     #include &lt;iterator&gt;
 
-    void append(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
+    void append2(const std::vector&lt;double&gt;&amp; src, std::vector&lt;double&gt;&amp; dst)
     {
         dst.reserve(dst.size() + src.size()); // Not required, for performance consideration only
         std::copy(src.begin(), src.end(), std::back_inserter(dst));
@@ -447,7 +448,7 @@
                         <pre class="panel fragment"><code class="cpp panel">
     double mean(const std::vector&lt;double&gt; v)
     {
-        double res = std:accumulate(v.begin(), v.end(), 0.);
+        double res = std::accumulate(v.begin(), v.end(), 0.);
         return res / v.size();
     }
                         </code></pre>
@@ -470,7 +471,7 @@
                         <pre class="panel fragment"><code class="cpp panel">
     double mean(const std::vector&lt;double&gt;&amp; v)
     {
-        double res = std:accumulate(v.begin(), v.end(), 0., std::plus&lt;double&gt;());
+        double res = std::accumulate(v.begin(), v.end(), 0., std::plus&lt;double&gt;());
         return res / v.size();
     }
                         </code></pre>
@@ -527,9 +528,9 @@
                         </code></pre>
                     </section>
                     <section>
-                        <p>Rewrite the "extend_vector" function with iterators</p>
+                        <p>Rewrite the "extend_vector1" function with iterators</p>
                         <pre class="panel fragment"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp; v)
+    void extend_vector1(std::vector&lt;double&gt;&amp; v)
     {
         size_t size = v.size();
         v.resize(2 * size);
@@ -538,8 +539,9 @@
                         </code></pre>
                     </section>
                     <section>
-                        <pre class="panel"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp; v, double factor)
+                        <p>Replace the factor 2 with a function parameter</p>
+                        <pre class="panel fragment"><code class="cpp panel">
+    void extend_vector1(std::vector&lt;double&gt;&amp; v, double factor)
     {
         size_t size = v.size();
         v.resize(2 * size);
@@ -548,7 +550,7 @@
     }
                         </code></pre>
                         <pre class="panel fragment"><code class="cpp panel">
-    void extend_vector(std::vector&lt;double&gt;&amp; v, double factor)
+    void extend_vector1(std::vector&lt;double&gt;&amp; v, double factor)
     {
         size_t size = v.size();
         v.resize(2 * size);
@@ -627,7 +629,6 @@
                     </section>
                     <section>
                         <h3>std::map - iterator</h3>
-                        <p>Write a function that prints the element of a map</p>
                         <pre class="panel"><code class="cpp panel">
     void print(const std::map&lt;std::string, int&gt;&amp; m)
     {
@@ -638,6 +639,7 @@
         std::cout &lt;&lt; std::endl;
     }
                         </code></pre>
+                        <p>Write a function that prints the elements of a map</p>
                     </section>
                     <section>
                         <pre class="panel"><code class="cpp panel">
