@@ -1,31 +1,26 @@
 {
-  "_args": [
-    [
-      "reveal.js@3.7.0",
-      "/home/yoyo/dev/quantstack/cpp_dauphine/stl/slides"
-    ]
-  ],
-  "_from": "reveal.js@3.7.0",
+  "_from": "reveal.js@^3.4.1",
   "_id": "reveal.js@3.7.0",
   "_inBundle": false,
   "_integrity": "sha512-HTOTNhF5mQAw6fcsptk4oql/DEEUwTG0YHk/LzTNNx0/3IgvOQZqKzvlK/zNpqqKMLlhn1gH9Nvp+FFoc/e5/w==",
   "_location": "/reveal.js",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "range",
     "registry": true,
-    "raw": "reveal.js@3.7.0",
+    "raw": "reveal.js@^3.4.1",
     "name": "reveal.js",
     "escapedName": "reveal.js",
-    "rawSpec": "3.7.0",
+    "rawSpec": "^3.4.1",
     "saveSpec": null,
-    "fetchSpec": "3.7.0"
+    "fetchSpec": "^3.4.1"
   },
   "_requiredBy": [
     "/"
   ],
   "_resolved": "https://registry.npmjs.org/reveal.js/-/reveal.js-3.7.0.tgz",
-  "_spec": "3.7.0",
+  "_shasum": "7afaf72fd963000381289d58f3aa54c0c46b150c",
+  "_spec": "reveal.js@^3.4.1",
   "_where": "/home/yoyo/dev/quantstack/cpp_dauphine/stl/slides",
   "author": {
     "name": "Hakim El Hattab",
@@ -35,6 +30,8 @@
   "bugs": {
     "url": "https://github.com/hakimel/reveal.js/issues"
   },
+  "bundleDependencies": false,
+  "deprecated": false,
   "description": "The HTML Presentation Framework",
   "devDependencies": {
     "express": "^4.16.2",
