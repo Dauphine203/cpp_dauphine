@@ -2,7 +2,7 @@
   "name": "reveal-js-multiplex",
   "version": "1.0.0",
   "description": "reveal.js multiplex server",
-  "homepage": "http://revealjs.com",
+  "homepage": "http://lab.hakim.se/reveal-js",
   "scripts": {
     "start": "node index.js"
   },
