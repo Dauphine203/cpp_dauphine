@@ -3,6 +3,7 @@
 
 #include <cstddef>
 #include <vector>
+#include "uvector.hpp"
 
 namespace dauphine
 {

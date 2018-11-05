@@ -190,7 +190,7 @@
                     </section>
                     <section>
                         <h3>class - matrix.hpp</h3>
-                        <p>Define methods that returns m_nb_rows and m_nb_cols</p>
+                        <p>Define methods that return m_nb_rows and m_nb_cols</p>
                         <pre class="panel fragment"><code class="cpp panel">
     class matrix
     {
@@ -401,7 +401,7 @@
     public:
 
         matrix operator+(const matrix&amp; rhs) const;
-        matrix operatot+(double rhs) const;
+        matrix operator+(double rhs) const;
     };
 
     matrix res = m1 + m2; // OK - equivalent to res = m1.operator+(m2);
