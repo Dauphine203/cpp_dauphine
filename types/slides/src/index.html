@@ -183,7 +183,6 @@
     int main(int argc, char* argv[])
     {
         dauphine::matrix m(2, 4);
-        // Error: cannot access private member m_nb_rows
         std::cout &lt;&lt; m.m_nb_rows &lt;&lt; std::endl;
         return 0;
     }
@@ -233,11 +232,13 @@
     std::size_t matrix::nb_rows() const
     {
         m_nb_rows = 0;
-        // Cannot modify an attribute in a const method
         return m_nb_rows;
     }
 
                         </code></pre>
+                        <div class="fragment">
+                            <p>Changing an attribute in a const method is forbidden</p>
+                        </div>
                     </section>
                     <section>
                         <h3>class - matrix</h3>
@@ -265,11 +266,13 @@
     int main(int argc, char* argv[])
     {
         const matrix m(2, 4);
-        // Cannot call a non-const method on const object
         m.resize(3, 5); 
         return 0;
     }
                         </code></pre>
+                        <div class="fragment">
+                            <p>Calling a non-const method on a const object is forbidden</p>
+                        </div>
                     </section>
                     <section>
                         <h3>const rules</h3>
