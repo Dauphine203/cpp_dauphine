@@ -2,15 +2,15 @@ Reveal.addEventListener( 'ready', function() {
 
 	QUnit.module( 'Markdown' );
 
-	QUnit.test( 'Options are set', function( assert ) {
-		assert.strictEqual( marked.defaults.smartypants, true );
+	test( 'Options are set', function() {
+		strictEqual( marked.defaults.smartypants, true );
 	});
 
-	QUnit.test( 'Smart quotes are activated', function( assert ) {
+	test( 'Smart quotes are activated', function() {
 		var text = document.querySelector( '.reveal .slides>section>p' ).textContent;
 
-		assert.strictEqual( /['"]/.test( text ), false );
-		assert.strictEqual( /[“”‘’]/.test( text ), true );
+		strictEqual( /['"]/.test( text ), false );
+		strictEqual( /[“”‘’]/.test( text ), true );
 	});
 
 } );
@@ -18,8 +18,7 @@ Reveal.addEventListener( 'ready', function() {
 Reveal.initialize({
 	dependencies: [
 		{ src: '../plugin/markdown/marked.js' },
-		// Test loading JS files with query strings
-		{ src: '../plugin/markdown/markdown.js?query=string' },
+		{ src: '../plugin/markdown/markdown.js' },
 	],
 	markdown: {
 		smartypants: true
