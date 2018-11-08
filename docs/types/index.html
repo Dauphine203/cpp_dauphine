@@ -172,7 +172,7 @@
                     <section>
                         <h3>class - matrix.cpp</h3>
                         <pre class="panel"><code class="cpp panel">
-    matrix::matrix(size_t nb_rows, size_t nb_cols)
+    matrix::matrix(std::size_t nb_rows, std::size_t nb_cols)
         : m_nb_rows(nb_rows),
           m_nb_cols(nb_cols),
           m_data(nb_rows * nb_cols)
@@ -183,7 +183,6 @@
     int main(int argc, char* argv[])
     {
         dauphine::matrix m(2, 4);
-        // Error: cannot access private member m_nb_rows
         std::cout &lt;&lt; m.m_nb_rows &lt;&lt; std::endl;
         return 0;
     }
@@ -191,7 +190,7 @@
                     </section>
                     <section>
                         <h3>class - matrix.hpp</h3>
-                        <p>Define methods that returns m_nb_rows and m_nb_cols</p>
+                        <p>Define methods that return m_nb_rows and m_nb_cols</p>
                         <pre class="panel fragment"><code class="cpp panel">
     class matrix
     {
@@ -233,11 +232,13 @@
     std::size_t matrix::nb_rows() const
     {
         m_nb_rows = 0;
-        // Cannot modify an attribute in a const method
         return m_nb_rows;
     }
 
                         </code></pre>
+                        <div class="fragment">
+                            <p>Changing an attribute in a const method is forbidden</p>
+                        </div>
                     </section>
                     <section>
                         <h3>class - matrix</h3>
@@ -265,11 +266,13 @@
     int main(int argc, char* argv[])
     {
         const matrix m(2, 4);
-        // Cannot call a non-const method on const object
         m.resize(3, 5); 
         return 0;
     }
                         </code></pre>
+                        <div class="fragment">
+                            <p>Calling a non-const method on a const object is forbidden</p>
+                        </div>
                     </section>
                     <section>
                         <h3>const rules</h3>
@@ -398,7 +401,7 @@
     public:
 
         matrix operator+(const matrix&amp; rhs) const;
-        matrix operatot+(double rhs) const;
+        matrix operator+(double rhs) const;
     };
 
     matrix res = m1 + m2; // OK - equivalent to res = m1.operator+(m2);
@@ -521,7 +524,7 @@
     public:
 
         uvector(std::size_t size);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
     private:
 
@@ -574,10 +577,15 @@
     public:
 
         test(int i, int j) : m_i(i), m_j(j) {}
-        test(int i) : test(i), m_j(0) {} // Illegal
         test(int i) : test(i, 0) {} // OK
+        test(int i) : test(i, 0), m_d1(0.), m_d2(0.) {} // Illegal
         test(double d1, double d2) : m_d1(d1), m_d2(d2) {}
         test(double d) : test(d, 0.) {} // Illegal, only one delegating constructor per class
+
+    private:
+
+        int m_i, m_j;
+        double m_d1, m_d2;
     };
                         </code></pre>
                     </section>
@@ -608,7 +616,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
     };
@@ -647,7 +655,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
 
@@ -678,7 +686,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
 
@@ -785,7 +793,7 @@
                     <section>
                         <h3>rvalue reference</h3>
                         <pre class="panel"><code class="cpp panel">
-    uvector compute(const uvector&amp; param)
+    uvector&amp; compute(const uvector&amp; param)
     {
         uvector res;
         // do some computation ...
@@ -804,7 +812,7 @@
     {
         uvector res;
         // do some computation ...
-        return res; // Binding a temporary to a non const reference!
+        return res;
     }
                         </code></pre>
                         <pre class="panel"><code class="cpp panel">
@@ -1112,6 +1120,7 @@
 
         friend void print_debug(const uvector&amp;);
     };
+                        </code></pre>
                     </section>
                     <section>
                         <h3>friend</h3>

@@ -524,7 +524,7 @@
     public:
 
         uvector(std::size_t size);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
     private:
 
@@ -577,10 +577,15 @@
     public:
 
         test(int i, int j) : m_i(i), m_j(j) {}
-        test(int i) : test(i), m_j(0) {} // Illegal
         test(int i) : test(i, 0) {} // OK
+        test(int i) : test(i, 0), m_d1(0.), m_d2(0.) {} // Illegal
         test(double d1, double d2) : m_d1(d1), m_d2(d2) {}
         test(double d) : test(d, 0.) {} // Illegal, only one delegating constructor per class
+
+    private:
+
+        int m_i, m_j;
+        double m_d1, m_d2;
     };
                         </code></pre>
                     </section>
@@ -611,7 +616,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
     };
@@ -650,7 +655,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
 
@@ -681,7 +686,7 @@
     public:
 
         uvector(std::size_t size = 0);
-        uvector(std::size_t size, double value = 0.);
+        uvector(std::size_t size, double value);
 
         ~uvector();
 
@@ -788,7 +793,7 @@
                     <section>
                         <h3>rvalue reference</h3>
                         <pre class="panel"><code class="cpp panel">
-    uvector compute(const uvector&amp; param)
+    uvector&amp; compute(const uvector&amp; param)
     {
         uvector res;
         // do some computation ...
@@ -807,7 +812,7 @@
     {
         uvector res;
         // do some computation ...
-        return res; // Binding a temporary to a non const reference!
+        return res;
     }
                         </code></pre>
                         <pre class="panel"><code class="cpp panel">
@@ -1115,6 +1120,7 @@
 
         friend void print_debug(const uvector&amp;);
     };
+                        </code></pre>
                     </section>
                     <section>
                         <h3>friend</h3>
