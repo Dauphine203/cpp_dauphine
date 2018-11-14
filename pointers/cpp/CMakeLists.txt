@@ -23,7 +23,8 @@ endif()
 set(TYPES_SRCS
     main.cpp
     resource.cpp
-    allocation.cpp)
+    option.cpp
+    pricer.cpp)
 
 set(TYPES_TARGET types_practice)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})

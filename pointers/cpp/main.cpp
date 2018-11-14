@@ -1,5 +1,6 @@
 #include "resource.hpp"
-#include "allocation.hpp"
+#include "option.hpp"
+#include "pricer.hpp"
 
 // TO COMPILE:
 //
@@ -24,14 +25,13 @@ namespace dauphine
         r.print_message();
         r.release();
     }
-    /*
+
     void test_volatility()
     {
         volatility* vol = make_volatility();
         underlying u(vol);
         option opt(&u, vol);
     }
-    */
 
     void test_pricer()
     {

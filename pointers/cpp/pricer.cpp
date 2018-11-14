@@ -1,31 +1,8 @@
-#include "allocation.hpp"
+#include "pricer.hpp"
+#include <iostream>
 
 namespace dauphine
 {
-    /*
-    volatility::volatility()
-    {
-        std::cout << "volatility constructor" << std::endl;
-    }
-
-    volatility::~volatility()
-    {
-        std::cout << "volatility destructor" << std::endl;
-    }
-
-    double volatility::get_volatility(double maturity, double strike) const
-    {
-        return 0.14;
-    }
-
-    volatility* make_volatility()
-    {
-        return new volatility;
-    }
-    */
-
-    // PART 2
-    
     data_model::data_model(product_ptr prod)
         : p_product(prod)
     {
@@ -57,5 +34,6 @@ namespace dauphine
     {
         std::cout << "pricer destructor" << std::endl;
     }
+
 }
 

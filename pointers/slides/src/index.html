@@ -177,7 +177,7 @@
                         </code></pre>
                         <pre class="panel"><code class="cpp panel">
     // manager.cpp
-    manager m; // Definition of global object declare in managet.hpp
+    manager m; // Definition of global object declare in manager.hpp
     
     manager::manager()
     {
@@ -196,7 +196,7 @@
     }
                         </code></pre>
                         <pre class="panel"><code class="cpp panel">
-    // manager.cp
+    // manager.cpp
     manager m; // Should be wrapped in a function too
 
     manager::manager()
@@ -265,12 +265,12 @@
                         <pre class="panel"><code class="cpp panel">
     void test_pointers()
     {
-        int i = 4;
         double d = 0.5;
         double* p = &amp;d
-        std::cout &lt;&lt; i &lt;&lt; std::endl;
-        std::cout &lt;&lt; *pi &lt;&lt; std::endl;
-        std::cout &lt;&lt; pi &lt;&lt; std::endl;
+        std::cout &lt;&lt; d &lt;&lt; std::endl;
+        std::cout &lt;&lt; *p &lt;&lt; std::endl;
+        std::cout &lt;&lt; p &lt;&lt; std::endl;
+        int i = 4;
         double* p2 = &amp;i; // Error: cannot convert from int* to double*
     }
                         </code></pre>
@@ -372,6 +372,11 @@
                     </section>
                     <section>
                         <h3>Exceptions</h3>
+                        <p>Compile and run the program in cpp folder</p>
+                        <p class="fragment">Fix the test_resource function</p>
+                    </section>
+                    <section>
+                        <h3>Exceptions</h3>
                         <pre class="panel"><code class="cpp panel">
     void test_resource()
     {
@@ -405,21 +410,6 @@
                     <section>
                         <h3>Exceptions - RAII</h3>
                         <pre class="panel"><code class="cpp panel">
-    resource_guard::resource_guard(resource&amp; r)
-        m_r(r)
-    {
-        m_r.acquire();
-    }
-
-    resource::~resource_guard()
-    {
-        m_r.release();
-    }
-                        </code></pre>
-                    </section>
-                    <section>
-                        <h3>Exceptions - RAII</h3>
-                        <pre class="panel"><code class="cpp panel">
     class resource_guard
     {
     public:
@@ -431,6 +421,21 @@
 
         resource&amp; m_r;
     };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Exceptions - RAII</h3>
+                        <pre class="panel"><code class="cpp panel">
+    resource_guard::resource_guard(resource&amp; r)
+        m_r(r)
+    {
+        m_r.acquire();
+    }
+
+    resource::~resource_guard()
+    {
+        m_r.release();
+    }
                         </code></pre>
                     </section>
                     <section>
