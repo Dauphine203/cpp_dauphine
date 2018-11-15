@@ -106,11 +106,11 @@ To get the benefits from both schemes, the solution is to use a linear combinati
 \frac{f_i^{n+1} - f_i^{n}}{dt} = \theta L_i^n + (1-\theta) L_i^{n+1}
 \end{gather*}
 The closer $\theta$ is to $1$, the more stable the scheme is. The closer $\theta$ is to $0$ the faster the scheme converges. $\theta = \frac{1}{2}$ gives
-the best convergence speed under unconditionnal stability and is thus usually chosen. It is knows as the Crank-Nicholson scheme.
+the best convergence speed under unconditionnal stability and is thus usually chosen. It is known as the Crank-Nicholson scheme.
 
 \section{Boundary conditions}
 
-At the boundaries pf the space mesh ($i = 0$ and $i = N$) we cannot use centered finite difference
+At the boundaries of the space mesh ($i = 0$ and $i = N$) we cannot use centered finite difference
 \begin{itemize}
 \item $\frac{\partial^2 f}{\partial x^2}(x_0, t_n) = \frac{f_{2}^n - 2f_{1}^n + f_{0}^n}{dx^2}$
 \item $\frac{\partial f}{\partial x}(x_i, t_n) = \frac{f_{1}^n - f_{0}^n}{dx}$
@@ -140,6 +140,6 @@ The new manager hired you for your expert skills in C++ and want you to fix the 
 \end{itemize}
 
 Even if you are happy with your base compensation, you think an extra bonus cannot hurt. Once everything is implemented and works great, show your
-manager how you can get the $\delta$, $\gamma$ and $\theta$ for free. Explain what is required to get the $\nu$ and then wait for \st{your manager}
-your bonus!
+manager how you can get the $\delta$, $\gamma$ and $\theta$ for free. Explain what is required to get the $\nu$ and then wait for your \st{manager}
+bonus!
 \end{document}
