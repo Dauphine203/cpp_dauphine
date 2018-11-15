@@ -26,6 +26,6 @@ set(TYPES_SRCS
     option.cpp
     pricer.cpp)
 
-set(TYPES_TARGET types_practice)
+set(TYPES_TARGET pointers_practice)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})
 
