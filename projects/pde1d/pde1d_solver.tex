@@ -88,7 +88,7 @@ Let's define
 \end{gather*}  the \textit{Black Scholes equation} then becomes a system of linear equations
 \begin{gather*}
 \frac{f_i^{n+1} - f_i^{n}}{dt} = L_i^{n+1}, i \in [1, N-1] \Longleftrightarrow
-f_i^n = f_i^{n+1} - L_i^{n+1}dt, i \in [1, N]
+f_i^n = f_i^{n+1} - L_i^{n+1}dt, i \in [1, N-1]
 \end{gather*}
 Since we are solving a backward equation (given the payoff at maturity $T$, we want to compute the price of the option today), evaluating $L_i$ 
 at $t^{n+1}$ yields an explicit scheme, i.e we can direclty compute $f_i^n$ given the price at the previous iteration $f_i^{n+1}$. While this scheme
@@ -97,7 +97,7 @@ converges fast, it is highly instable.
 Another solution is to evaluate $L_i$ at $t^n$, we get
 \begin{gather*}
 \frac{f_i^{n+1} - f_i^{n}}{dt} = L_i^{n}, i \in [1, N-1] \Longleftrightarrow
-f_i^n + L_i^n dt = f_i^{n+1}, i \in [1, N]
+f_i^n + L_i^n dt = f_i^{n+1}, i \in [1, N-1]
 \end{gather*}
 Here we need to invert a linear system to compute $f_i^n$. While this is unconditionnally stable, this is slow to converge.
 
