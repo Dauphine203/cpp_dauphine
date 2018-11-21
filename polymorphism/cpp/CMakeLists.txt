@@ -24,6 +24,6 @@ set(TYPES_SRCS
     main.cpp
     volatility.cpp)
 
-set(TYPES_TARGET types_practice)
+set(TYPES_TARGET polymorphism)
 add_executable(${TYPES_TARGET} ${TYPES_SRCS})
 
