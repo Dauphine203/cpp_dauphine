@@ -3,7 +3,7 @@
 
 namespace dauphine
 {
-    std::string volatility::underlying_name() const
+    const std::string& volatility::underlying_name() const
     {
         return "BNP Paribas";
     }
