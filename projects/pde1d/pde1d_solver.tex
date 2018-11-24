@@ -113,9 +113,9 @@ the best convergence speed under unconditionnal stability and is thus usually ch
 At the boundaries of the space mesh ($i = 0$ and $i = N$) we cannot use centered finite difference
 \begin{itemize}
 \item $\frac{\partial^2 f}{\partial x^2}(x_0, t_n) = \frac{f_{2}^n - 2f_{1}^n + f_{0}^n}{dx^2}$
-\item $\frac{\partial f}{\partial x}(x_i, t_n) = \frac{f_{1}^n - f_{0}^n}{dx}$
-\item $\frac{\partial^2 f}{\partial x^2}(x_0, t_n) = \frac{f_{N}^n - 2f_{N-1}^n + f_{N-2}^n}{dx^2}$
-\item $\frac{\partial f}{\partial x}(x_i, t_n) = \frac{f_{N}^n - f_{N-1}^n}{dx}$
+\item $\frac{\partial f}{\partial x}(x_0, t_n) = \frac{f_{1}^n - f_{0}^n}{dx}$
+\item $\frac{\partial^2 f}{\partial x^2}(x_N, t_n) = \frac{f_{N}^n - 2f_{N-1}^n + f_{N-2}^n}{dx^2}$
+\item $\frac{\partial f}{\partial x}(x_N, t_n) = \frac{f_{N}^n - f_{N-1}^n}{dx}$
 \end{itemize}
 
 We then need to specify values of f at the boundaries ($f_0$ and $f_N$) to be able to solve the linear system. This is called Dirichlet boundary conditions. Another possibility is to impose the derivatives at the boundaries, these are the Neumann boundary conditions.
