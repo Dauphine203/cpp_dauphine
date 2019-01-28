@@ -59,7 +59,7 @@ with the final condition $f(s, T) = V(s)$ where $V(s)$ is the payout.
 Applying the variable change $x = log(s)$ yields
 \begin{gather*}
 \frac{\partial f}{\partial t}(x, t) = -\frac{1}{2}\sigma^2 \frac{\partial^2 f}{\partial x^2}(x, t)
-+ \frac{1}{2}(\sigma^2 - r) \frac{\partial f}{\partial x}(x, t) + rf(x, t)
++ (\frac{1}{2}\sigma^2 - r) \frac{\partial f}{\partial x}(x, t) + rf(x, t)
 \end{gather*}
 
 with the final condition $f(x, T) = V(x) = V(e^s)$.
@@ -84,7 +84,7 @@ We use the following approximations for the derivatives:
 where ${f_i^n = f(x_i, t_n)}$.
 
 Let's define
-\begin{gather*}L_i^n = -\frac{1}{2}\sigma^2\frac{f_{i+1}^n - 2 f_i^n + f_{i-1}^n}{dx^2} + \frac{1}{2}(\sigma^2 - r)  \frac{f_{i+1}^n - f_{i-1}^n}{2dx} + rf_i^n
+\begin{gather*}L_i^n = -\frac{1}{2}\sigma^2\frac{f_{i+1}^n - 2 f_i^n + f_{i-1}^n}{dx^2} + (\frac{1}{2}\sigma^2 - r)  \frac{f_{i+1}^n - f_{i-1}^n}{2dx} + rf_i^n
 \end{gather*}  the \textit{Black Scholes equation} then becomes a system of linear equations
 \begin{gather*}
 \frac{f_i^{n+1} - f_i^{n}}{dt} = L_i^{n+1}, i \in [1, N-1] \Longleftrightarrow
