@@ -16,7 +16,7 @@ The following must be installed:
 Once you've installed git (or git-for-windows), open a console (or a git-bash) and type
 
 ```bash
-git config --gloabl user.name "your_github_name"
+git config --global user.name "your_github_name"
 git config --global user.email "your_email"
 ```
 
