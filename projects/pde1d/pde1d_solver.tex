@@ -123,7 +123,8 @@ We then need to specify values of f at the boundaries ($f_0$ and $f_N$) to be ab
 \section{Implement the solver in C++}
 
 You have just joined the quantitative team of a bank, who needs to reimplement its PDE solver. Indeed, the first version was developed by a battalion of
-interns who were learning C++ during their break for lunch, between 12:00 and 12:06 (because you know, the market does not close for lunch); as a surprising result, it is higly unstable and slow (but sometimes it gives a correct price). The villains have been punished: the interns have been fired and the manager responsible for this mess has been promoted, so at least you won't have to interact with him.
+interns who were learning C++ during their break for lunch; as a surprising result, it is higly unstable and slow (but sometimes it gives a correct price).
+The villains have been punished: the interns have been fired and the manager responsible for this mess has been promoted, so at least you won't have to interact with him.
 
 The new manager hired you for your expert skills in C++ and want you to fix the issue before mid January (or you will meet the same fate as the interns):
 
@@ -137,9 +138,8 @@ The new manager hired you for your expert skills in C++ and want you to fix the 
 \item the client should be able to specify the mesh and the value of $\theta$
 \end{itemize}
 \item Test your implementation by rolling back the payoff of a call and comparing the result with the Back Scholes closed-form
+\item Add methods to compute the $\delta$, $\gamma$ and $\theta$. These methods should add minimal overhead once the price is computed.
+\item Add a method to compute the vega.
 \end{itemize}
 
-Even if you are happy with your base compensation, you think an extra bonus cannot hurt. Once everything is implemented and works great, show your
-manager how you can get the $\delta$, $\gamma$ and $\theta$ for free. Explain what is required to get the $\nu$ and then wait for your \st{manager}
-bonus!
 \end{document}
