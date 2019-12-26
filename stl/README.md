@@ -1,4 +1,4 @@
-The slides are available [online](dauphine203.github.io/cpp_dauphine/stl/index.html)
+The slides are available [online](http://dauphine203.github.io/cpp_dauphine/stl/index.html)
 
 ## cmake cheatsheet
 
