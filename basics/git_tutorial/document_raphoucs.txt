@@ -1,0 +1,11 @@
+Git clone
+Cd cpp_dauphine
+Cd basics
+Cd git_tutorial
+
+Pwd (pour savoir ou on est)
+Cd .. (remonter d’un cran)
+
+document_name.txt
+Git add document_text.txt
+Git commit -m "My first commit"
