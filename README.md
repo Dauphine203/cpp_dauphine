@@ -5,6 +5,10 @@
 C++ courses for Paris Dauphine
 You can join the [gitter chat](https://gitter.im/QuantStack/cpp_dauphine).
 
+## Slides
+
+The slides of the different sessions are available [online](https://dauphine203.github.io/cpp_dauphine/#/).
+
 ## Requirements
 
 The following must be installed:
