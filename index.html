@@ -1,9 +1,188 @@
-<h1>Slides index</h1>
-<ul>
-    <li><a href="basics/index.html">The basics</a></li>
-    <li><a href="functional/index.html">Functional programming</a></li>
-    <li><a href="stl/index.html">Using the STL</a></li>
-    <li><a href="types/index.html">Object-oriented programming</a></li>
-    <li><a href="pointers/index.html">Memory and low-level data structures</a></li>
-    <li><a href="polymorphism/index.html">Inheritance and polymorphism</a></li>
-</ul>
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>reveal.js</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/black.css">
+        <link rel="stylesheet" href="genericons.css">
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <style>
+        .reveal section img {
+            border: none;
+            background-color: initial;
+            margin: 10px;
+        }
+        .reveal .normal-paragraph {
+            text-align: left;
+            margin: 0 auto 0 auto;
+            width: 60%;
+        }
+        .reveal .normal-paragraph p {
+            text-align: left;
+        }
+        .header-left {
+            position: absolute;
+            top: 2%;
+            left: 2%;
+        }
+        .header-right {
+            position: absolute;
+            top: 2%;
+            right: 2%;
+        }
+        .footer-left {
+            position: absolute;
+            bottom: 2%;
+            left: 2%;
+        }
+        .reveal .genericon {
+          font-family: "genericons";
+        }
+
+        .reveal .bio-card {
+          background: #333;
+          border-radius: 2px;
+          display: inline-block;
+          width: 260px;
+          margin: 1rem;
+          position: relative;
+          font-size: 20px;
+        }
+
+        .reveal .card-photo {
+          display: block;
+          width: 200px;
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+          margin: 28px auto 0 auto;
+        }
+
+        .reveal .card-header {
+          width: 100%;
+          font-size: 20px;
+          margin-top: 10px;
+          text-align: center;
+        }
+
+        .reveal .card-info {
+          width: 100%;
+          float: left;
+          font-size: 20px;
+          margin-top: 0;
+          padding: 0 4px;
+          text-align: center;
+        }
+
+        .reveal .card-info a {
+          text-decoration: none;
+          color: #999;
+        }
+
+        .reveal .card-info em {
+          vertical-align: top;
+        }
+
+        .revral .card-info a .genericon {
+          vertical-align: middle;
+        }
+
+        .reveal .bio-social a {
+          text-decoration: none;
+        }
+
+        .reveal .bio-photo {
+          width: 200px;
+          margin: 0 40px 40px -40px;
+          float: left;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="common" style="z-index: 2;">
+            <div class="header-left">
+                <img alt="QuantStack" src="quantstack-white.svg" width="30%"/>
+            </div>
+            <div class="footer-left">
+                <div style="color: white; font-family: Source Sans Pro, Helvetica, sans-serif;">
+                <img alt="Twitter" src="twitter-white.svg" height="20px"/>
+                <img alt="GitHub" src="github-white.svg" height="20px"/>
+                <p style="display: inline; vertical-align: top; margin-left: 4px; font-size: 20px;">@SylvainCorlay @JohanMabille @QuantStack</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h2>Slides Index</h2>
+                    <ul>
+                        <li>
+                            <a href="https://dauphine203.github.io/cpp_dauphine/basics/index.html#/" target="_blank">
+                                The basics
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://dauphine203.github.io/cpp_dauphine/functional/index.html#/" target="_blank">
+                                Functional programming
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://dauphine203.github.io/cpp_dauphine/stl/index.html#/" target="_blank">
+                                Using the STL
+                            </a>
+                        </li>
+                        <li><a href="https://dauphine203.github.io/cpp_dauphine/types/index.html#/" target="_blank">
+                                Object-oriented programming
+                            </a>
+                        </li>
+                        <li><a href="https://dauphine203.github.io/cpp_dauphine/pointers/index.html#/" target="_blank">
+                                Memory and low-level data structures
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://dauphine203.github.io/cpp_dauphine/polymorphism/index.html#/" target="_blanl">
+                                Inheritance and polymorphism
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                history: true,
+                width: "100%",
+                height: "100%",
+                margin: 0,
+                minScale: 1,
+                maxScale: 1,
+
+                // More info https://github.com/hakimel/reveal.js#dependencies
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
