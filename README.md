@@ -3,7 +3,7 @@
 # cpp_dauphine
 
 C++ courses for Paris Dauphine
-You can join the [gitter chat](https://gitter.im/QuantStack/cpp_dauphine).
+You can join the [gitter chat](https://gitter.im/Dauphine_master203/cpp)
 
 ## Slides
 
