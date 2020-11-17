@@ -492,6 +492,56 @@
     }
                         </code></pre>
                     </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        implied_volatility(const std::string&amp; name, const std::vector&lt;double&gt;&amp; vol);
+
+        // Defines a new virtual method, not defined in the base class
+        // Becomes an abstract class since it does not implement
+        // get_volatility(size_t index) virtual method
+        virtual double get_volatility(size_t index, double date) const;
+
+    private:
+
+        std::vector&lt;double&gt; m_volatility;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <pre class="panel"><code class="panel cpp">
+    // volatility.hpp
+    class implied_volatility : public volatility
+    {
+    public:
+
+        implied_volatility(const std::string&amp; name, const std::vector&lt;double&gt;&amp; vol);
+
+        // Ok, implements abstract method defined in base class
+        double get_volatility(size_t index) const override;
+        // Error, no get_volatility(size_t, double) declared in base class
+        double get_volatility(size_t index, double date) const override;
+
+    private:
+
+        std::vector&lt;double&gt; m_volatility;
+    };
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h3>Polymorphism</h3>
+                        <p></p>
+                        <ul>
+                            <li>is not part of the signature</li>
+                            <li>Requires the method to be declared in the base class with the same signature</li>
+                        </ul>
+                    </section>
                 </section>
                 <section>
                     <section>
@@ -641,9 +691,9 @@
     void test_polymorphism()
     {
         implied_volatility* iv = new implied_volatility("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
-        test_polymorphism(iv);
+        test_polymorphism(*iv);
         bumped_volatility* bv = new bumped_volatility(iv, 0.01);
-        test_polymorphism(bv);
+        test_polymorphism(*bv);
         delete bv;
         delete iv;
     }
@@ -674,9 +724,9 @@
     void test_polymorphism()
     {
         volatility* iv = make_volatility("JP Morgan", { 0.15, 0.20, 0.25, 0.26});
-        test_polymorphism(iv);
+        test_polymorphism(*iv);
         volatility* bv = make_volatility(iv, 0.01);
-        test_polymorphism(bv);
+        test_polymorphism(*bv);
         delete bv;
         delete iv;
     }
