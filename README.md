@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Dauphine203/cpp_dauphine/master?labpath=basics%2Fbasics.ipynb)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Dauphine203/cpp_dauphine/basic_nb?labpath=basics%2Fbasics.ipynb)
 
 # cpp_dauphine
 
