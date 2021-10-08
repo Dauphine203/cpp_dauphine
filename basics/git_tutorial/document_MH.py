@@ -1,2 +1,0 @@
-#Meriem Hrittane
-#Github: mhrittane
